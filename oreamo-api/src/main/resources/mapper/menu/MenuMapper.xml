@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.coztion.menu.MenuRepository">
+<mapper namespace="com.oreamo.menu.MenuRepository">
 
     <select id="selectMenus"
-            parameterType="com.coztion.menu.model.MenusSearch"
-            resultType="com.coztion.menu.model.Menu">
+            parameterType="com.oreamo.menu.model.MenusSearch"
+            resultType="com.oreamo.menu.model.Menu">
         SELECT DISTINCT M.MENU_ID
              , M.MENU_NAME
              , M.MENU_TYPE
@@ -44,8 +44,8 @@
     </select>
 
     <select id="selectMenu"
-            parameterType="com.coztion.menu.model.MenuSearch"
-            resultType="com.coztion.menu.model.Menu">
+            parameterType="com.oreamo.menu.model.MenuSearch"
+            resultType="com.oreamo.menu.model.Menu">
         SELECT M.MENU_ID
              , M.MENU_NAME
              , M.MENU_TYPE
@@ -69,7 +69,7 @@
     </select>
 
     <select id="selectMenuTreeNodes"
-            resultType="com.coztion.menu.model.MenuTreeNode">
+            resultType="com.oreamo.menu.model.MenuTreeNode">
         WITH RECURSIVE MENU_TREE_NODE AS (
             SELECT M.MENU_ID
                  , M.MENU_NAME
@@ -107,7 +107,7 @@
     </select>
 
     <insert id="insertMenu"
-            parameterType="com.coztion.menu.model.MenuSave">
+            parameterType="com.oreamo.menu.model.MenuSave">
         INSERT INTO TB_MENU (
             MENU_ID
           , MENU_NAME
@@ -134,7 +134,7 @@
     </insert>
 
     <update id="updateMenu"
-            parameterType="com.coztion.menu.model.MenuUpdate">
+            parameterType="com.oreamo.menu.model.MenuUpdate">
         UPDATE TB_MENU
            SET MENU_NAME            = #{menuName}
              , MENU_PERMISSION_CODE = NULLIF(#{menuPermissionCode}, '')
@@ -145,7 +145,7 @@
     </update>
 
     <delete id="deleteMenu"
-            parameterType="com.coztion.menu.model.MenuDelete">
+            parameterType="com.oreamo.menu.model.MenuDelete">
         DELETE FROM TB_MENU
          WHERE MENU_ID     = #{menuId}
     </delete>
