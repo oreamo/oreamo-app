@@ -1,6 +1,6 @@
-# Coztion React
+# Oreamo
 
-Admin web client for Coztion, built with React, TypeScript and Vite.
+Admin web client for Oreamo, built with React, TypeScript and Vite.
 
 ## Tech Stack
 
