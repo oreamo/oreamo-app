@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coztion.code.CommonCodeRepository">
+
+    <select id="selectCommonCodes"
+            parameterType="com.coztion.code.model.CommonCodesSearch"
+            resultType="com.coztion.code.model.CommonCode">
+        SELECT GROUP_CODE
+             , COMMON_CODE
+             , COMMON_CODE_NAME
+             , COMMON_CODE_DESC AS COMMON_CODE_DESCRIPTION
+             , DATA_STATUS
+             , SORT_ORDER
+             , CREATED_BY
+             , CREATED_AT
+             , UPDATED_BY
+             , UPDATED_AT
+          FROM TB_COMMON_CODE
+         WHERE TRUE
+        <if test="groupCodes != null and !groupCodes.isEmpty()">
+           AND GROUP_CODE IN
+            <foreach collection="groupCodes" item="groupCode" open="(" separator="," close=")">
+                #{groupCode}
+            </foreach>
+        </if>
+        <if test="groupCode != null and groupCode != ''">
+           AND GROUP_CODE = #{groupCode}
+        </if>
+        <if test="commonCode != null and commonCode != ''">
+           AND COMMON_CODE = #{commonCode}
+        </if>
+        <if test="dataStatus != null and dataStatus != ''">
+           AND DATA_STATUS = #{dataStatus}
+        </if>
+         ORDER BY SORT_ORDER
+    </select>
+
+    <select id="selectCommonCode"
+            parameterType="com.coztion.code.model.CommonCodeSearch"
+            resultType="com.coztion.code.model.CommonCode">
+        SELECT GROUP_CODE
+             , COMMON_CODE
+             , COMMON_CODE_NAME
+             , COMMON_CODE_DESC AS COMMON_CODE_DESCRIPTION
+             , DATA_STATUS
+             , SORT_ORDER
+             , CREATED_BY
+             , CREATED_AT
+             , UPDATED_BY
+             , UPDATED_AT
+          FROM TB_COMMON_CODE
+         WHERE TRUE
+        <if test="groupCode != null and groupCode != ''">
+           AND GROUP_CODE = #{groupCode}
+        </if>
+        <if test="commonCode != null and commonCode != ''">
+           AND COMMON_CODE = #{commonCode}
+        </if>
+        <if test="dataStatus != null and dataStatus != ''">
+           AND DATA_STATUS = #{dataStatus}
+        </if>
+    </select>
+
+    <insert id="insertCommonCode"
+            parameterType="com.coztion.code.model.CommonCodeSave">
+        INSERT INTO TB_COMMON_CODE (
+            GROUP_CODE
+          , COMMON_CODE
+          , COMMON_CODE_NAME
+          , COMMON_CODE_DESC
+          , DATA_STATUS
+          , SORT_ORDER
+          , CREATED_BY
+          , UPDATED_BY
+        ) VALUES (
+            #{groupCode}
+          , #{commonCode}
+          , #{commonCodeName}
+          , #{commonCodeDescription}
+          , #{dataStatus}
+          , #{sortOrder}
+          , #{author}
+          , #{author}
+        )
+    </insert>
+
+    <update id="updateCommonCode"
+            parameterType="com.coztion.code.model.CommonCodeUpdate">
+        UPDATE TB_COMMON_CODE
+           SET COMMON_CODE_NAME = #{commonCodeName}
+             , COMMON_CODE_DESC = #{commonCodeDescription}
+             , DATA_STATUS      = #{dataStatus}
+             , UPDATED_BY       = #{author}
+             , UPDATED_AT       = NOW()
+         WHERE GROUP_CODE       = #{groupCode}
+           AND COMMON_CODE      = #{commonCode}
+    </update>
+
+    <delete id="deleteCommonCode"
+            parameterType="com.coztion.code.model.CommonCodeDelete">
+        DELETE FROM TB_COMMON_CODE
+         WHERE GROUP_CODE  = #{groupCode}
+           AND COMMON_CODE = #{commonCode}
+    </delete>
+
+</mapper>

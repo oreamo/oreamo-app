@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.coztion.translation.TranslationRepository">
+
+    <select id="selectTranslations"
+            parameterType="com.coztion.translation.model.TranslationSearch"
+            resultType="com.coztion.translation.model.Translation">
+        SELECT TRANSLATION_GROUP
+             , TRANSLATION_TYPE
+             , TRANSLATION_CODE
+             , TRANSLATION_LOCALE
+             , TRANSLATION_CONTENT
+             , DATA_STATUS
+             , CREATED_BY
+             , CREATED_AT
+             , UPDATED_BY
+             , UPDATED_AT
+          FROM TRANSLATION
+         WHERE TRUE
+        <if test="translationGroup != null and translationGroup != ''">
+           AND TRANSLATION_GROUP = #{translationGroup}
+        </if>
+        <if test="translationType != null and translationType != ''">
+           AND TRANSLATION_TYPE = #{translationType}
+        </if>
+        <if test="translationCode != null and translationCode != ''">
+           AND TRANSLATION_CODE LIKE CONCAT('%', #{translationCode}, '%')
+        </if>
+        <if test="translationLocale != null and translationLocale != ''">
+           AND TRANSLATION_LOCALE = #{translationLocale}
+        </if>
+        <if test="dataStatus != null and dataStatus != ''">
+           AND DATA_STATUS = #{dataStatus}
+        </if>
+        <if test="translationKey != null and translationKey != ''">
+           AND CONCAT(TRANSLATION_GROUP, '.', TRANSLATION_TYPE, '.', TRANSLATION_CODE) LIKE CONCAT('%', #{translationKey}, '%')
+        </if>
+         ORDER BY TRANSLATION_GROUP, TRANSLATION_TYPE, TRANSLATION_CODE, TRANSLATION_LOCALE
+    </select>
+
+    <select id="selectTranslation"
+            parameterType="com.coztion.translation.model.TranslationSearch"
+            resultType="com.coztion.translation.model.Translation">
+        SELECT TRANSLATION_GROUP
+             , TRANSLATION_TYPE
+             , TRANSLATION_CODE
+             , TRANSLATION_LOCALE
+             , TRANSLATION_CONTENT
+             , DATA_STATUS
+             , CREATED_BY
+             , CREATED_AT
+             , UPDATED_BY
+             , UPDATED_AT
+          FROM TRANSLATION
+         WHERE TRANSLATION_GROUP  = #{translationGroup}
+           AND TRANSLATION_TYPE   = #{translationType}
+           AND TRANSLATION_CODE   = #{translationCode}
+           AND TRANSLATION_LOCALE = #{translationLocale}
+    </select>
+
+    <insert id="insertTranslation"
+            parameterType="com.coztion.translation.model.TranslationSave">
+        INSERT INTO TRANSLATION (
+            TRANSLATION_GROUP
+          , TRANSLATION_TYPE
+          , TRANSLATION_CODE
+          , TRANSLATION_LOCALE
+          , TRANSLATION_CONTENT
+          , DATA_STATUS
+          , CREATED_BY
+          , UPDATED_BY
+        ) VALUES (
+            #{translationGroup}
+          , #{translationType}
+          , #{translationCode}
+          , #{translationLocale}
+          , #{translationContent}
+          , #{dataStatus}
+          , #{author}
+          , #{author}
+        )
+    </insert>
+
+    <update id="updateTranslation"
+            parameterType="com.coztion.translation.model.TranslationUpdate">
+        UPDATE TRANSLATION
+           SET TRANSLATION_CONTENT = #{translationContent}
+             , DATA_STATUS         = #{dataStatus}
+             , UPDATED_BY          = #{author}
+             , UPDATED_AT          = NOW()
+         WHERE TRANSLATION_GROUP   = #{translationGroup}
+           AND TRANSLATION_TYPE    = #{translationType}
+           AND TRANSLATION_CODE    = #{translationCode}
+           AND TRANSLATION_LOCALE  = #{translationLocale}
+    </update>
+
+    <delete id="deleteTranslation"
+            parameterType="com.coztion.translation.model.TranslationDelete">
+        DELETE FROM TRANSLATION
+         WHERE TRANSLATION_GROUP  = #{translationGroup}
+           AND TRANSLATION_TYPE   = #{translationType}
+           AND TRANSLATION_CODE   = #{translationCode}
+           AND TRANSLATION_LOCALE = #{translationLocale}
+    </delete>
+
+</mapper>
