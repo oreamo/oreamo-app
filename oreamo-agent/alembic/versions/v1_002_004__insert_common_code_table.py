@@ -1,0 +1,39 @@
+"""insert_common_code_table
+
+Revision ID: v1_002_004
+Revises: v1_002_003
+Create Date: 2026-10-18
+
+"""
+
+from alembic import op
+
+revision = "v1_002_004"
+down_revision = "v1_002_003"
+branch_labels = None
+depends_on = None
+
+
+def upgrade() -> None:
+    op.execute(r"""
+        INSERT INTO TB_COMMON_CODE(GROUP_CODE, COMMON_CODE, COMMON_CODE_NAME, COMMON_CODE_DESC, DATA_STATUS, SORT_ORDER)
+        VALUES ('DATA_STATUS', 'ENABLED', 'Enabled', 'Data status Enabled', 'ENABLED', 1)
+             , ('DATA_STATUS', 'DISABLED', 'Disabled', 'Data status Disabled', 'ENABLED', 2)
+             , ('MENU_TYPE', 'GRP_NAV', 'Group Navigation', 'Group Navigation', 'ENABLED', 1)
+             , ('MENU_TYPE', 'NAV', 'Navigation', 'Navigation', 'ENABLED', 2)
+             , ('MENU_TYPE', 'PAGE', 'Page', 'Page', 'ENABLED', 3)
+             , ('MENU_TYPE', 'TAB', 'Tab', 'Tab', 'ENABLED', 4)
+             , ('TRANSLATION_GROUP', 'COMMON', 'Common', 'Common Translation', 'ENABLED', 1)
+             , ('TRANSLATION_GROUP', 'USER', 'User', 'User Translation', 'ENABLED', 2)
+             , ('TRANSLATION_GROUP', 'CODE', 'Code', 'Code Translation', 'ENABLED', 3)
+             , ('TRANSLATION_GROUP', 'MENU', 'Menu', 'Menu Translation', 'ENABLED', 4)
+             , ('TRANSLATION_GROUP', 'TRANSLATION', 'Translation', 'Translation Translation', 'ENABLED', 5)
+             , ('TRANSLATION_TYPE', 'LABEL', 'Label', 'Label Type Translation', 'ENABLED', 1)
+             , ('TRANSLATION_TYPE', 'MESSAGE', 'Message', 'Message Type Translation', 'ENABLED', 2)
+             , ('TRANSLATION_LOCALE', 'EN', 'English', 'English Locale', 'ENABLED', 1)
+             , ('TRANSLATION_LOCALE', 'KO', 'Korean', 'Korean Locale', 'ENABLED', 2)
+    """)
+
+
+def downgrade() -> None:
+    op.execute("DELETE FROM TB_COMMON_CODE")

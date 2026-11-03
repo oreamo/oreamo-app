@@ -1,0 +1,9 @@
+.idea
+.vscode
+
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+.venv/
+.ruff_cache/
