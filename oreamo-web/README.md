@@ -1,6 +1,6 @@
-# Oreamo
+# Oreamo Client
 
-Admin web client for Oreamo, built with React, TypeScript and Vite.
+Web client for Oreamo, built with React, TypeScript and Vite.
 
 ## Tech Stack
 
