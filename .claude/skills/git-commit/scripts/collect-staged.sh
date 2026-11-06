@@ -1,7 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Move to the target repository (default: current directory).
+cd "${1:-.}"
 cd "$(git rev-parse --show-toplevel)"
+
+echo "### Repository"
+pwd
+echo
 
 echo "### Status"
 git status
