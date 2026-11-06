@@ -12,7 +12,7 @@ import lombok.Getter;
 @Schema(description = "user Information")
 public class SessionUserInfo {
 
-    @Schema(description = "Username", example = "admin")
+    @Schema(description = "Username", example = "oreamo-admin")
     private String username;
 
     @Schema(description = "Role Code", example = "ROLE_ADMIN")

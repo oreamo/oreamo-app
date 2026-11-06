@@ -13,8 +13,8 @@ public class SwaggerConfig {
     public OpenAPI openAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Spring Boot API")
-                        .description("Spring Boot API Documentation")
+                        .title("Oreamo Server API")
+                        .description("Oreamo Server API Documentation")
                         .version("V1.0"));
     }
 }

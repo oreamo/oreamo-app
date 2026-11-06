@@ -18,14 +18,14 @@ public class DataRecord {
     @Schema(description = "Data Status")
     private String dataStatus = DataStatus.ENABLED.getValue();
 
-    @Schema(description = "Creator", example = "system")
-    private String createdBy = "system";
+    @Schema(description = "Creator", example = "oreamo-system")
+    private String createdBy = "oreamo-system";
 
     @Schema(description = "Created Date Time", example = "2024-01-01T12:00:00")
     private LocalDateTime createdAt = LocalDateTime.now();
 
-    @Schema(description = "Updator", example = "system")
-    private String updatedBy = "system";
+    @Schema(description = "Updator", example = "oreamo-system")
+    private String updatedBy = "oreamo-system";
 
     @Schema(description = "Updated Date Time", example = "2024-01-02T12:00:00")
     private LocalDateTime updatedAt = LocalDateTime.now();
