@@ -1,5 +1,5 @@
 ---
-name: write-pull-request
+name: generate-pull-request
 description: Use when user requests to generate a pull request.
 allowed-tools: Bash(bash ${CLAUDE_SKILL_DIR}/scripts/*)
 ---
@@ -24,6 +24,7 @@ bash ${CLAUDE_SKILL_DIR}/scripts/collect-diff.sh {repository path}
 bash ${CLAUDE_SKILL_DIR}/scripts/collect-diff.sh {repository path} {base branch}
 ```
 
+- If the head branch is the same as the base branch, tell the user and skip the repository.
 - If there is no difference, tell the user and skip the repository.
 - Do not refer to the conversation history or commit history to decide the pull request content.
 
@@ -34,18 +35,26 @@ bash ${CLAUDE_SKILL_DIR}/scripts/collect-diff.sh {repository path} {base branch}
   - Title should summarize the major changes of the pull request. (Do not include commit type)
   - Description should show details about the pull request.
   - Changes should show each change's.
-- Do not create a file or request to create a PR. Just show the plain text.
 - Do not interpret the Markdown. Wrap each output in a code block with the repository name to prevent Markdown rendering.
 - Write a pull request content in Korean.
 - Do not add a `Generated with Claude Code` line or any other Claude authorship line to the pull request content.
 
-### After Generation
+### Pull Request Creation Rules
 
-- After showing all outputs, copy the content (title on the first line, followed by a blank line, then the PR template content) to the clipboard only via the script below, passing the content via heredoc.
-- If there are multiple repositories, ask which repository's content to copy with the `AskUserQuestion` tool, with the generated repositories as options.
+- After showing all outputs, ask which repositories to create the pull request for with the `AskUserQuestion` tool, using `multiSelect: true` and the generated repositories as options. Each option description shows `{head} → {base}`.
+- If no repository is selected, do not create any pull request.
+- For each selected repository, create the pull request only via the script below. Pass the title as an argument, and the content without the title line (starting from `# Pull Request`) via heredoc.
+- The script pushes the current branch to `origin` and creates the pull request with `gh`.
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/copy-clipboard.sh <<'EOF'
-{generated pull request content}
+bash ${CLAUDE_SKILL_DIR}/scripts/create-pull-request.sh {repository path} {base branch} "{title}" <<'EOF'
+{generated pull request content without the title line}
 EOF
 ```
+
+- If the script fails (e.g. `gh` is not installed or not authenticated, push rejected, pull request already exists), show its output to the user and stop all remaining repositories. Do not retry, force push, or change the branch.
+- Never run `git push` or `gh pr create` directly.
+
+### Result
+
+- After all repositories are done, show the result of each repository: created (with the pull request URL), skipped, or failed.
