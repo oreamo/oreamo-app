@@ -45,6 +45,7 @@ bash ${CLAUDE_SKILL_DIR}/scripts/collect-diff.sh {repository path} {base branch}
 - If no repository is selected, do not create any pull request.
 - For each selected repository, create the pull request only via the script below. Pass the title as an argument, and the content without the title line (starting from `# Pull Request`) via heredoc.
 - The script pushes the current branch to `origin` and creates the pull request with `gh`.
+- The script assigns the pull request to the GitHub user found by the current git email (`git config user.email`).
 
 ```bash
 bash ${CLAUDE_SKILL_DIR}/scripts/create-pull-request.sh {repository path} {base branch} "{title}" <<'EOF'
@@ -52,7 +53,7 @@ bash ${CLAUDE_SKILL_DIR}/scripts/create-pull-request.sh {repository path} {base 
 EOF
 ```
 
-- If the script fails (e.g. `gh` is not installed or not authenticated, push rejected, pull request already exists), show its output to the user and stop all remaining repositories. Do not retry, force push, or change the branch.
+- If the script fails (e.g. `gh` is not installed or not authenticated, git email is not set or its GitHub user is not found, push rejected, pull request already exists), show its output to the user and stop all remaining repositories. Do not retry, force push, or change the branch.
 - Never run `git push` or `gh pr create` directly.
 
 ### Result

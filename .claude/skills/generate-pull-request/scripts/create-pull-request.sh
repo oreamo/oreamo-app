@@ -21,8 +21,21 @@ if [ -z "$head" ] || [ "$head" = "$base" ]; then
   exit 1
 fi
 
+# Find the GitHub user of the current git email to assign the pull request.
+email="$(git config user.email || true)"
+if [ -z "$email" ]; then
+  echo "git user.email is not set." >&2
+  exit 1
+fi
+
+assignee="$(gh api -X GET search/users -f q="$email in:email" --jq '.items[0].login // empty')"
+if [ -z "$assignee" ]; then
+  echo "GitHub user for git email '$email' is not found." >&2
+  exit 1
+fi
+
 # Push the current branch to the remote and set upstream.
 git push -u origin "$head"
 
 # Create the pull request, reading the body from stdin.
-gh pr create --base "$base" --head "$head" --title "$title" --body-file -
+gh pr create --base "$base" --head "$head" --title "$title" --assignee "$assignee" --body-file -
