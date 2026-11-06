@@ -26,14 +26,14 @@ def upgrade() -> None:
         sa.Column(
             "DATA_STATUS", sa.String(10), nullable=False, server_default="ENABLED"
         ),
-        sa.Column("CREATED_BY", sa.String(50), nullable=False, server_default="system"),
+        sa.Column("CREATED_BY", sa.String(50), nullable=False, server_default="oreamo-system"),
         sa.Column(
             "CREATED_AT",
             sa.TIMESTAMP,
             nullable=False,
             server_default=sa.text("CURRENT_TIMESTAMP"),
         ),
-        sa.Column("UPDATED_BY", sa.String(50), nullable=False, server_default="system"),
+        sa.Column("UPDATED_BY", sa.String(50), nullable=False, server_default="oreamo-system"),
         sa.Column(
             "UPDATED_AT",
             sa.TIMESTAMP,

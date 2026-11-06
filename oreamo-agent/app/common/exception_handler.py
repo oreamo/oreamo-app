@@ -20,7 +20,7 @@ from app.session.session_dependencies import get_current_user
 
 logger = logging.getLogger(__name__)
 
-# Paths which do not require authentication, same as Spring Security
+# Paths which do not require authentication
 UNAUTHENTICATED_PATHS = ("/session/login", "/translations/infos")
 UNAUTHENTICATED_PATH_PREFIXES = ("/docs", "/redoc", "/openapi.json")
 
@@ -121,7 +121,7 @@ async def handle_exception(request: Request, exception: Exception) -> Response:
 
 
 def _authenticate(request: Request) -> AuthenticationException | None:
-    """Authenticate before the request fails, like Spring Security filters run before routing and parsing."""
+    """Authenticate before the request fails, so authentication runs before routing and parsing."""
     path = request.url.path
     if path in UNAUTHENTICATED_PATHS or path.startswith(UNAUTHENTICATED_PATH_PREFIXES):
         return None

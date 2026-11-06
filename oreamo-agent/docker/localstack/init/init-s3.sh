@@ -1,2 +1,2 @@
 #!/bin/bash
-awslocal s3 mb s3://coztion
+awslocal s3 mb s3://oreamo

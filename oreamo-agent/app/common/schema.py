@@ -46,7 +46,7 @@ class DataRecord(Schema):
         default=DataStatus.ENABLED.value, description="Data Status"
     )
     created_by: str = Field(
-        default="system", description="Creator", examples=["system"]
+        default="oreamo-system", description="Creator", examples=["oreamo-system"]
     )
     created_at: datetime = Field(
         default_factory=datetime.now,
@@ -54,7 +54,7 @@ class DataRecord(Schema):
         examples=["2024-01-01T12:00:00"],
     )
     updated_by: str = Field(
-        default="system", description="Updator", examples=["system"]
+        default="oreamo-system", description="Updator", examples=["oreamo-system"]
     )
     updated_at: datetime = Field(
         default_factory=datetime.now,
