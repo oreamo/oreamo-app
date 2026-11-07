@@ -24,6 +24,11 @@ echo "### Base"
 echo "origin/$base...HEAD"
 echo
 
+echo "### Existing Pull Request"
+existing="$(gh pr list --head "$head" --base "$base" --state open --json url --jq '.[0].url // empty')"
+echo "${existing:-None}"
+echo
+
 echo "### Labels"
 gh label list --limit 100 --json name,description --jq '.[] | "- \(.name): \(.description)"'
 echo

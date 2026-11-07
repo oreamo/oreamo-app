@@ -48,10 +48,12 @@ bash ${CLAUDE_SKILL_DIR}/scripts/collect-diff.sh {repository path} {base branch}
 
 ### Pull Request Creation Rules
 
-- After showing all outputs, ask which repositories to create the pull request for with the `AskUserQuestion` tool, using `multiSelect: true` and the generated repositories as options. Each option description shows `{head} → {base}`.
+- After showing all outputs, ask which repositories to create the pull request for with the `AskUserQuestion` tool, using `multiSelect: true` and the generated repositories as options. Each option description shows `{head} → {base}`, followed by `(update)` if the `Existing Pull Request` section of the Pull Request Target output shows a URL.
 - If no repository is selected, do not create any pull request.
 - For each selected repository, create the pull request only via the script below. Pass the title and the selected labels (comma-separated, e.g. `feature,docs`) as arguments, and the content without the title line (starting from `# Pull Request`) via heredoc.
-- The script pushes the current branch to `origin` and creates the pull request with `gh`.
+- The script pushes the current branch to `origin`.
+- If an open pull request of the same head and base branch exists, the script skips the creation and updates the title, content, and labels of the existing pull request. Labels not in the given labels are removed.
+- Otherwise, the script creates the pull request with `gh`.
 - The script assigns the pull request to the GitHub user found by the current git email (`git config user.email`).
 - The script attaches the given labels to the pull request.
 
@@ -61,9 +63,9 @@ bash ${CLAUDE_SKILL_DIR}/scripts/create-pull-request.sh {repository path} {base 
 EOF
 ```
 
-- If the script fails (e.g. `gh` is not installed or not authenticated, git email is not set or its GitHub user is not found, push rejected, pull request already exists), show its output to the user and stop all remaining repositories. Do not retry, force push, or change the branch.
-- Never run `git push` or `gh pr create` directly.
+- If the script fails (e.g. `gh` is not installed or not authenticated, git email is not set or its GitHub user is not found, push rejected), show its output to the user and stop all remaining repositories. Do not retry, force push, or change the branch.
+- Never run `git push`, `gh pr create`, or `gh pr edit` directly.
 
 ### Result
 
-- After all repositories are done, show the result of each repository: created (with the pull request URL), skipped, or failed.
+- After all repositories are done, show the result of each repository: created or updated (with the pull request URL), skipped, or failed.
