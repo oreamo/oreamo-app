@@ -4,68 +4,54 @@ description: Use when user requests to generate a pull request.
 allowed-tools: Bash(bash ${CLAUDE_SKILL_DIR}/scripts/*)
 ---
 
-### Git Target
+### Overview
 
-- Invoke the `git-select-repository` skill first, and use its Git Target as the target repositories.
-- Run the steps below for each Git Target repository, one repository at a time.
+Prepares the branch, writes the pull request, and creates or updates it.
 
-### Pull Request Target
+### Rules
 
-- Collect the pull request target via the script below with the repository path. Use only this output.
+- Base Branch: `develop`, unless the user requests another. Pass it to `collect-diff.sh` and `create-pull-request.sh`.
+- Diff Only: Write the pull request only from the collected diff. Do not refer to the conversation history.
+- No Authorship: Do not add any Claude authorship line to the pull request.
+- Script Only: Never run `git push`, `gh pr create` or `gh pr edit` directly. Use only the scripts below.
+- Stop On Failure: If a script fails, show its output and stop. Do not retry or force push.
+
+### Pipeline
+
+#### 1. Prepare
+
+```bash
+bash ${CLAUDE_SKILL_DIR}/scripts/collect-status.sh {repository path}
+```
+
+- If there are `Uncommitted Changes`, ask `Commit` or `Ignore` with the `AskUserQuestion` tool. Commit them for `Commit`.
+- Update the source with the latest `origin/develop`.
+
+#### 2. Analyze
 
 ```bash
 bash ${CLAUDE_SKILL_DIR}/scripts/collect-diff.sh {repository path}
 ```
 
-- The target is the difference between the remote `develop` branch and the current branch of the repository.
-- If the user requests a different base branch, pass that branch as the second argument.
+- If there is no difference or `Assignee` is `None`, stop.
+- Fill `${CLAUDE_SKILL_DIR}/templates/pull-request-template.md` in Korean. Do not include the commit type in the title.
+- Select every matching label of `Labels`.
+
+#### 3. Pull Request
+
+- If `Unpushed Commits` is not `0`, push.
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/collect-diff.sh {repository path} {base branch}
+bash ${CLAUDE_SKILL_DIR}/scripts/push-branch.sh {repository path}
 ```
 
-- If the head branch is the same as the base branch, tell the user and skip the repository.
-- If there is no difference, tell the user and skip the repository.
-- Do not refer to the conversation history or commit history to decide the pull request content.
-
-### Pull Request Generation Rules
-
-- Generate pull request contents for each repository.
-- Read `${CLAUDE_SKILL_DIR}/templates/pull-request-template.md`, and fill braces with contents following:
-  - Title should summarize the major changes of the pull request. (Do not include commit type)
-  - Description should show details about the pull request.
-  - Changes should show each change's.
-- Do not interpret the Markdown. Wrap each output in a code block with the repository name to prevent Markdown rendering.
-- Write a pull request content in Korean.
-- Do not add a `Generated with Claude Code` line or any other Claude authorship line to the pull request content.
-
-### Label Selection Rules
-
-- Select labels only from the `Labels` section of the Pull Request Target output. Never create or use a label not in the list.
-- Read each label's description (`About {word} - Attach when {condition}`), and select every label whose condition matches the changes in the diff.
-- If no label matches, select none and tell the user.
-- Show the selected labels below each repository's output code block (e.g. `Labels: feature, docs`).
-
-### Pull Request Creation Rules
-
-- After showing all outputs, ask which repositories to create the pull request for with the `AskUserQuestion` tool, using `multiSelect: true` and the generated repositories as options. Each option description shows `{head} → {base}`, followed by `(update)` if the `Existing Pull Request` section of the Pull Request Target output shows a URL.
-- If no repository is selected, do not create any pull request.
-- For each selected repository, create the pull request only via the script below. Pass the title and the selected labels (comma-separated, e.g. `feature,docs`) as arguments, and the content without the title line (starting from `# Pull Request`) via heredoc.
-- The script pushes the current branch to `origin`.
-- If an open pull request of the same head and base branch exists, the script skips the creation and updates the title, content, and labels of the existing pull request. Labels not in the given labels are removed.
-- Otherwise, the script creates the pull request with `gh`.
-- The script assigns the pull request to the GitHub user found by the current git email (`git config user.email`).
-- The script attaches the given labels to the pull request.
+- If `Existing Pull Request` is `None`, create. Otherwise, update only if the title, body, assignee or labels differ. Labels are comma-separated, and the body starts from `# Pull Request`.
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/create-pull-request.sh {repository path} {base branch} "{title}" "{labels}" <<'EOF'
-{generated pull request content without the title line}
+bash ${CLAUDE_SKILL_DIR}/scripts/create-pull-request.sh {repository path} {base branch} "{title}" {assignee} "{labels}" <<'EOF'
+{body}
+EOF
+bash ${CLAUDE_SKILL_DIR}/scripts/update-pull-request.sh {repository path} {number} "{title}" {assignee} "{labels}" <<'EOF'
+{body}
 EOF
 ```
-
-- If the script fails (e.g. `gh` is not installed or not authenticated, git email is not set or its GitHub user is not found, push rejected), show its output to the user and stop all remaining repositories. Do not retry, force push, or change the branch.
-- Never run `git push`, `gh pr create`, or `gh pr edit` directly.
-
-### Result
-
-- After all repositories are done, show the result of each repository: created or updated (with the pull request URL), skipped, or failed.
