@@ -1,36 +1,35 @@
 ---
 name: git-select-repository
-description: Use before any git related skill or task to ask which repositories are the target.
+description: Use before any git related skill or task to select the target repositories of the git workflow.
 user-invocable: false
 allowed-tools: Bash(bash ${CLAUDE_SKILL_DIR}/scripts/*)
 ---
 
-### Repositories
+### Overview
 
-The repositories below are collected by shell, not by the conversation context. Use only this output.
+Selects the target repositories (Git Target) of a git workflow, which lasts from the user's git request until it is completed.
+
+### Rules
+
+- Once Per Workflow: Ask only once per git workflow. Reuse the selected Git Target in every git skill afterwards.
+- Target Only: Run git operations only on the Git Target repositories, in the order of `Workspace`, `Client`, `Server`, `Agent`.
+- Additional Question: Ask the other questions of the git workflow (e.g. the level of the git work) in the same `AskUserQuestion` call.
+
+### Pipeline
+
+#### 1. Collect
 
 ```
 !`bash ${CLAUDE_SKILL_DIR}/scripts/list-repositories.sh`
 ```
 
-### Ask Rules
+#### 2. Ask
 
-- Ask the target repositories with the `AskUserQuestion` tool. Always ask, even if the target seems obvious from the current directory or the conversation history.
-- Use a single question with `multiSelect: true`, header `Repository`, and the options below in this order:
-  - `Workspace`, `Client`, `Server`, `Agent`
-  - Each option description shows the branch and the number of changes from the output above (e.g. `develop, 3 changes`).
-- Selecting all four options means all repositories.
-- Do not add an `All` option. The tool allows at most four options.
-- If the user answers with text instead of options, map it to the repositories above (e.g. `all` means all four). If it cannot be mapped, ask again.
+- Ask with the `AskUserQuestion` tool: header `Repository`, `multiSelect: true`, options `Workspace`, `Client`, `Server`, `Agent` with the description `{branch}, {changes} changes`.
 
-### Result
-
-- Show the selected repositories with their paths as the Git Target.
+#### 3. Result
 
 ```
 ### Git Target
 - {Repository}: {Path}
 ```
-
-- The skill or task which invoked this skill must run only on the Git Target repositories, in the order above.
-- Never run git operations on a repository which is not in the Git Target.
