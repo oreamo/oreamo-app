@@ -6,7 +6,7 @@ allowed-tools: Bash(bash ${CLAUDE_SKILL_DIR}/scripts/*)
 
 ### Git Target
 
-- Invoke the `git-target-ask` skill first, and use its Git Target as the target repositories.
+- Invoke the `git-select-repository` skill first, and use its Git Target as the target repositories.
 - Run the steps below for each Git Target repository, one repository at a time.
 
 ### Pull Request Target

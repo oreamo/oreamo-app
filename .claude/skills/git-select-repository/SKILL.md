@@ -1,5 +1,5 @@
 ---
-name: git-target-ask
+name: git-select-repository
 description: Use before any git related skill or task to ask which repositories are the target.
 user-invocable: false
 allowed-tools: Bash(bash ${CLAUDE_SKILL_DIR}/scripts/*)

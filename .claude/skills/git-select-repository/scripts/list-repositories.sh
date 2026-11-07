@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Workspace root is four levels above this script (.claude/skills/git-target-ask/scripts).
+# Workspace root is four levels above this script (.claude/skills/git-select-repository/scripts).
 root="$(cd "$(dirname "$0")/../../../.." && pwd)"
 
 print_repository() {
