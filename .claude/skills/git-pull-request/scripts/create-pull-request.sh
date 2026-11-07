@@ -54,22 +54,24 @@ if [ -z "$number" ]; then
   exit 0
 fi
 
-# Replace the labels of the existing pull request with the given labels.
-label_args=()
-if [ -n "$labels" ]; then
-  label_args+=(--add-label "$labels")
-fi
-
-removed_labels="$(gh pr view "$number" --json labels --jq '.labels[].name' | while IFS= read -r name; do
-  case ",$labels," in
-    *",$name,"*) ;;
-    *) echo "$name" ;;
-  esac
-done | paste -sd, -)"
-if [ -n "$removed_labels" ]; then
-  label_args+=(--remove-label "$removed_labels")
-fi
-
-# Update the existing pull request, reading the body from stdin.
+# Update the existing pull request via REST API (gh pr edit fails on the deprecated Projects classic).
 echo "Pull request #$number already exists. Updating it."
-gh pr edit "$number" --title "$title" --add-assignee "$assignee" ${label_args[@]+"${label_args[@]}"} --body-file -
+repository="$(gh repo view --json nameWithOwner --jq '.nameWithOwner')"
+
+# Update the title and the body, reading the body from stdin.
+gh api -X PATCH "repos/$repository/pulls/$number" -f title="$title" -f body="$(cat)" --jq '.html_url'
+
+# Add the assignee.
+gh api -X POST "repos/$repository/issues/$number/assignees" -f "assignees[]=$assignee" --silent
+
+# Replace the labels with the given labels (comma-separated).
+if [ -z "$labels" ]; then
+  gh api -X DELETE "repos/$repository/issues/$number/labels" --silent
+else
+  label_args=()
+  IFS=',' read -ra label_names <<< "$labels"
+  for name in "${label_names[@]}"; do
+    label_args+=(-f "labels[]=$name")
+  done
+  gh api -X PUT "repos/$repository/issues/$number/labels" "${label_args[@]}" --silent
+fi
