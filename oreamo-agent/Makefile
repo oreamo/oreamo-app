@@ -5,10 +5,10 @@ sync:
 	uv run pre-commit install
 
 run:
-	uv run uvicorn app.main:app --reload --port 8080
+	uv run uvicorn app.main:app --reload --port 8000
 
 run-dev:
-	APP_ENV=dev uv run uvicorn app.main:app --port 8080
+	APP_ENV=dev uv run uvicorn app.main:app --port 8000
 
 lint:
 	uv run ruff check .

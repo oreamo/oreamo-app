@@ -21,7 +21,7 @@ class SessionUser(Schema):
 
 
 class SessionUserInfo(Schema):
-    username: str = Field(description="Username", examples=["admin"])
+    username: str = Field(description="Username", examples=["oreamo-admin"])
     role_code: str = Field(description="Role Code", examples=["ROLE_ADMIN"])
     permission_codes: list[str] = Field(
         description="Permission Codes", examples=[["MAIN_READ"]]

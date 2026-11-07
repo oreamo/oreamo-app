@@ -1,22 +1,21 @@
-# Coztion FastAPI
+# Oreamo Agent
 
-Admin API server for Coztion, built with FastAPI, SQLAlchemy and MySQL.
-Provides the same API as `coztion-spring-boot`.
+Agent server for Oreamo, built with FastAPI, SQLAlchemy and MySQL.
 
 ## Tech Stack
 
-| Category     | Library                                            |
-| ------------ | -------------------------------------------------- |
-| Framework    | FastAPI, Uvicorn                                   |
-| Language     | Python 3.14                                        |
-| Package      | uv, make                                           |
-| Database     | MySQL, Alembic                                     |
-| Persistence  | SQLAlchemy 2.0 (asyncio, aiomysql)                 |
-| Cache        | Redis                                              |
-| Storage      | AWS S3, boto3 (LocalStack for local)               |
+| Category     | Library                                             |
+| ------------ | --------------------------------------------------- |
+| Framework    | FastAPI, Uvicorn                                    |
+| Language     | Python 3.14                                         |
+| Package      | uv, make                                            |
+| Database     | MySQL, Alembic                                      |
+| Persistence  | SQLAlchemy 2.0 (asyncio, aiomysql)                  |
+| Cache        | Redis                                               |
+| Storage      | AWS S3, boto3 (LocalStack for local)                |
 | Auth         | JWT (PyJWT) with cookie-based access/refresh tokens |
-| API Docs     | OpenAPI (Swagger UI)                               |
-| Code Quality | Ruff, ty, pre-commit                               |
+| API Docs     | OpenAPI (Swagger UI)                                |
+| Code Quality | Ruff, ty, pre-commit                                |
 
 ## Requirements
 
@@ -33,11 +32,11 @@ make migrate
 make run
 ```
 
-The server runs on `http://localhost:8080`.
+The server runs on `http://localhost:8000`.
 
-- Swagger UI: `http://localhost:8080/docs`
+- Swagger UI: `http://localhost:8000/docs`
 - Alembic creates tables and inserts mock data.
-- Default accounts: `system`, `admin`, `coztion`
+- Default accounts: `oreamo-system`, `oreamo-admin`, `oreamo-user`
 
 ## Environment
 
@@ -55,12 +54,12 @@ See `.env.example` for all variables.
 
 ## Scripts
 
-| Script           | Description                  |
-| ---------------- | ---------------------------- |
-| `make sync`      | Install dependencies & hooks |
-| `make run`       | Run the server               |
-| `make migrate`   | Run database migrations      |
-| `make lint`      | Lint with Ruff               |
-| `make format`    | Format with Ruff             |
-| `make typecheck` | Type check with ty           |
+| Script           | Description                       |
+| ---------------- | --------------------------------- |
+| `make sync`      | Install dependencies & hooks      |
+| `make run`       | Run the server                    |
+| `make migrate`   | Run database migrations           |
+| `make lint`      | Lint with Ruff                    |
+| `make format`    | Format with Ruff                  |
+| `make typecheck` | Type check with ty                |
 | `make check`     | Lint, format check and type check |

@@ -23,8 +23,8 @@ async def lifespan(app: FastAPI):
 
 
 app = FastAPI(
-    title="FastAPI API",
-    description="FastAPI API Documentation",
+    title="Oreamo Agent API",
+    description="Oreamo Agent API Documentation",
     version="V1.0",
     lifespan=lifespan,
 )

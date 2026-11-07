@@ -104,7 +104,7 @@ def upgrade() -> None:
              , ('USER', 'LABEL', 'THEME', 'EN', 'Theme')
              , ('USER', 'LABEL', 'MENU_TAB', 'EN', 'Menu tab')
              , ('USER', 'MESSAGE', 'WELCOME_BACK', 'EN', 'Sign in')
-             , ('USER', 'MESSAGE', 'SIGN_IN_DESCRIPTION', 'EN', 'Sign in to your Coztion account')
+             , ('USER', 'MESSAGE', 'SIGN_IN_DESCRIPTION', 'EN', 'Sign in to your Oreamo account')
              , ('USER', 'MESSAGE', 'LOGIN_SUCCESS', 'EN', 'Welcome back, {{username}}!')
              , ('USER', 'MESSAGE', 'LOGIN_FAILURE', 'EN', 'Login for {{username}} has failed. Please try again.')
              , ('USER', 'MESSAGE', 'LOGOUT_SUCCESS', 'EN', 'You have been logged out.')
