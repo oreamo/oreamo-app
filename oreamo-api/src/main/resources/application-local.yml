@@ -6,7 +6,7 @@ spring:
       secure: false
 
   datasource:
-    url: jdbc:mysql://localhost:3306/coztion?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+    url: jdbc:mysql://localhost:3306/oreamo?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
     username: root
     password: 1q2w3e4r!
 
@@ -31,6 +31,6 @@ aws:
   region: ap-northeast-2
   s3:
     endpoint: http://localhost:4566
-    bucket: coztion
+    bucket: oreamo
     access-key: test
     secret-key: test

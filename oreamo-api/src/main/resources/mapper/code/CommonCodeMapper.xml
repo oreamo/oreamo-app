@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.coztion.code.CommonCodeRepository">
+<mapper namespace="com.oreamo.code.CommonCodeRepository">
 
     <select id="selectCommonCodes"
-            parameterType="com.coztion.code.model.CommonCodesSearch"
-            resultType="com.coztion.code.model.CommonCode">
+            parameterType="com.oreamo.code.model.CommonCodesSearch"
+            resultType="com.oreamo.code.model.CommonCode">
         SELECT GROUP_CODE
              , COMMON_CODE
              , COMMON_CODE_NAME
@@ -36,8 +36,8 @@
     </select>
 
     <select id="selectCommonCode"
-            parameterType="com.coztion.code.model.CommonCodeSearch"
-            resultType="com.coztion.code.model.CommonCode">
+            parameterType="com.oreamo.code.model.CommonCodeSearch"
+            resultType="com.oreamo.code.model.CommonCode">
         SELECT GROUP_CODE
              , COMMON_CODE
              , COMMON_CODE_NAME
@@ -62,7 +62,7 @@
     </select>
 
     <insert id="insertCommonCode"
-            parameterType="com.coztion.code.model.CommonCodeSave">
+            parameterType="com.oreamo.code.model.CommonCodeSave">
         INSERT INTO TB_COMMON_CODE (
             GROUP_CODE
           , COMMON_CODE
@@ -85,7 +85,7 @@
     </insert>
 
     <update id="updateCommonCode"
-            parameterType="com.coztion.code.model.CommonCodeUpdate">
+            parameterType="com.oreamo.code.model.CommonCodeUpdate">
         UPDATE TB_COMMON_CODE
            SET COMMON_CODE_NAME = #{commonCodeName}
              , COMMON_CODE_DESC = #{commonCodeDescription}
@@ -97,7 +97,7 @@
     </update>
 
     <delete id="deleteCommonCode"
-            parameterType="com.coztion.code.model.CommonCodeDelete">
+            parameterType="com.oreamo.code.model.CommonCodeDelete">
         DELETE FROM TB_COMMON_CODE
          WHERE GROUP_CODE  = #{groupCode}
            AND COMMON_CODE = #{commonCode}

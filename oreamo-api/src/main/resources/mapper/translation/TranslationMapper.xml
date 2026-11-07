@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.coztion.translation.TranslationRepository">
+<mapper namespace="com.oreamo.translation.TranslationRepository">
 
     <select id="selectTranslations"
-            parameterType="com.coztion.translation.model.TranslationSearch"
-            resultType="com.coztion.translation.model.Translation">
+            parameterType="com.oreamo.translation.model.TranslationSearch"
+            resultType="com.oreamo.translation.model.Translation">
         SELECT TRANSLATION_GROUP
              , TRANSLATION_TYPE
              , TRANSLATION_CODE
@@ -39,8 +39,8 @@
     </select>
 
     <select id="selectTranslation"
-            parameterType="com.coztion.translation.model.TranslationSearch"
-            resultType="com.coztion.translation.model.Translation">
+            parameterType="com.oreamo.translation.model.TranslationSearch"
+            resultType="com.oreamo.translation.model.Translation">
         SELECT TRANSLATION_GROUP
              , TRANSLATION_TYPE
              , TRANSLATION_CODE
@@ -59,7 +59,7 @@
     </select>
 
     <insert id="insertTranslation"
-            parameterType="com.coztion.translation.model.TranslationSave">
+            parameterType="com.oreamo.translation.model.TranslationSave">
         INSERT INTO TRANSLATION (
             TRANSLATION_GROUP
           , TRANSLATION_TYPE
@@ -82,7 +82,7 @@
     </insert>
 
     <update id="updateTranslation"
-            parameterType="com.coztion.translation.model.TranslationUpdate">
+            parameterType="com.oreamo.translation.model.TranslationUpdate">
         UPDATE TRANSLATION
            SET TRANSLATION_CONTENT = #{translationContent}
              , DATA_STATUS         = #{dataStatus}
@@ -95,7 +95,7 @@
     </update>
 
     <delete id="deleteTranslation"
-            parameterType="com.coztion.translation.model.TranslationDelete">
+            parameterType="com.oreamo.translation.model.TranslationDelete">
         DELETE FROM TRANSLATION
          WHERE TRANSLATION_GROUP  = #{translationGroup}
            AND TRANSLATION_TYPE   = #{translationType}

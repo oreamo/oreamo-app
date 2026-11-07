@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.coztion.authority.RoleRepository">
+<mapper namespace="com.oreamo.authority.RoleRepository">
 
-    <resultMap id="roleMap" type="com.coztion.authority.model.Role">
+    <resultMap id="roleMap" type="com.oreamo.authority.model.Role">
         <id property="roleCode" column="ROLE_CODE" />
         <collection property="permissionCodes" ofType="java.lang.String">
             <result column="PERMISSION_CODE" />
@@ -10,8 +10,8 @@
     </resultMap>
 
     <select id="selectRoles"
-            parameterType="com.coztion.authority.model.RolesSearch"
-            resultType="com.coztion.authority.model.Role">
+            parameterType="com.oreamo.authority.model.RolesSearch"
+            resultType="com.oreamo.authority.model.Role">
         SELECT R.ROLE_CODE
              , R.ROLE_NAME
              , R.SORT_ORDER
@@ -42,7 +42,7 @@
     </select>
 
     <select id="selectRole"
-            parameterType="com.coztion.authority.model.RoleSearch"
+            parameterType="com.oreamo.authority.model.RoleSearch"
             resultMap="roleMap">
         SELECT R.ROLE_CODE
              , R.ROLE_NAME
@@ -64,7 +64,7 @@
     </select>
 
     <insert id="insertRole"
-            parameterType="com.coztion.authority.model.RoleSave">
+            parameterType="com.oreamo.authority.model.RoleSave">
         INSERT INTO TB_ROLE (
             ROLE_CODE
           , ROLE_NAME
@@ -83,7 +83,7 @@
     </insert>
 
     <insert id="insertRolePermissionsByRoleSave"
-            parameterType="com.coztion.authority.model.RoleSave">
+            parameterType="com.oreamo.authority.model.RoleSave">
         INSERT INTO TB_ROLE_PERMISSION (
             ROLE_CODE
           , PERMISSION_CODE
@@ -97,7 +97,7 @@
     </insert>
 
     <update id="updateRole"
-            parameterType="com.coztion.authority.model.RoleUpdate">
+            parameterType="com.oreamo.authority.model.RoleUpdate">
         UPDATE TB_ROLE
            SET ROLE_NAME   = #{roleName}
              , DATA_STATUS = #{dataStatus}
@@ -108,13 +108,13 @@
     </update>
 
     <delete id="deleteRolePermissionsByRoleUpdate"
-            parameterType="com.coztion.authority.model.RoleUpdate">
+            parameterType="com.oreamo.authority.model.RoleUpdate">
         DELETE FROM TB_ROLE_PERMISSION
          WHERE ROLE_CODE = #{roleCode}
     </delete>
 
     <insert id="insertRolePermissionsByRoleUpdate"
-            parameterType="com.coztion.authority.model.RoleUpdate">
+            parameterType="com.oreamo.authority.model.RoleUpdate">
         INSERT INTO TB_ROLE_PERMISSION (
             ROLE_CODE
           , PERMISSION_CODE
@@ -128,13 +128,13 @@
     </insert>
 
     <delete id="deleteRole"
-            parameterType="com.coztion.authority.model.RoleDelete">
+            parameterType="com.oreamo.authority.model.RoleDelete">
         DELETE FROM TB_ROLE
          WHERE ROLE_CODE = #{roleCode}
     </delete>
 
     <delete id="deleteRolePermissionsByRoleDelete"
-            parameterType="com.coztion.authority.model.RoleDelete">
+            parameterType="com.oreamo.authority.model.RoleDelete">
         DELETE FROM TB_ROLE_PERMISSION
          WHERE ROLE_CODE = #{roleCode}
     </delete>

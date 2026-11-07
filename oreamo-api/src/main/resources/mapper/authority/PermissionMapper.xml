@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.coztion.authority.PermissionRepository">
+<mapper namespace="com.oreamo.authority.PermissionRepository">
 
     <select id="selectPermissions"
-            parameterType="com.coztion.authority.model.PermissionsSearch"
-            resultType="com.coztion.authority.model.Permission">
+            parameterType="com.oreamo.authority.model.PermissionsSearch"
+            resultType="com.oreamo.authority.model.Permission">
         SELECT P.PERMISSION_CODE
              , P.PERMISSION_NAME
              , P.SORT_ORDER
@@ -29,8 +29,8 @@
     </select>
 
     <select id="selectPermission"
-            parameterType="com.coztion.authority.model.PermissionSearch"
-            resultType="com.coztion.authority.model.Permission">
+            parameterType="com.oreamo.authority.model.PermissionSearch"
+            resultType="com.oreamo.authority.model.Permission">
         SELECT P.PERMISSION_CODE
              , P.PERMISSION_NAME
              , P.SORT_ORDER
@@ -47,7 +47,7 @@
     </select>
 
     <insert id="insertPermission"
-            parameterType="com.coztion.authority.model.PermissionSave">
+            parameterType="com.oreamo.authority.model.PermissionSave">
         INSERT INTO TB_PERMISSION (
             PERMISSION_CODE
           , PERMISSION_NAME
@@ -66,7 +66,7 @@
     </insert>
 
     <update id="updatePermission"
-            parameterType="com.coztion.authority.model.PermissionUpdate">
+            parameterType="com.oreamo.authority.model.PermissionUpdate">
         UPDATE TB_PERMISSION
            SET PERMISSION_NAME = #{permissionName}
              , DATA_STATUS     = #{dataStatus}
@@ -77,13 +77,13 @@
     </update>
 
     <delete id="deletePermission"
-            parameterType="com.coztion.authority.model.PermissionDelete">
+            parameterType="com.oreamo.authority.model.PermissionDelete">
         DELETE FROM TB_PERMISSION
          WHERE PERMISSION_CODE = #{permissionCode}
     </delete>
 
     <delete id="deleteRolePermissionsByPermissionDelete"
-            parameterType="com.coztion.authority.model.PermissionDelete">
+            parameterType="com.oreamo.authority.model.PermissionDelete">
         DELETE FROM TB_ROLE_PERMISSION
          WHERE PERMISSION_CODE = #{permissionCode}
     </delete>

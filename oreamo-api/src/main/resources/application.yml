@@ -1,6 +1,6 @@
 spring:
   application:
-    name: coztion
+    name: oreamo
 
   messages:
     basename: message/common

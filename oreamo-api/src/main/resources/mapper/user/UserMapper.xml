@@ -1,10 +1,10 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.coztion.user.UserRepository">
+<mapper namespace="com.oreamo.user.UserRepository">
 
     <select id="selectUser"
-            parameterType="com.coztion.user.model.UserSearch"
-            resultType="com.coztion.user.model.User">
+            parameterType="com.oreamo.user.model.UserSearch"
+            resultType="com.oreamo.user.model.User">
         SELECT U.USERNAME
              , U.PASSWORD
              , U.ROLE_CODE
@@ -21,8 +21,8 @@
     </select>
 
     <select id="selectUsers"
-            parameterType="com.coztion.user.model.UsersSearch"
-            resultType="com.coztion.user.model.User">
+            parameterType="com.oreamo.user.model.UsersSearch"
+            resultType="com.oreamo.user.model.User">
         SELECT U.USERNAME
              , U.ROLE_CODE
              , U.DATA_STATUS
@@ -45,7 +45,7 @@
     </select>
 
     <insert id="insertUser"
-            parameterType="com.coztion.user.model.UserSave">
+            parameterType="com.oreamo.user.model.UserSave">
         INSERT INTO TB_USER (
             USERNAME
           , PASSWORD
@@ -64,7 +64,7 @@
     </insert>
 
     <update id="updateUser"
-            parameterType="com.coztion.user.model.UserUpdate">
+            parameterType="com.oreamo.user.model.UserUpdate">
         UPDATE TB_USER
            SET UPDATED_BY  = #{author}
              , UPDATED_AT  = NOW()
@@ -81,7 +81,7 @@
     </update>
 
     <update id="updateUserProfileImage"
-            parameterType="com.coztion.user.model.UserProfileImageUpdate">
+            parameterType="com.oreamo.user.model.UserProfileImageUpdate">
         UPDATE TB_USER
            SET PROFILE_IMAGE_FILE_GROUP_ID = #{fileGroupId}
              , UPDATED_BY                  = #{author}
@@ -90,7 +90,7 @@
     </update>
 
     <delete id="deleteUser"
-            parameterType="com.coztion.user.model.UserDelete">
+            parameterType="com.oreamo.user.model.UserDelete">
         DELETE FROM TB_USER
          WHERE USERNAME = #{username}
     </delete>

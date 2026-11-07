@@ -1,6 +1,6 @@
-# Coztion Spring Boot
+# Oreamo Server
 
-Admin API server for Coztion, built with Spring Boot, MyBatis and MySQL.
+API server for Oreamo, built with Spring Boot, MyBatis and MySQL.
 
 ## Tech Stack
 
@@ -33,7 +33,7 @@ The server runs on `http://localhost:8080`.
 
 - Swagger UI: `http://localhost:8080/swagger-ui/index.html`
 - Flyway creates tables and inserts mock data on startup.
-- Default accounts: `system`, `admin`, `coztion`
+- Default accounts: `oreamo-system`, `oreamo-admin`, `oreamo-user`
 
 ## Environment
 
