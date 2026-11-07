@@ -13,7 +13,7 @@ Collects the changes, writes the commit message, and commits them.
 - Target Only: Analyze only the collected target. Do not refer to the conversation history.
 - Script Only: Never change the stage area or commit directly. Use only the scripts below.
 - No Authorship: Do not add any Claude authorship line to the commit message.
-- Stop On Failure: If a script fails, show its output and stop all remaining repositories. Do not fix files, retry, or use `--no-verify`.
+- Stop On Failure: If a script fails, show its output and stop. Do not fix files, retry, or use `--no-verify`.
 
 ### Pipeline
 
@@ -23,7 +23,7 @@ Collects the changes, writes the commit message, and commits them.
 bash ${CLAUDE_SKILL_DIR}/scripts/collect-target.sh {repository path}
 ```
 
-- `Target` is `staged` if there are staged changes, otherwise `unstaged`. If it is `none`, skip the repository.
+- `Target` is `staged` if there are staged changes, otherwise `unstaged`. If it is `none`, stop.
 
 #### 2. Analyze
 
