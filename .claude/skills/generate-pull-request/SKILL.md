@@ -39,16 +39,24 @@ bash ${CLAUDE_SKILL_DIR}/scripts/collect-diff.sh {repository path} {base branch}
 - Write a pull request content in Korean.
 - Do not add a `Generated with Claude Code` line or any other Claude authorship line to the pull request content.
 
+### Label Selection Rules
+
+- Select labels only from the `Labels` section of the Pull Request Target output. Never create or use a label not in the list.
+- Read each label's description (`About {word} - Attach when {condition}`), and select every label whose condition matches the changes in the diff.
+- If no label matches, select none and tell the user.
+- Show the selected labels below each repository's output code block (e.g. `Labels: feature, docs`).
+
 ### Pull Request Creation Rules
 
 - After showing all outputs, ask which repositories to create the pull request for with the `AskUserQuestion` tool, using `multiSelect: true` and the generated repositories as options. Each option description shows `{head} → {base}`.
 - If no repository is selected, do not create any pull request.
-- For each selected repository, create the pull request only via the script below. Pass the title as an argument, and the content without the title line (starting from `# Pull Request`) via heredoc.
+- For each selected repository, create the pull request only via the script below. Pass the title and the selected labels (comma-separated, e.g. `feature,docs`) as arguments, and the content without the title line (starting from `# Pull Request`) via heredoc.
 - The script pushes the current branch to `origin` and creates the pull request with `gh`.
 - The script assigns the pull request to the GitHub user found by the current git email (`git config user.email`).
+- The script attaches the given labels to the pull request.
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/create-pull-request.sh {repository path} {base branch} "{title}" <<'EOF'
+bash ${CLAUDE_SKILL_DIR}/scripts/create-pull-request.sh {repository path} {base branch} "{title}" "{labels}" <<'EOF'
 {generated pull request content without the title line}
 EOF
 ```

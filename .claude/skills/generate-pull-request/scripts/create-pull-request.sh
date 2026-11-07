@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: create-pull-request.sh {repository path} {base branch} {title} <<< {body}
+# Usage: create-pull-request.sh {repository path} {base branch} {title} {labels} <<< {body}
 
 # Move to the target repository.
 cd "$1"
@@ -9,6 +9,7 @@ cd "$(git rev-parse --show-toplevel)"
 
 base="$2"
 title="$3"
+labels="${4:-}"
 head="$(git branch --show-current)"
 
 if ! command -v gh >/dev/null 2>&1; then
@@ -37,5 +38,11 @@ fi
 # Push the current branch to the remote and set upstream.
 git push -u origin "$head"
 
+# Attach the labels (comma-separated) if given.
+label_args=()
+if [ -n "$labels" ]; then
+  label_args=(--label "$labels")
+fi
+
 # Create the pull request, reading the body from stdin.
-gh pr create --base "$base" --head "$head" --title "$title" --assignee "$assignee" --body-file -
+gh pr create --base "$base" --head "$head" --title "$title" --assignee "$assignee" ${label_args[@]+"${label_args[@]}"} --body-file -

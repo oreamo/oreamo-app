@@ -24,6 +24,10 @@ echo "### Base"
 echo "origin/$base...HEAD"
 echo
 
+echo "### Labels"
+gh label list --limit 100 --json name,description --jq '.[] | "- \(.name): \(.description)"'
+echo
+
 echo "### Changed Files"
 git diff --name-status "origin/$base...HEAD"
 echo
