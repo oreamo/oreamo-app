@@ -1,6 +1,6 @@
 import { styled } from "@mui/material";
 
-import coztionLogo from "@/assets/images/coztion.png";
+import oreamoLogo from "@/assets/images/oreamo.png";
 import { Button } from "@/components/common/button/Button";
 import { Image } from "@/components/common/display/Image";
 import { Text } from "@/components/common/display/Text";
@@ -51,7 +51,7 @@ export function LoginForm() {
   return (
     <StyledLoginFormContainer direction="column" gap={4}>
       <Flex justify="center">
-        <Image src={coztionLogo} alt="Coztion" width={52} height={52} circle />
+        <Image src={oreamoLogo} alt="Oreamo" width={52} height={52} circle />
       </Flex>
       <Flex direction="column" gap={0.5}>
         <Text size="xl" weight="semibold">
