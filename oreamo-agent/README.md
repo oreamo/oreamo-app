@@ -32,9 +32,9 @@ make migrate
 make run
 ```
 
-The server runs on `http://localhost:8080`.
+The server runs on `http://localhost:8000`.
 
-- Swagger UI: `http://localhost:8080/docs`
+- Swagger UI: `http://localhost:8000/docs`
 - Alembic creates tables and inserts mock data.
 - Default accounts: `oreamo-system`, `oreamo-admin`, `oreamo-user`
 
