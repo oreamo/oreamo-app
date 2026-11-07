@@ -1,5 +1,5 @@
 ---
-name: generate-pull-request
+name: git-pull-request
 description: Use when user requests to generate a pull request.
 allowed-tools: Bash(bash ${CLAUDE_SKILL_DIR}/scripts/*)
 ---
