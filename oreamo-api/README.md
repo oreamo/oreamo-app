@@ -1,4 +1,4 @@
-# Oreamo Server
+# Oreamo Back-End
 
 API server for Oreamo, built with Spring Boot, MyBatis and MySQL.
 
