@@ -13,8 +13,8 @@ public class SwaggerConfig {
     public OpenAPI openAPI() {
         return new OpenAPI()
                 .info(new Info()
-                        .title("Oreamo Server API")
-                        .description("Oreamo Server API Documentation")
+                        .title("Oreamo Back-End API")
+                        .description("Oreamo Back-End API Documentation")
                         .version("V1.0"));
     }
 }
