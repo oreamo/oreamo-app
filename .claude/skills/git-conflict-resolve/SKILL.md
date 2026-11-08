@@ -16,7 +16,11 @@ Analyzes the merge conflicts, resolves them, and completes the merge commit.
 
 ### Pipeline
 
-#### 1. Collect
+#### 1. Select
+
+- Select the target repositories.
+
+#### 2. Collect
 
 ```bash
 bash ${CLAUDE_SKILL_DIR}/scripts/collect-conflicts.sh {repository path}
@@ -24,7 +28,7 @@ bash ${CLAUDE_SKILL_DIR}/scripts/collect-conflicts.sh {repository path}
 
 - If `Merge` is `None`, stop.
 
-#### 2. Resolve
+#### 3. Resolve
 
 - Resolve the certain conflicts by editing the files.
 - Ask the others with the `AskUserQuestion` tool, showing the code and intent of both sides. Options: `Ours`, `Theirs`, `Combine`, `Abort merge`.
@@ -34,7 +38,7 @@ bash ${CLAUDE_SKILL_DIR}/scripts/collect-conflicts.sh {repository path}
 bash ${CLAUDE_SKILL_DIR}/scripts/abort-merge.sh {repository path}
 ```
 
-#### 3. Commit
+#### 4. Commit
 
 ```bash
 bash ${CLAUDE_SKILL_DIR}/scripts/mark-resolved.sh {repository path} {file}...

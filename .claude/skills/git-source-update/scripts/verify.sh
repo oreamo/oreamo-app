@@ -10,10 +10,10 @@ cd "$(git rev-parse --show-toplevel)"
 
 # Check commands of each repository.
 case "$(basename "$(pwd)")" in
-  oreamo-client)
+  oreamo-frontend)
     commands=("pnpm lint" "pnpm format:check" "pnpm build")
     ;;
-  oreamo-server)
+  oreamo-backend)
     commands=("./gradlew spotlessCheck build")
     ;;
   oreamo-agent)
