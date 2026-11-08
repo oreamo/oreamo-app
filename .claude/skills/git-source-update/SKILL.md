@@ -20,7 +20,11 @@ Pulls the latest `develop`, checks the errors, and fixes them.
 
 ### Pipeline
 
-#### 1. Check
+#### 1. Select
+
+- Select the target repositories.
+
+#### 2. Check
 
 ```bash
 bash ${CLAUDE_SKILL_DIR}/scripts/check-update.sh {repository path}
@@ -28,7 +32,7 @@ bash ${CLAUDE_SKILL_DIR}/scripts/check-update.sh {repository path}
 
 - If `Behind` is `0`, stop.
 
-#### 2. Update
+#### 3. Update
 
 ```bash
 bash ${CLAUDE_SKILL_DIR}/scripts/update.sh {repository path}
@@ -36,7 +40,7 @@ bash ${CLAUDE_SKILL_DIR}/scripts/update.sh {repository path}
 
 - If `Result` is `conflict`, resolve the merge conflicts.
 
-#### 3. Verify
+#### 4. Verify
 
 ```bash
 bash ${CLAUDE_SKILL_DIR}/scripts/verify.sh {repository path}

@@ -18,7 +18,11 @@ Prepares the branch, writes the pull request, and creates or updates it.
 
 ### Pipeline
 
-#### 1. Prepare
+#### 1. Select
+
+- Select the target repositories.
+
+#### 2. Prepare
 
 ```bash
 bash ${CLAUDE_SKILL_DIR}/scripts/collect-status.sh {repository path}
@@ -27,7 +31,7 @@ bash ${CLAUDE_SKILL_DIR}/scripts/collect-status.sh {repository path}
 - If there are `Uncommitted Changes`, ask `Commit` or `Ignore` with the `AskUserQuestion` tool. Commit them for `Commit`.
 - Update the source with the latest `origin/develop`.
 
-#### 2. Analyze
+#### 3. Analyze
 
 ```bash
 bash ${CLAUDE_SKILL_DIR}/scripts/collect-diff.sh {repository path}
@@ -37,7 +41,7 @@ bash ${CLAUDE_SKILL_DIR}/scripts/collect-diff.sh {repository path}
 - Fill `${CLAUDE_SKILL_DIR}/templates/pull-request-template.md` in Korean. Do not include the commit type in the title.
 - Select every matching label of `Labels`.
 
-#### 3. Pull Request
+#### 4. Pull Request
 
 - If `Unpushed Commits` is not `0`, push.
 
