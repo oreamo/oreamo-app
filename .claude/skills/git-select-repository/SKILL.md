@@ -12,7 +12,7 @@ Selects the target repositories (Git Target) of a git workflow, which lasts from
 ### Rules
 
 - Once Per Workflow: Ask only once per git workflow. Reuse the selected Git Target in every git skill afterwards.
-- Target Only: Run git operations only on the Git Target repositories, in the order of `Workspace`, `Client`, `Server`, `Agent`.
+- Target Only: Run git operations only on the Git Target repositories, in the order of `Oreamo`, `Frontend`, `Backend`, `Agent`.
 - Additional Question: Ask the other questions of the git workflow (e.g. the level of the git work) in the same `AskUserQuestion` call.
 
 ### Pipeline
@@ -25,7 +25,7 @@ Selects the target repositories (Git Target) of a git workflow, which lasts from
 
 #### 2. Ask
 
-- Ask with the `AskUserQuestion` tool: header `Repository`, `multiSelect: true`, options `Workspace`, `Client`, `Server`, `Agent` with the description `{branch}, {changes} changes`.
+- Ask with the `AskUserQuestion` tool: header `Repository`, `multiSelect: true`, options `Oreamo`, `Frontend`, `Backend`, `Agent` with the description `{branch}, {changes} changes`.
 
 #### 3. Result
 

@@ -20,7 +20,7 @@ print_repository() {
   echo
 }
 
-print_repository "Workspace" "$root"
-print_repository "Client" "$root/oreamo-client"
-print_repository "Server" "$root/oreamo-server"
+print_repository "Oreamo" "$root"
+print_repository "Frontend" "$root/oreamo-frontend"
+print_repository "Backend" "$root/oreamo-backend"
 print_repository "Agent" "$root/oreamo-agent"

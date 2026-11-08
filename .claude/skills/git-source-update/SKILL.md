@@ -12,8 +12,8 @@ Pulls the latest `develop`, checks the errors, and fixes them.
 
 - Base Branch: `develop`, unless the user requests another. Pass it as the second argument of the scripts.
 - Fix Commands: Fix format and lint errors with the formatter first, then fix the remaining errors by editing the code.
-  - Client: `pnpm lint:fix`, `pnpm format`
-  - Server: `./gradlew spotlessApply`
+  - Frontend: `pnpm lint:fix`, `pnpm format`
+  - Backend: `./gradlew spotlessApply`
   - Agent: `make lint-fix`, `make format`
 - Environment Error: If a check fails by the environment (e.g. Docker is not running), do not change the code. Tell the user how to fix it and stop.
 - Stop On Failure: If a script fails, show its output and stop.
