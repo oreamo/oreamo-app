@@ -1,4 +1,4 @@
-# Oreamo
+# Oreamo Application
 
 Workspace for shared configuration across Oreamo services.
 
