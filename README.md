@@ -12,6 +12,16 @@ Workspace for shared configuration across Oreamo services.
 
 Each service is an independent git repository and is excluded from this repository via `.gitignore`.
 
+## Start Application
+
+```bash
+# Clone repositories and install dependencies
+bash scripts/init.sh
+
+# Start all services
+docker compose up -d
+```
+
 ## Docker
 
 `docker-compose.yml` runs the services and their infrastructure (MySQL, Redis, LocalStack) for local development.
