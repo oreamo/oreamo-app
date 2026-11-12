@@ -1,13 +1,13 @@
 services:
-  mysql:
-    image: mysql:latest
+  postgres:
+    image: pgvector/pgvector:pg17
     ports:
-      - "3306:3306"
+      - "5432:5432"
     environment:
-      MYSQL_DATABASE: oreamo
-      MYSQL_ROOT_PASSWORD: 1q2w3e4r!
+      POSTGRES_DB: oreamo
+      POSTGRES_PASSWORD: 1q2w3e4r!
     healthcheck:
-      test: ["CMD-SHELL", "mysqladmin ping -h 127.0.0.1 -p$$MYSQL_ROOT_PASSWORD"]
+      test: ["CMD-SHELL", "pg_isready -U postgres -d oreamo"]
       interval: 5s
       timeout: 5s
       retries: 20
@@ -36,11 +36,11 @@ services:
       - "8080:8080"
     environment:
       SPRING_PROFILES_ACTIVE: local
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql:3306/oreamo?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/oreamo
       SPRING_DATA_REDIS_HOST: redis
       AWS_S3_ENDPOINT: http://localstack:4566
     depends_on:
-      mysql:
+      postgres:
         condition: service_healthy
       redis:
         condition: service_started
@@ -53,11 +53,11 @@ services:
     env_file:
       - ./oreamo-agent/.env.local
     environment:
-      DB_HOST: mysql
+      DB_HOST: postgres
       REDIS_HOST: redis
       AWS_S3_ENDPOINT: http://localstack:4566
     depends_on:
-      mysql:
+      postgres:
         condition: service_healthy
       redis:
         condition: service_started
