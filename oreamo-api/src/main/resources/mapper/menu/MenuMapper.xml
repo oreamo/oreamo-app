@@ -32,7 +32,7 @@
            AND M.PARENT_MENU_ID = #{parentMenuId}
             </if>
             <if test="menuName != null and menuName != ''">
-           AND M.MENU_NAME LIKE CONCAT('%', #{menuName}, '%')
+           AND M.MENU_NAME ILIKE CONCAT('%', #{menuName}, '%')
             </if>
             <if test="menuType != null and menuType != ''">
            AND M.MENU_TYPE = #{menuType}

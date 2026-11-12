@@ -23,7 +23,7 @@
           FROM TB_ROLE R
          WHERE TRUE
         <if test="roleName != null and roleName != ''">
-           AND R.ROLE_NAME LIKE CONCAT('%', #{roleName}, '%')
+           AND R.ROLE_NAME ILIKE CONCAT('%', #{roleName}, '%')
         </if>
         <if test="permissionCodes != null and !permissionCodes.isEmpty()">
            AND EXISTS (
