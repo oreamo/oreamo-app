@@ -1,6 +1,6 @@
 # Oreamo Agent
 
-Agent server for Oreamo, built with FastAPI, SQLAlchemy and MySQL.
+Agent server for Oreamo, built with FastAPI, SQLAlchemy and PostgreSQL.
 
 ## Tech Stack
 
@@ -9,8 +9,8 @@ Agent server for Oreamo, built with FastAPI, SQLAlchemy and MySQL.
 | Framework    | FastAPI, Uvicorn                                    |
 | Language     | Python 3.14                                         |
 | Package      | uv, make                                            |
-| Database     | MySQL, Alembic                                      |
-| Persistence  | SQLAlchemy 2.0 (asyncio, aiomysql)                  |
+| Database     | PostgreSQL, Alembic                                 |
+| Persistence  | SQLAlchemy 2.0 (asyncio, asyncpg)                   |
 | Cache        | Redis                                               |
 | API Docs     | OpenAPI (Swagger UI)                                |
 | Code Quality | Ruff, ty, pre-commit                                |
