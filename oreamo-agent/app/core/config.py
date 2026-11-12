@@ -7,7 +7,7 @@ from sqlalchemy import URL
 class Settings(BaseSettings):
     # Database
     db_host: str
-    db_port: int = 3306
+    db_port: int = 5432
     db_name: str
     db_username: str
     db_password: str
@@ -29,13 +29,12 @@ class Settings(BaseSettings):
     @property
     def database_url(self) -> URL:
         return URL.create(
-            "mysql+aiomysql",
+            "postgresql+asyncpg",
             username=self.db_username,
             password=self.db_password,
             host=self.db_host,
             port=self.db_port,
             database=self.db_name,
-            query={"charset": "utf8mb4"},
         )
 
 

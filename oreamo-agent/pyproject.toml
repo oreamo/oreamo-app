@@ -4,9 +4,8 @@ version = "0.1.0"
 description = "Agent server for Oreamo"
 requires-python = ">=3.14"
 dependencies = [
-    "aiomysql>=0.3.2",
     "alembic==1.18.4",
-    "cryptography>=50.0.2",
+    "asyncpg>=0.30.0",
     "fastapi>=0.135.3",
     "pydantic>=2.12.5",
     "pydantic-settings>=2.13.1",
