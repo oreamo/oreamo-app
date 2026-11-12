@@ -1,6 +1,6 @@
 # Oreamo Back-End
 
-API server for Oreamo, built with Spring Boot, MyBatis and MySQL.
+API server for Oreamo, built with Spring Boot, MyBatis and PostgreSQL.
 
 ## Tech Stack
 
@@ -9,7 +9,7 @@ API server for Oreamo, built with Spring Boot, MyBatis and MySQL.
 | Framework    | Spring Boot 4.0 (Web MVC, Security, AOP, Validation) |
 | Language     | Java 25                                             |
 | Build        | Gradle 9.6                                          |
-| Database     | MySQL, Flyway                                       |
+| Database     | PostgreSQL, Flyway                                  |
 | Persistence  | MyBatis 4, PageHelper                               |
 | Cache        | Redis                                               |
 | Storage      | AWS S3 (LocalStack for local)                       |
