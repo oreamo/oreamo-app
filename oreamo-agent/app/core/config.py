@@ -19,7 +19,6 @@ class Settings(BaseSettings):
     redis_database: int = 0
 
     # Security
-    client_base_url: str
     oreamo_server_key: str
 
     # ETC

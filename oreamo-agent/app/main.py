@@ -1,11 +1,9 @@
 from contextlib import asynccontextmanager
 
 from fastapi import FastAPI
-from fastapi.middleware.cors import CORSMiddleware
 
 from app.common.app_router import router
 from app.common.exception_handler import register_exception_handlers
-from app.core.config import settings
 from app.core.database import engine
 from app.core.middleware import (
     ServerKeyMiddleware,
@@ -30,14 +28,6 @@ app = FastAPI(
 
 app.add_middleware(UnhandledExceptionMiddleware)
 app.add_middleware(ServerKeyMiddleware)
-app.add_middleware(
-    CORSMiddleware,
-    allow_origins=[settings.client_base_url],
-    allow_methods=["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-    allow_credentials=True,
-    allow_headers=["Content-Type", "Accept", "X-Requested-With"],
-    expose_headers=["Set-Cookie"],
-)
 
 register_exception_handlers(app)
 
