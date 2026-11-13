@@ -1,18 +1,15 @@
-.PHONY: init up down run stop
+.PHONY: up down infra service
 
-SERVICES := frontend backend agent
+INFRA := postgres redis localstack
+SERVICE := frontend backend agent
 
-init:
-	bash scripts/init.sh
+TARGETS := $(if $(filter infra,$(MAKECMDGOALS)),$(INFRA)) $(if $(filter service,$(MAKECMDGOALS)),$(SERVICE))
 
 up:
-	docker compose up -d --build
+	docker compose up -d --build $(TARGETS)
 
 down:
-	docker compose down
+	docker compose down $(TARGETS)
 
-run:
-	docker compose restart $(SERVICES)
-
-stop:
-	docker compose stop $(SERVICES)
+infra service:
+	@:
