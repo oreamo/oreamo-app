@@ -40,6 +40,7 @@ The server runs on `http://localhost:8000`.
 | --------- | ------------ | -------------------------------------- |
 | `local`   | `.env.local` | Local development with Docker services |
 | `dev`     | `.env.dev`   | Development server                     |
+| `prd`     | `.env.prd`   | Production server                      |
 
 | Variable            | Description                               |
 | ------------------- | ----------------------------------------- |
