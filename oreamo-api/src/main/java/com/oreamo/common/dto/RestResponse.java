@@ -23,6 +23,8 @@ public class RestResponse<T> {
 
     @Getter
     @Builder
+    @NoArgsConstructor
+    @AllArgsConstructor
     public static class Failure {
 
         @Schema(description = "Failure message key")
