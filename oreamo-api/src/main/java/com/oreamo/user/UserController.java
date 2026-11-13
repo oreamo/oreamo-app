@@ -2,6 +2,7 @@ package com.oreamo.user;
 
 import jakarta.validation.Valid;
 
+import com.github.pagehelper.Page;
 import com.oreamo.authority.model.PermissionCode;
 import com.oreamo.common.dto.PageResponse;
 import com.oreamo.common.dto.RestResponse;
@@ -14,7 +15,6 @@ import com.oreamo.user.model.UserSave;
 import com.oreamo.user.model.UserSearch;
 import com.oreamo.user.model.UserUpdate;
 import com.oreamo.user.model.UsersSearch;
-import com.github.pagehelper.Page;
 
 import org.springframework.web.bind.annotation.*;
 

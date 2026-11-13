@@ -1,5 +1,6 @@
 package com.oreamo.user;
 
+import com.github.pagehelper.Page;
 import com.oreamo.common.constant.TranslationKey;
 import com.oreamo.common.exception.RestException;
 import com.oreamo.file.FileService;
@@ -17,7 +18,6 @@ import com.oreamo.user.model.UserSave;
 import com.oreamo.user.model.UserSearch;
 import com.oreamo.user.model.UserUpdate;
 import com.oreamo.user.model.UsersSearch;
-import com.github.pagehelper.Page;
 
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;

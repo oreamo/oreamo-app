@@ -2,6 +2,7 @@ package com.oreamo.user;
 
 import java.util.Optional;
 
+import com.github.pagehelper.Page;
 import com.oreamo.user.model.User;
 import com.oreamo.user.model.UserDelete;
 import com.oreamo.user.model.UserProfileImageUpdate;
@@ -9,7 +10,6 @@ import com.oreamo.user.model.UserSave;
 import com.oreamo.user.model.UserSearch;
 import com.oreamo.user.model.UserUpdate;
 import com.oreamo.user.model.UsersSearch;
-import com.github.pagehelper.Page;
 
 import org.apache.ibatis.annotations.Mapper;
 

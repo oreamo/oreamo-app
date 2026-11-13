@@ -3,9 +3,9 @@ package com.oreamo.user.model;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.oreamo.common.constant.TranslationKey;
 import com.oreamo.common.model.OperationAuthor;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
