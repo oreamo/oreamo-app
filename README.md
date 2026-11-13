@@ -4,11 +4,11 @@ Workspace for shared configuration across Oreamo services.
 
 ## Repositories
 
-| Directory          | Description                               | Repository                                |
-| ------------------ | ----------------------------------------- | ----------------------------------------- |
-| `oreamo-frontend/` | Web client (React, TypeScript, Vite)      | https://github.com/oreamo/oreamo-frontend |
-| `oreamo-backend/`  | API server (Spring Boot, MyBatis, MySQL)  | https://github.com/oreamo/oreamo-backend  |
-| `oreamo-agent/`    | Agent server (FastAPI, SQLAlchemy, MySQL) | https://github.com/oreamo/oreamo-agent    |
+| Directory          | Description                                    | Repository                                |
+| ------------------ | ---------------------------------------------- | ----------------------------------------- |
+| `oreamo-frontend/` | Web client (React, TypeScript, Vite)           | https://github.com/oreamo/oreamo-frontend |
+| `oreamo-backend/`  | API server (Spring Boot, MyBatis, PostgreSQL)  | https://github.com/oreamo/oreamo-backend  |
+| `oreamo-agent/`    | Agent server (FastAPI, SQLAlchemy, PostgreSQL) | https://github.com/oreamo/oreamo-agent    |
 
 Each service is an independent git repository and is excluded from this repository via `.gitignore`.
 
@@ -24,7 +24,7 @@ docker compose up -d
 
 ## Docker
 
-`docker-compose.yml` runs the services and their infrastructure (MySQL, Redis, LocalStack) for local development.
+`docker-compose.yml` runs the services and their infrastructure (PostgreSQL, Redis, LocalStack) for local development.
 
 | Service    | URL                   |
 | ---------- | --------------------- |
