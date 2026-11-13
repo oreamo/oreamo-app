@@ -14,9 +14,9 @@ logger = logging.getLogger(__name__)
 
 
 def register_exception_handlers(app: FastAPI) -> None:
-    app.add_exception_handler(StarletteHTTPException, handle_http_exception)
-    app.add_exception_handler(RequestValidationError, handle_validation_exception)
-    app.add_exception_handler(RestException, handle_rest_exception)
+    app.add_exception_handler(StarletteHTTPException, handle_http_exception)  # ty: ignore[invalid-argument-type]
+    app.add_exception_handler(RequestValidationError, handle_validation_exception)  # ty: ignore[invalid-argument-type]
+    app.add_exception_handler(RestException, handle_rest_exception)  # ty: ignore[invalid-argument-type]
 
 
 async def handle_http_exception(
