@@ -41,6 +41,7 @@ services:
       SPRING_DATASOURCE_URL: jdbc:postgresql://postgres:5432/oreamo
       SPRING_DATA_REDIS_HOST: redis
       AWS_S3_ENDPOINT: http://localstack:4566
+      APP_AGENT_BASEURL: http://agent:8000
     depends_on:
       postgres:
         condition: service_healthy
