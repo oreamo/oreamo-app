@@ -25,11 +25,11 @@ def do_run_migrations(connection: Connection) -> None:
 
 async def clean_database() -> None:
     async with engine.connect() as connection:
-        await connection.execute(text("SET FOREIGN_KEY_CHECKS = 0"))
-        result = await connection.execute(text("SHOW TABLES"))
+        result = await connection.execute(
+            text("SELECT tablename FROM pg_tables WHERE schemaname = current_schema()")
+        )
         for table in [row[0] for row in result]:
-            await connection.execute(text(f"DROP TABLE IF EXISTS `{table}`"))
-        await connection.execute(text("SET FOREIGN_KEY_CHECKS = 1"))
+            await connection.execute(text(f'DROP TABLE IF EXISTS "{table}" CASCADE'))
         await connection.commit()
     logger.info("Database cleaned successfully")
 

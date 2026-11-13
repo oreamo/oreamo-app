@@ -1,6 +1,6 @@
 # Oreamo Agent
 
-Agent server for Oreamo, built with FastAPI, SQLAlchemy and MySQL.
+Agent server for Oreamo, built with FastAPI, SQLAlchemy and PostgreSQL.
 
 ## Tech Stack
 
@@ -9,11 +9,9 @@ Agent server for Oreamo, built with FastAPI, SQLAlchemy and MySQL.
 | Framework    | FastAPI, Uvicorn                                    |
 | Language     | Python 3.14                                         |
 | Package      | uv, make                                            |
-| Database     | MySQL, Alembic                                      |
-| Persistence  | SQLAlchemy 2.0 (asyncio, aiomysql)                  |
+| Database     | PostgreSQL, Alembic                                 |
+| Persistence  | SQLAlchemy 2.0 (asyncio, asyncpg)                   |
 | Cache        | Redis                                               |
-| Storage      | AWS S3, boto3 (LocalStack for local)                |
-| Auth         | JWT (PyJWT) with cookie-based access/refresh tokens |
 | API Docs     | OpenAPI (Swagger UI)                                |
 | Code Quality | Ruff, ty, pre-commit                                |
 
@@ -35,8 +33,6 @@ make run
 The server runs on `http://localhost:8000`.
 
 - Swagger UI: `http://localhost:8000/docs`
-- Alembic creates tables and inserts mock data.
-- Default accounts: `oreamo-system`, `oreamo-admin`, `oreamo-user`
 
 ## Environment
 
@@ -44,10 +40,10 @@ The server runs on `http://localhost:8000`.
 | --------- | ------------ | -------------------------------------- |
 | `local`   | `.env.local` | Local development with Docker services |
 | `dev`     | `.env.dev`   | Development server                     |
+| `prd`     | `.env.prd`   | Production server                      |
 
 | Variable            | Description                               |
 | ------------------- | ----------------------------------------- |
-| `JWT_SECRET`        | Secret key for JWT signing                |
 | `DB_CLEAN_ON_ERROR` | Clean database on migration error (local) |
 
 See `.env.example` for all variables.
