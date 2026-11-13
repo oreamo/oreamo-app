@@ -40,13 +40,13 @@
            AND GC.GROUP_CODE = #{groupCode}
             </if>
             <if test="groupCodeName != null and groupCodeName != ''">
-           AND GC.GROUP_CODE_NAME LIKE CONCAT('%', #{groupCodeName}, '%')
+           AND GC.GROUP_CODE_NAME ILIKE CONCAT('%', #{groupCodeName}, '%')
             </if>
             <if test="commonCodeName != null and commonCodeName != ''">
            AND EXISTS (
                SELECT 1 FROM TB_COMMON_CODE CC
                 WHERE CC.GROUP_CODE = GC.GROUP_CODE
-                  AND CC.COMMON_CODE_NAME LIKE CONCAT('%', #{commonCodeName}, '%')
+                  AND CC.COMMON_CODE_NAME ILIKE CONCAT('%', #{commonCodeName}, '%')
            )
             </if>
             <if test="dataStatus != null and dataStatus != ''">

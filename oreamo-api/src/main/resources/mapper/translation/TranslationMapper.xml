@@ -24,7 +24,7 @@
            AND TRANSLATION_TYPE = #{translationType}
         </if>
         <if test="translationCode != null and translationCode != ''">
-           AND TRANSLATION_CODE LIKE CONCAT('%', #{translationCode}, '%')
+           AND TRANSLATION_CODE ILIKE CONCAT('%', #{translationCode}, '%')
         </if>
         <if test="translationLocale != null and translationLocale != ''">
            AND TRANSLATION_LOCALE = #{translationLocale}
@@ -33,7 +33,7 @@
            AND DATA_STATUS = #{dataStatus}
         </if>
         <if test="translationKey != null and translationKey != ''">
-           AND CONCAT(TRANSLATION_GROUP, '.', TRANSLATION_TYPE, '.', TRANSLATION_CODE) LIKE CONCAT('%', #{translationKey}, '%')
+           AND CONCAT(TRANSLATION_GROUP, '.', TRANSLATION_TYPE, '.', TRANSLATION_CODE) ILIKE CONCAT('%', #{translationKey}, '%')
         </if>
          ORDER BY TRANSLATION_GROUP, TRANSLATION_TYPE, TRANSLATION_CODE, TRANSLATION_LOCALE
     </select>

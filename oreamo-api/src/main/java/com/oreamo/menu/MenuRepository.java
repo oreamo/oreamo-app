@@ -3,6 +3,7 @@ package com.oreamo.menu;
 import java.util.List;
 import java.util.Optional;
 
+import com.github.pagehelper.Page;
 import com.oreamo.menu.model.Menu;
 import com.oreamo.menu.model.MenuDelete;
 import com.oreamo.menu.model.MenuSave;
@@ -10,7 +11,6 @@ import com.oreamo.menu.model.MenuSearch;
 import com.oreamo.menu.model.MenuTreeNode;
 import com.oreamo.menu.model.MenuUpdate;
 import com.oreamo.menu.model.MenusSearch;
-import com.github.pagehelper.Page;
 
 import org.apache.ibatis.annotations.Mapper;
 

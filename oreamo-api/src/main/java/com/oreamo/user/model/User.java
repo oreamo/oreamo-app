@@ -1,7 +1,7 @@
 package com.oreamo.user.model;
 
-import com.oreamo.common.model.DataRecord;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.oreamo.common.model.DataRecord;
 
 import org.springframework.util.StringUtils;
 

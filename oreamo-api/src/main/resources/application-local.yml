@@ -6,8 +6,8 @@ spring:
       secure: false
 
   datasource:
-    url: jdbc:mysql://localhost:3306/oreamo?useUnicode=true&characterEncoding=UTF-8&serverTimezone=UTC
-    username: root
+    url: jdbc:postgresql://localhost:5432/oreamo
+    username: oreamo
     password: 1q2w3e4r!
 
   data:
@@ -26,6 +26,9 @@ spring:
 app:
   client:
     base-url: http://localhost:3000
+  agent:
+    base-url: http://localhost:8000
+    server-key: ${OREAMO_SERVER_KEY:OREAMO_SERVER_KEY}
 
 aws:
   region: ap-northeast-2

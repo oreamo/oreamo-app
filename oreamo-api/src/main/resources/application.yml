@@ -40,5 +40,5 @@ mybatis:
     auto-mapping-behavior: full
 
 pagehelper:
-  helper-dialect: mysql
+  helper-dialect: postgresql
   params: count=countSql

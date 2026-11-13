@@ -1,5 +1,6 @@
 package com.oreamo.authority;
 
+import com.github.pagehelper.Page;
 import com.oreamo.authority.model.Role;
 import com.oreamo.authority.model.RoleDelete;
 import com.oreamo.authority.model.RoleOperation;
@@ -12,7 +13,6 @@ import com.oreamo.common.exception.RestException;
 import com.oreamo.user.UserService;
 import com.oreamo.user.model.User;
 import com.oreamo.user.model.UsersSearch;
-import com.github.pagehelper.Page;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

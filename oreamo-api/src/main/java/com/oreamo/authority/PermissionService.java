@@ -1,5 +1,6 @@
 package com.oreamo.authority;
 
+import com.github.pagehelper.Page;
 import com.oreamo.authority.model.Permission;
 import com.oreamo.authority.model.PermissionDelete;
 import com.oreamo.authority.model.PermissionOperation;
@@ -9,7 +10,6 @@ import com.oreamo.authority.model.PermissionUpdate;
 import com.oreamo.authority.model.PermissionsSearch;
 import com.oreamo.common.constant.TranslationKey;
 import com.oreamo.common.exception.RestException;
-import com.github.pagehelper.Page;
 
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
