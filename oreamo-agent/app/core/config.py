@@ -20,6 +20,7 @@ class Settings(BaseSettings):
 
     # Security
     client_base_url: str
+    oreamo_server_key: str
 
     # ETC
     debug: bool = False

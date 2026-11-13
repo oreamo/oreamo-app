@@ -7,7 +7,10 @@ from app.common.app_router import router
 from app.common.exception_handler import register_exception_handlers
 from app.core.config import settings
 from app.core.database import engine
-from app.core.middleware import ArrayQueryParamMiddleware, UnhandledExceptionMiddleware
+from app.core.middleware import (
+    ServerKeyMiddleware,
+    UnhandledExceptionMiddleware,
+)
 from app.core.redis import redis
 
 
@@ -25,8 +28,8 @@ app = FastAPI(
     lifespan=lifespan,
 )
 
-app.add_middleware(ArrayQueryParamMiddleware)
 app.add_middleware(UnhandledExceptionMiddleware)
+app.add_middleware(ServerKeyMiddleware)
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[settings.client_base_url],

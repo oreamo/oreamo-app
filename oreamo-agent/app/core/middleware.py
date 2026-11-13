@@ -1,33 +1,12 @@
-from urllib.parse import parse_qsl, urlencode
+import hmac
 
+from starlette.datastructures import Headers
 from starlette.requests import Request
+from starlette.responses import Response
 from starlette.types import ASGIApp, Message, Receive, Scope, Send
 
 from app.common.exception_handler import handle_exception
-
-
-class ArrayQueryParamMiddleware:
-    """Normalize `key[]=value` query params (axios default array format) into `key=value`."""
-
-    def __init__(self, app: ASGIApp) -> None:
-        self.app = app
-
-    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
-        if scope["type"] == "http":
-            query_params = parse_qsl(
-                scope["query_string"].decode("latin-1"), keep_blank_values=True
-            )
-            if any(key.endswith("[]") for key, _ in query_params):
-                normalized_query_params = [
-                    (key.removesuffix("[]"), value) for key, value in query_params
-                ]
-                scope = {
-                    **scope,
-                    "query_string": urlencode(normalized_query_params).encode(
-                        "latin-1"
-                    ),
-                }
-        await self.app(scope, receive, send)
+from app.core.config import settings
 
 
 class UnhandledExceptionMiddleware:
@@ -54,3 +33,23 @@ class UnhandledExceptionMiddleware:
                 raise
             response = await handle_exception(Request(scope), e)
             await response(scope, receive, send)
+
+
+class ServerKeyMiddleware:
+    """Reject requests that do not carry the server key shared with the backend."""
+
+    HEADER = "X-Oreamo-Server-Key"
+
+    def __init__(self, app: ASGIApp) -> None:
+        self.app = app
+
+    async def __call__(self, scope: Scope, receive: Receive, send: Send) -> None:
+        if scope["type"] == "http":
+            server_key = Headers(scope=scope).get(self.HEADER, "")
+            if not hmac.compare_digest(
+                server_key.encode(), settings.oreamo_server_key.encode()
+            ):
+                response = Response(status_code=401)
+                await response(scope, receive, send)
+                return
+        await self.app(scope, receive, send)
