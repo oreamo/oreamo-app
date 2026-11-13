@@ -1,7 +1,7 @@
-.PHONY: up down infra service
-
 INFRA := postgres redis localstack
 SERVICE := frontend backend agent
+
+.PHONY: up down run infra service $(INFRA) $(SERVICE)
 
 TARGETS := $(if $(filter infra,$(MAKECMDGOALS)),$(INFRA)) $(if $(filter service,$(MAKECMDGOALS)),$(SERVICE))
 
@@ -11,5 +11,8 @@ up:
 down:
 	docker compose down $(TARGETS)
 
-infra service:
+run:
+	docker compose up -d --build $(filter $(INFRA) $(SERVICE),$(MAKECMDGOALS))
+
+infra service $(INFRA) $(SERVICE):
 	@:
