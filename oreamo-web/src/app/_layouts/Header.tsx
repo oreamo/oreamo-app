@@ -5,6 +5,7 @@ import { Button } from "@/components/common/button/Button";
 import { Flex } from "@/components/common/layout/Flex";
 import { TRANSLATION_KEY } from "@/constants/translation-constant";
 import { useMedia } from "@/hooks/useMedia";
+import { useMenuMatch } from "@/hooks/useMenuMatch";
 import { useNavigator } from "@/hooks/useNavigator";
 import { useTranslate } from "@/hooks/useTranslate";
 import { MenuTreeNode } from "@/models/menu-model";
@@ -26,16 +27,15 @@ export function Header({
   const { isDesktop } = useMedia();
   const { data: menuTreeNodes } = useMenuTree();
   const { translate } = useTranslate();
+  const { findFirstLeafMenu } = useMenuMatch();
 
   const handleMenuClick = (menu: MenuTreeNode) => {
     onActiveMenuChange(menu);
 
-    const firstSubMenu = menu.subMenus?.[0];
+    const firstLeafMenu = findFirstLeafMenu(menu);
 
-    if (firstSubMenu?.url) {
-      navigate(firstSubMenu.url);
-    } else if (menu.url) {
-      navigate(menu.url);
+    if (firstLeafMenu.url) {
+      navigate(firstLeafMenu.url);
     }
   };
 

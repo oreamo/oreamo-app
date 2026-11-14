@@ -63,14 +63,32 @@ export function MenuList({ open, onClose, onActiveMenuChange }: MenuListProps) {
                 <StyledMenuListItem direction="column">
                   <Text>{menu.menuName}</Text>
                 </StyledMenuListItem>
-                {menu.subMenus?.map((subMenu) => (
-                  <StyledSubMenuButton
-                    key={subMenu.menuId}
-                    onClick={() => handleSubMenuClick(menu, subMenu)}
-                  >
-                    <ListItemText primary={subMenu.menuName} />
-                  </StyledSubMenuButton>
-                ))}
+                {menu.subMenus?.map((subMenu) =>
+                  hasSubMenus(subMenu) ? (
+                    <Flex key={subMenu.menuId} direction="column">
+                      <StyledSubMenuListItem direction="column">
+                        <Text size="sm" color="secondary">
+                          {subMenu.menuName}
+                        </Text>
+                      </StyledSubMenuListItem>
+                      {subMenu.subMenus?.map((leafMenu) => (
+                        <StyledLeafMenuButton
+                          key={leafMenu.menuId}
+                          onClick={() => handleSubMenuClick(menu, leafMenu)}
+                        >
+                          <ListItemText primary={leafMenu.menuName} />
+                        </StyledLeafMenuButton>
+                      ))}
+                    </Flex>
+                  ) : (
+                    <StyledSubMenuButton
+                      key={subMenu.menuId}
+                      onClick={() => handleSubMenuClick(menu, subMenu)}
+                    >
+                      <ListItemText primary={subMenu.menuName} />
+                    </StyledSubMenuButton>
+                  ),
+                )}
               </Flex>
             ) : (
               <StyledMenuButton
@@ -112,6 +130,10 @@ const StyledMenuListItem = styled(Flex)(({ theme }) => ({
   padding: theme.spacing(0.75, 1.5),
 }));
 
+const StyledSubMenuListItem = styled(Flex)(({ theme }) => ({
+  padding: theme.spacing(0.75, 1.5, 0.75, 4),
+}));
+
 const StyledMenuButton = styled(ListItemButton)(({ theme }) => ({
   padding: theme.spacing(0.75, 1.5),
 
@@ -125,6 +147,20 @@ const StyledMenuButton = styled(ListItemButton)(({ theme }) => ({
 
 const StyledSubMenuButton = styled(ListItemButton)(({ theme }) => ({
   paddingLeft: theme.spacing(4),
+  paddingTop: theme.spacing(0.75),
+  paddingBottom: theme.spacing(0.75),
+  paddingRight: theme.spacing(1.5),
+
+  borderRadius: theme.shape.borderRadiusScale.md,
+  color: theme.palette.scale[700],
+
+  "&:hover": {
+    backgroundColor: theme.palette.scale[200],
+  },
+}));
+
+const StyledLeafMenuButton = styled(ListItemButton)(({ theme }) => ({
+  paddingLeft: theme.spacing(6),
   paddingTop: theme.spacing(0.75),
   paddingBottom: theme.spacing(0.75),
   paddingRight: theme.spacing(1.5),
