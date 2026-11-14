@@ -60,5 +60,6 @@ export interface UserOperate {
 export enum AuthorityRole {
   SYSTEM = "ROLE_SYSTEM",
   ADMIN = "ROLE_ADMIN",
+  MANAGER = "ROLE_MANAGER",
   USER = "ROLE_USER",
 }
