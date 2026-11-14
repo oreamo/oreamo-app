@@ -6,10 +6,13 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 import com.oreamo.authority.model.PermissionCode;
+import com.oreamo.menu.model.MenuId;
 
 @Target(ElementType.METHOD)
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Authorize {
 
-    PermissionCode[] permissionCodes();
+    MenuId menuId();
+
+    PermissionCode permissionCode();
 }

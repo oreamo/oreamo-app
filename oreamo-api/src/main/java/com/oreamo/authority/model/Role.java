@@ -26,11 +26,11 @@ public class Role extends DataRecord {
     @Schema(description = "Sort Order")
     private Integer sortOrder;
 
-    @Schema(description = "Permission Codes")
-    private List<String> permissionCodes;
+    @Schema(description = "Role Permissions")
+    private List<RolePermission> rolePermissions;
 
-    public boolean hasPermissionCodes() {
-        return !CollectionUtils.isEmpty(permissionCodes);
+    public boolean hasRolePermissions() {
+        return !CollectionUtils.isEmpty(rolePermissions);
     }
 
     public RoleInfo toRoleInfo() {

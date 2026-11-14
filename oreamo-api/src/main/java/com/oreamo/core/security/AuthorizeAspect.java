@@ -1,12 +1,11 @@
 package com.oreamo.core.security;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.Optional;
 
 import com.oreamo.authority.PermissionService;
-import com.oreamo.authority.model.Permission;
 import com.oreamo.authority.model.PermissionsSearch;
+import com.oreamo.authority.model.RolePermission;
 import com.oreamo.user.model.SessionUser;
 
 import org.aspectj.lang.JoinPoint;
@@ -46,13 +45,11 @@ public class AuthorizeAspect {
                 .orElseThrow(() -> new IllegalArgumentException(AUTHENTICATION_FAILURE_MESSAGE))
                 .getRoleCode();
 
-        List<String> grantedPermissionCodes =
-                permissionService.getPermissions(PermissionsSearch.ofEnabledRoleCode(roleCode)).stream()
-                        .map(Permission::getPermissionCode)
-                        .toList();
+        List<RolePermission> rolePermissions =
+                permissionService.getRolePermissions(PermissionsSearch.ofEnabledRoleCode(roleCode));
 
-        boolean isNotAuthorized = Arrays.stream(authorize.permissionCodes())
-                .noneMatch(permissionCode -> permissionCode.isGrantedIn(grantedPermissionCodes));
+        boolean isNotAuthorized = rolePermissions.stream()
+                .noneMatch(rolePermission -> rolePermission.isGranted(authorize.menuId(), authorize.permissionCode()));
         if (isNotAuthorized) {
             throw new AccessDeniedException(AUTHORIZATION_FAILURE_MESSAGE);
         }

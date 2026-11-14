@@ -15,7 +15,7 @@
              , CREATED_AT
              , UPDATED_BY
              , UPDATED_AT
-          FROM TRANSLATION
+          FROM TB_TRANSLATION
          WHERE TRUE
         <if test="translationGroup != null and translationGroup != ''">
            AND TRANSLATION_GROUP = #{translationGroup}
@@ -51,7 +51,7 @@
              , CREATED_AT
              , UPDATED_BY
              , UPDATED_AT
-          FROM TRANSLATION
+          FROM TB_TRANSLATION
          WHERE TRANSLATION_GROUP  = #{translationGroup}
            AND TRANSLATION_TYPE   = #{translationType}
            AND TRANSLATION_CODE   = #{translationCode}
@@ -60,7 +60,7 @@
 
     <insert id="insertTranslation"
             parameterType="com.oreamo.translation.model.TranslationSave">
-        INSERT INTO TRANSLATION (
+        INSERT INTO TB_TRANSLATION (
             TRANSLATION_GROUP
           , TRANSLATION_TYPE
           , TRANSLATION_CODE
@@ -83,7 +83,7 @@
 
     <update id="updateTranslation"
             parameterType="com.oreamo.translation.model.TranslationUpdate">
-        UPDATE TRANSLATION
+        UPDATE TB_TRANSLATION
            SET TRANSLATION_CONTENT = #{translationContent}
              , DATA_STATUS         = #{dataStatus}
              , UPDATED_BY          = #{author}
@@ -96,7 +96,7 @@
 
     <delete id="deleteTranslation"
             parameterType="com.oreamo.translation.model.TranslationDelete">
-        DELETE FROM TRANSLATION
+        DELETE FROM TB_TRANSLATION
          WHERE TRANSLATION_GROUP  = #{translationGroup}
            AND TRANSLATION_TYPE   = #{translationType}
            AND TRANSLATION_CODE   = #{translationCode}

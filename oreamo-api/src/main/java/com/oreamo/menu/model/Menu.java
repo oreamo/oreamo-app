@@ -28,9 +28,10 @@ public class Menu extends DataRecord {
     @Schema(description = "Parent Menu ID")
     private String parentMenuId;
 
-    @Schema(description = "Menu Permission Code")
-    private String menuPermissionCode;
-
     @Schema(description = "Sort Order")
     private Integer sortOrder;
+
+    public MenuInfo toMenuInfo() {
+        return MenuInfo.builder().menuId(menuId).menuName(menuName).build();
+    }
 }

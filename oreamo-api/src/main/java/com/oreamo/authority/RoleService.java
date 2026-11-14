@@ -57,7 +57,7 @@ public class RoleService {
             throw new RestException(TranslationKey.Common.Message.CREATE_FAILURE);
         }
 
-        if (roleSave.hasPermissionCodes()) {
+        if (roleSave.hasRolePermissions()) {
             roleRepository.insertRolePermissionsByRoleSave(roleSave);
         }
 
@@ -76,10 +76,10 @@ public class RoleService {
             throw new RestException(TranslationKey.Common.Message.UPDATE_FAILURE);
         }
 
-        if (roleUpdate.isPermissionCodesReplaced()) {
+        if (roleUpdate.isRolePermissionsReplaced()) {
             roleRepository.deleteRolePermissionsByRoleUpdate(roleUpdate);
 
-            if (roleUpdate.hasPermissionCodes()) {
+            if (roleUpdate.hasRolePermissions()) {
                 roleRepository.insertRolePermissionsByRoleUpdate(roleUpdate);
             }
         }
@@ -95,7 +95,7 @@ public class RoleService {
             throw new RestException(TranslationKey.Authority.Message.ROLE_DELETE_FAILURE_BY_USER);
         }
 
-        if (role.hasPermissionCodes()) {
+        if (role.hasRolePermissions()) {
             roleRepository.deleteRolePermissionsByRoleDelete(roleDelete);
         }
 

@@ -3,6 +3,8 @@ package com.oreamo.user.model;
 import java.util.Collection;
 import java.util.List;
 
+import com.oreamo.authority.model.RolePermission;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
@@ -42,11 +44,11 @@ public class SessionUser implements UserDetails {
         return username;
     }
 
-    public SessionUserInfo toPublicInfo(List<String> permissionCodes, UserProfileImage userProfileImage) {
+    public SessionUserInfo toPublicInfo(List<RolePermission> rolePermissions, UserProfileImage userProfileImage) {
         return SessionUserInfo.builder()
                 .username(username)
                 .roleCode(roleCode)
-                .permissionCodes(permissionCodes)
+                .rolePermissions(rolePermissions)
                 .profileImageFileGroupId(userProfileImage.getFileGroupId())
                 .profileImageFileId(userProfileImage.getFileId())
                 .build();

@@ -40,14 +40,14 @@ public class RoleUpdate extends OperationAuthor {
     @Min(value = 1, message = TranslationKey.Common.Label.SORT_ORDER)
     private Integer sortOrder;
 
-    @Schema(description = "Permission Codes (permission mapping is not changed when null)")
-    private List<String> permissionCodes;
+    @Schema(description = "Role Permissions (role permissions are not changed when null)")
+    private List<RolePermission> rolePermissions;
 
-    public boolean isPermissionCodesReplaced() {
-        return Objects.nonNull(permissionCodes);
+    public boolean isRolePermissionsReplaced() {
+        return Objects.nonNull(rolePermissions);
     }
 
-    public boolean hasPermissionCodes() {
-        return !CollectionUtils.isEmpty(permissionCodes);
+    public boolean hasRolePermissions() {
+        return !CollectionUtils.isEmpty(rolePermissions);
     }
 }

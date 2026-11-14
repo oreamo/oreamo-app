@@ -2,6 +2,8 @@ package com.oreamo.user.model;
 
 import java.util.List;
 
+import com.oreamo.authority.model.RolePermission;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.Builder;
@@ -18,8 +20,8 @@ public class SessionUserInfo {
     @Schema(description = "Role Code", example = "ROLE_ADMIN")
     private String roleCode;
 
-    @Schema(description = "Permission Codes", example = "[\"MAIN_READ\"]")
-    private List<String> permissionCodes;
+    @Schema(description = "Role Permissions")
+    private List<RolePermission> rolePermissions;
 
     @Schema(description = "Profile Image File Group ID")
     private String profileImageFileGroupId;
