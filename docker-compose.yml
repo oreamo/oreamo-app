@@ -24,17 +24,17 @@ services:
       SERVICES: s3
       AWS_DEFAULT_REGION: ap-northeast-2
     volumes:
-      - ./oreamo-backend/docker/localstack/init:/etc/localstack/init/ready.d
-  frontend:
-    image: oreamo-application-frontend:1.0.0
-    build: ./oreamo-frontend
+      - ./oreamo-api/docker/localstack/init:/etc/localstack/init/ready.d
+  web:
+    image: oreamo-application-web:1.0.0
+    build: ./oreamo-web
     ports:
       - "3000:3000"
     depends_on:
-      - backend
-  backend:
-    image: oreamo-application-backend:1.0.0
-    build: ./oreamo-backend
+      - api
+  api:
+    image: oreamo-application-api:1.0.0
+    build: ./oreamo-api
     ports:
       - "8080:8080"
     environment:

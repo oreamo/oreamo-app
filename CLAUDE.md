@@ -5,9 +5,9 @@
 - These are global Claude Code rules.
 - Has priority to any other Claude Code rules.
 
-### Workspace
+### Application
 
-- This repository is a workspace for shared configuration across `oreamo-frontend/`, `oreamo-backend/` and `oreamo-agent/`.
+- This repository is the root of the Oreamo application, which composes `oreamo-web/`, `oreamo-api/` and `oreamo-agent/` into one application.
 - Each service is an independent git repository. Run git operations inside the respective directory.
 
 ### Rules
@@ -16,8 +16,8 @@
 - Before implementing, search for similar existing code and follow its structure, naming, and code style.
 - Answer short as possible. But should have enough information.
 - Always add summary in 1 line at the end of the answer.
-    - If you worked on something, then summarize what you did.
-    - If you answered on something, then summarize the answer.
+  - If you worked on something, then summarize what you did.
+  - If you answered on something, then summarize the answer.
 - Do not ask additional user confirm for peer request.
 - Always answer in Korean.
 

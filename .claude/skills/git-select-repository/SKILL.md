@@ -12,7 +12,7 @@ Selects the target repositories (Git Target) of a git workflow, which lasts from
 ### Rules
 
 - Once Per Workflow: Ask only once per git workflow. Reuse the selected Git Target in every git skill afterwards.
-- Target Only: Run git operations only on the Git Target repositories, in the order of `Application`, `Frontend`, `Backend`, `Agent`.
+- Target Only: Run git operations only on the Git Target repositories, in the order of `Application`, `Web`, `API`, `Agent`.
 - Additional Question: Ask the other questions of the git workflow (e.g. the level of the git work) in the same `AskUserQuestion` call.
 
 ### Pipeline
@@ -26,7 +26,7 @@ Selects the target repositories (Git Target) of a git workflow, which lasts from
 #### 2. Ask
 
 - If only one repository has `Changes` more than `0`, select it without asking.
-- Otherwise, ask with the `AskUserQuestion` tool: header `Repository`, `multiSelect: true`, options `Application`, `Frontend`, `Backend`, `Agent` with the description `{branch}, {changes} changes`.
+- Otherwise, ask with the `AskUserQuestion` tool: header `Repository`, `multiSelect: true`, options `Application`, `Web`, `API`, `Agent` with the description `{branch}, {changes} changes`.
 
 #### 3. Result
 

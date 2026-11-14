@@ -31,12 +31,12 @@ require_command "make"
 require_command "pnpm"
 require_command "uv"
 
-clone_repository "oreamo-frontend"
-clone_repository "oreamo-backend"
+clone_repository "oreamo-web"
+clone_repository "oreamo-api"
 clone_repository "oreamo-agent"
 
-echo "### oreamo-frontend: installing"
-pnpm --dir "$root/oreamo-frontend" install
+echo "### oreamo-web: installing"
+pnpm --dir "$root/oreamo-web" install
 
 echo "### oreamo-agent: installing"
 make -C "$root/oreamo-agent" sync
