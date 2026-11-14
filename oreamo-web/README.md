@@ -1,4 +1,4 @@
-# Oreamo Front-End
+# Oreamo Web
 
 Web client for Oreamo, built with React, TypeScript and Vite.
 
