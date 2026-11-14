@@ -36,7 +36,7 @@ class UnhandledExceptionMiddleware:
 
 
 class ServerKeyMiddleware:
-    """Reject requests that do not carry the server key shared with the backend."""
+    """Reject requests that do not carry the server key shared with the API server."""
 
     HEADER = "X-Oreamo-Server-Key"
 
