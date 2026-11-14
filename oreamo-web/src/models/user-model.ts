@@ -1,3 +1,4 @@
+import { RolePermission } from "@/models/authority-model";
 import { DataRecord } from "@/models/common-model";
 
 export interface LoginInfo {
@@ -8,7 +9,7 @@ export interface LoginInfo {
 export interface UserInfo {
   username: string;
   roleCode: string;
-  permissionCodes: string[];
+  rolePermissions: RolePermission[];
   profileImageFileId?: string;
   profileImageFileGroupId?: string;
 }
@@ -59,5 +60,6 @@ export interface UserOperate {
 export enum AuthorityRole {
   SYSTEM = "ROLE_SYSTEM",
   ADMIN = "ROLE_ADMIN",
+  MANAGER = "ROLE_MANAGER",
   USER = "ROLE_USER",
 }

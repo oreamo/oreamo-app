@@ -13,69 +13,79 @@ export const ROUTE = {
     PATH: "/",
     URL: "/",
   },
-  ADMIN: {
-    ID: "ADMIN",
-    PATH: "admin",
-    URL: "/admin",
-    CODE_MANAGEMENT: {
-      ID: "CODE_MANAGEMENT",
-      PATH: "code-management",
-      URL: "/admin/code-management",
-    },
-    MENU_MANAGEMENT: {
-      ID: "MENU_MANAGEMENT",
-      PATH: "menu-management",
-      URL: "/admin/menu-management",
-    },
-    USER_MANAGEMENT: {
-      ID: "USER_MANAGEMENT",
-      PATH: "user-management",
-      URL: "/admin/user-management",
-    },
-    AUTHORITY_MANAGEMENT: {
-      ID: "AUTHORITY_MANAGEMENT",
-      PATH: "authority-management",
-      URL: "/admin/authority-management",
-    },
-    TRANSLATION_MANAGEMENT: {
-      ID: "TRANSLATION_MANAGEMENT",
-      PATH: "translation-management",
-      URL: "/admin/translation-management",
+  SETTING: {
+    ID: "SETTING",
+    PATH: "setting",
+    URL: "/setting",
+    SYSTEM_SETTING: {
+      ID: "SYSTEM_SETTING",
+      PATH: "system",
+      URL: "/setting/system",
+      CODE_MANAGEMENT: {
+        ID: "CODE_MANAGEMENT",
+        PATH: "code-management",
+        URL: "/setting/system/code-management",
+      },
+      MENU_MANAGEMENT: {
+        ID: "MENU_MANAGEMENT",
+        PATH: "menu-management",
+        URL: "/setting/system/menu-management",
+      },
+      USER_MANAGEMENT: {
+        ID: "USER_MANAGEMENT",
+        PATH: "user-management",
+        URL: "/setting/system/user-management",
+      },
+      AUTHORITY_MANAGEMENT: {
+        ID: "AUTHORITY_MANAGEMENT",
+        PATH: "authority-management",
+        URL: "/setting/system/authority-management",
+      },
+      TRANSLATION_MANAGEMENT: {
+        ID: "TRANSLATION_MANAGEMENT",
+        PATH: "translation-management",
+        URL: "/setting/system/translation-management",
+      },
     },
   },
   DEV: {
     ID: "DEV",
     PATH: "dev",
     URL: "/dev",
-    DEV_FOUNDATION: {
-      ID: "DEV_FOUNDATION",
-      PATH: "foundation",
-      URL: "/dev/foundation",
-    },
-    DEV_BUTTON: {
-      ID: "DEV_BUTTON",
-      PATH: "button",
-      URL: "/dev/button",
-    },
-    DEV_INPUT: {
-      ID: "DEV_INPUT",
-      PATH: "input",
-      URL: "/dev/input",
-    },
-    DEV_DISPLAY: {
-      ID: "DEV_DISPLAY",
-      PATH: "display",
-      URL: "/dev/display",
-    },
-    DEV_LAYOUT: {
-      ID: "DEV_LAYOUT",
-      PATH: "layout",
-      URL: "/dev/layout",
-    },
-    DEV_OVERLAY: {
-      ID: "DEV_OVERLAY",
-      PATH: "overlay",
-      URL: "/dev/overlay",
+    DEV_DESIGN_SYSTEM: {
+      ID: "DEV_DESIGN_SYSTEM",
+      PATH: "design-system",
+      URL: "/dev/design-system",
+      DEV_FOUNDATION: {
+        ID: "DEV_FOUNDATION",
+        PATH: "foundation",
+        URL: "/dev/design-system/foundation",
+      },
+      DEV_BUTTON: {
+        ID: "DEV_BUTTON",
+        PATH: "button",
+        URL: "/dev/design-system/button",
+      },
+      DEV_INPUT: {
+        ID: "DEV_INPUT",
+        PATH: "input",
+        URL: "/dev/design-system/input",
+      },
+      DEV_DISPLAY: {
+        ID: "DEV_DISPLAY",
+        PATH: "display",
+        URL: "/dev/design-system/display",
+      },
+      DEV_LAYOUT: {
+        ID: "DEV_LAYOUT",
+        PATH: "layout",
+        URL: "/dev/design-system/layout",
+      },
+      DEV_OVERLAY: {
+        ID: "DEV_OVERLAY",
+        PATH: "overlay",
+        URL: "/dev/design-system/overlay",
+      },
     },
   },
 };

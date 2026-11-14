@@ -5,8 +5,8 @@ import { AuthorizationGuard } from "@/app/_guards/AuthorizationGuard";
 import { GuestGuard } from "@/app/_guards/GuestGuard";
 import { AppLayout } from "@/app/_layouts/AppLayout";
 import { GlobalLayout } from "@/app/_layouts/GlobalLayout";
-import { AdminRouter } from "@/app/_routers/admin-router";
 import { DevRouter } from "@/app/_routers/dev-router";
+import { SettingRouter } from "@/app/_routers/setting-router";
 import { ROUTE } from "@/constants/route-constant";
 import { LoginPage } from "@/pages/auth/login/LoginPage";
 import { ErrorPage } from "@/pages/error/ErrorPage";
@@ -50,7 +50,7 @@ export const AppRouter = createBrowserRouter([
                     path: ROUTE.MAIN.PATH,
                     element: <></>,
                   },
-                  ...AdminRouter,
+                  ...SettingRouter,
                   ...DevRouter,
                 ],
               },

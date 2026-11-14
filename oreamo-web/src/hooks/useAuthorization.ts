@@ -20,8 +20,14 @@ export function useAuthorization() {
     return menus.some((menu) => menu.menuId === menuId);
   };
 
-  const hasPermission = (permissionCode: string) => {
-    return userInfo?.permissionCodes.includes(permissionCode) ?? false;
+  const hasPermission = (menuId: string, permissionCode: string) => {
+    return (
+      userInfo?.rolePermissions.some(
+        (rolePermission) =>
+          rolePermission.menuId === menuId &&
+          rolePermission.permissionCode === permissionCode,
+      ) ?? false
+    );
   };
 
   const currentMenuId = matchedMenuIds[matchedMenuIds.length - 1];

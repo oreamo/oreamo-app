@@ -23,6 +23,13 @@ export function useMenuMatch() {
     return findCurrentMenu(activeMenu.subMenus) ?? activeMenu;
   };
 
+  const findFirstLeafMenu = (menu: MenuTreeNode): MenuTreeNode => {
+    const firstSubMenu = menu.subMenus?.[0];
+    if (!firstSubMenu) return menu;
+
+    return findFirstLeafMenu(firstSubMenu);
+  };
+
   const findCurrentMenuPath = (menus?: MenuTreeNode[]): MenuTreeNode[] => {
     const activeMenu = menus?.find(isMenuActive);
     if (!activeMenu) return [];
@@ -34,6 +41,7 @@ export function useMenuMatch() {
     matchedMenuIds,
     isMenuActive,
     findCurrentMenu,
+    findFirstLeafMenu,
     findCurrentMenuPath,
   };
 }
