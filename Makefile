@@ -12,7 +12,7 @@ down:
 	docker compose down $(TARGETS)
 
 run:
-	docker compose up -d --build $(filter $(INFRA) $(SERVICE),$(MAKECMDGOALS))
+	docker compose up -d --build --no-deps $(filter $(INFRA) $(SERVICE),$(MAKECMDGOALS))
 
 infra service $(INFRA) $(SERVICE):
 	@:
