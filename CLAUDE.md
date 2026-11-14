@@ -7,7 +7,7 @@
 
 ### Workspace
 
-- This repository is a workspace for shared configuration across `oreamo-frontend/`, `oreamo-backend/` and `oreamo-agent/`.
+- This repository is a workspace for shared configuration across `oreamo-web/`, `oreamo-api/` and `oreamo-agent/`.
 - Each service is an independent git repository. Run git operations inside the respective directory.
 
 ### Rules

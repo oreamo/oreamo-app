@@ -21,6 +21,6 @@ print_repository() {
 }
 
 print_repository "Application" "$root"
-print_repository "Frontend" "$root/oreamo-frontend"
-print_repository "Backend" "$root/oreamo-backend"
+print_repository "Web" "$root/oreamo-web"
+print_repository "API" "$root/oreamo-api"
 print_repository "Agent" "$root/oreamo-agent"

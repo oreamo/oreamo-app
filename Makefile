@@ -1,5 +1,5 @@
 INFRA := postgres redis localstack
-SERVICE := frontend backend agent
+SERVICE := web api agent
 
 .PHONY: up down run infra service $(INFRA) $(SERVICE)
 

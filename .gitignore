@@ -1,6 +1,6 @@
 # Sub-repositories (each is managed as an independent git repo)
-/oreamo-frontend/
-/oreamo-backend/
+/oreamo-web/
+/oreamo-api/
 /oreamo-agent/
 
 # OS / editor
