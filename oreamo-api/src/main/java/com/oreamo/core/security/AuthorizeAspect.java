@@ -49,8 +49,7 @@ public class AuthorizeAspect {
                 permissionService.getRolePermissions(PermissionsSearch.ofEnabledRoleCode(roleCode));
 
         boolean isNotAuthorized = rolePermissions.stream()
-                .noneMatch(rolePermission ->
-                        rolePermission.isGranted(authorize.menuId(), authorize.permissionCode()));
+                .noneMatch(rolePermission -> rolePermission.isGranted(authorize.menuId(), authorize.permissionCode()));
         if (isNotAuthorized) {
             throw new AccessDeniedException(AUTHORIZATION_FAILURE_MESSAGE);
         }

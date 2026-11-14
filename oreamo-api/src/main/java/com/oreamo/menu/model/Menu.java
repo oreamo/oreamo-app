@@ -28,7 +28,6 @@ public class Menu extends DataRecord {
     @Schema(description = "Parent Menu ID")
     private String parentMenuId;
 
-
     @Schema(description = "Sort Order")
     private Integer sortOrder;
 

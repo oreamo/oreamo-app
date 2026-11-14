@@ -27,7 +27,6 @@ public class MenuUpdate extends OperationAuthor {
     @Size(min = 1, max = 100, message = TranslationKey.Menu.Label.MENU_NAME)
     private String menuName;
 
-
     @Schema(description = "Data Status", example = "ENABLED")
     @NotNull(message = TranslationKey.Common.Label.DATA_STATUS)
     private String dataStatus;

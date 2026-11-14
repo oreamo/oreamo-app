@@ -20,7 +20,8 @@ public class RolePermission {
     private String permissionCode;
 
     public boolean isGranted(MenuId menuId, PermissionCode permissionCode) {
-        return menuId.getValue().equals(this.menuId) && permissionCode.getValue().equals(this.permissionCode);
+        return menuId.getValue().equals(this.menuId)
+                && permissionCode.getValue().equals(this.permissionCode);
     }
 
     public boolean isReadable() {
