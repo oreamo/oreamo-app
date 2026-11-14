@@ -11,6 +11,7 @@ import {
 import { DATE_TIME_FORMAT } from "@/constants/date-time-constant";
 import { GRID_WIDTH } from "@/constants/foundation-constant";
 import { PERMISSION } from "@/constants/permission-constant";
+import { ROUTE } from "@/constants/route-constant";
 import { TRANSLATION_KEY } from "@/constants/translation-constant";
 import { useAuthorization } from "@/hooks/useAuthorization";
 import { useCodeOptions } from "@/hooks/useCodeOptions";
@@ -18,7 +19,6 @@ import { useTranslate } from "@/hooks/useTranslate";
 import { PageInfo } from "@/models/common-model";
 import { Menu } from "@/models/menu-model";
 import { MenuDialog } from "@/pages/setting/system/menu-management/_components/MenuDialog";
-import { usePermissionInfos } from "@/resources/authority/usePermissionInfos";
 import { useMenuOperation } from "@/resources/menu/useMenuOperation";
 
 interface MenuGridProps {
@@ -41,17 +41,11 @@ export function MenuGrid({
 
   const { hasPermission } = useAuthorization();
   const doesNotHaveWritePermission = !hasPermission(
-    PERMISSION.MENU_MANAGEMENT_WRITE,
+    ROUTE.SETTING.SYSTEM_SETTING.MENU_MANAGEMENT.ID,
+    PERMISSION.WRITE,
   );
 
-  const { data: permissionInfos } = usePermissionInfos();
-
   const { mutate: operateMenus } = useMenuOperation();
-
-  const permissionOptions = (permissionInfos ?? []).map((permissionInfo) => ({
-    value: permissionInfo.permissionCode,
-    label: permissionInfo.permissionName,
-  }));
 
   const handleAddMenu = () => {
     setOpenMenuDialog(true);
@@ -70,13 +64,11 @@ export function MenuGrid({
           url: row.url,
           parentMenuId: row.parentMenuId,
           sortOrder: row.sortOrder,
-          menuPermissionCode: row.menuPermissionCode,
           dataStatus: row.dataStatus,
         })),
         menuUpdates: editedRows.map((row) => ({
           menuId: row.menuId,
           menuName: row.menuName,
-          menuPermissionCode: row.menuPermissionCode,
           dataStatus: row.dataStatus,
         })),
         menuDeletes: deletedRows.map((row) => ({
@@ -166,20 +158,6 @@ export function MenuGrid({
               cell: {
                 type: "text",
                 addable: true,
-              },
-            },
-          },
-          {
-            field: "menuPermissionCode",
-            headerName: translate(
-              TRANSLATION_KEY.menu.label.MENU_PERMISSION_CODE,
-            ),
-            width: GRID_WIDTH.xl,
-            editable: true,
-            context: {
-              cell: {
-                type: "select",
-                options: permissionOptions,
               },
             },
           },

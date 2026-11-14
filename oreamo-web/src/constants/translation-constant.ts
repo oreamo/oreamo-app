@@ -74,7 +74,6 @@ export const TRANSLATION_KEY = {
       MENU_TYPE: "menu.label.MENU_TYPE",
       URL: "menu.label.URL",
       PARENT_MENU_ID: "menu.label.PARENT_MENU_ID",
-      MENU_PERMISSION_CODE: "menu.label.MENU_PERMISSION_CODE",
       CLOSE_OTHERS: "menu.label.CLOSE_OTHERS",
     },
   },

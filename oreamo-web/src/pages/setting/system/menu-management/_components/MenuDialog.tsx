@@ -7,7 +7,6 @@ import { useCodeOptions } from "@/hooks/useCodeOptions";
 import { useTranslate } from "@/hooks/useTranslate";
 import { Menu } from "@/models/menu-model";
 import { DetailFormModal } from "@/pages/setting/system/_components/DetailFormModal";
-import { usePermissionInfos } from "@/resources/authority/usePermissionInfos";
 import { useMenu } from "@/resources/menu/useMenu";
 import { useMenuDelete } from "@/resources/menu/useMenuDelete";
 import { useMenuSave } from "@/resources/menu/useMenuSave";
@@ -36,8 +35,6 @@ export function MenuDialog({
     menuId: menuValue,
   });
 
-  const { data: permissionInfos } = usePermissionInfos();
-
   const { mutate: saveMenu } = useMenuSave();
   const { mutate: updateMenu } = useMenuUpdate({
     menuId: menuValue,
@@ -46,18 +43,12 @@ export function MenuDialog({
     menuId: menuValue,
   });
 
-  const permissionOptions = (permissionInfos ?? []).map((permissionInfo) => ({
-    value: permissionInfo.permissionCode,
-    label: permissionInfo.permissionName,
-  }));
-
   const handleSubmit = (data: Menu, options: { onSuccess: () => void }) => {
     if (isEditMode) {
       updateMenu(
         {
           menuId: data.menuId,
           menuName: data.menuName,
-          menuPermissionCode: data.menuPermissionCode,
           dataStatus: data.dataStatus,
         },
         options,
@@ -140,16 +131,6 @@ export function MenuDialog({
           label={translate(TRANSLATION_KEY.menu.label.PARENT_MENU_ID)}
           readonly={isEditMode || readonly}
           maxLength={50}
-        />
-      </DetailForm.Item>
-      <DetailForm.Item
-        title={translate(TRANSLATION_KEY.menu.label.MENU_PERMISSION_CODE)}
-      >
-        <SelectInputField<Menu, "menuPermissionCode">
-          name="menuPermissionCode"
-          label={translate(TRANSLATION_KEY.menu.label.MENU_PERMISSION_CODE)}
-          readonly={readonly}
-          options={permissionOptions}
         />
       </DetailForm.Item>
       <DetailForm.Item

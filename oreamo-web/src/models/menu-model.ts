@@ -7,7 +7,6 @@ export interface Menu extends DataRecord {
   url: string;
   parentMenuId?: string;
   sortOrder: number;
-  menuPermissionCode?: string;
 }
 
 export interface MenuTreeNode {
@@ -32,14 +31,12 @@ export interface MenuSave {
   url: string;
   parentMenuId?: string;
   sortOrder: number;
-  menuPermissionCode?: string;
   dataStatus: string;
 }
 
 export interface MenuUpdate {
   menuId: string;
   menuName: string;
-  menuPermissionCode?: string;
   dataStatus: string;
 }
 
@@ -51,4 +48,9 @@ export interface MenuOperate {
   menuSaves?: MenuSave[];
   menuUpdates?: MenuUpdate[];
   menuDeletes?: MenuDelete[];
+}
+
+export interface MenuInfo {
+  menuId: string;
+  menuName: string;
 }

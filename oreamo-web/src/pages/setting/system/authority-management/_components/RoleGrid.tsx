@@ -12,6 +12,7 @@ import {
 import { DATE_TIME_FORMAT } from "@/constants/date-time-constant";
 import { GRID_WIDTH } from "@/constants/foundation-constant";
 import { PERMISSION } from "@/constants/permission-constant";
+import { ROUTE } from "@/constants/route-constant";
 import { TRANSLATION_KEY } from "@/constants/translation-constant";
 import { useAuthorization } from "@/hooks/useAuthorization";
 import { useCodeOptions } from "@/hooks/useCodeOptions";
@@ -43,7 +44,8 @@ export function RoleGrid({
 
   const { hasPermission } = useAuthorization();
   const doesNotHaveWritePermission = !hasPermission(
-    PERMISSION.AUTHORITY_MANAGEMENT_WRITE,
+    ROUTE.SETTING.SYSTEM_SETTING.AUTHORITY_MANAGEMENT.ID,
+    PERMISSION.WRITE,
   );
 
   const { mutate: operateRoles } = useRoleOperation();
