@@ -17,6 +17,7 @@ import com.oreamo.authority.model.PermissionsSearch;
 import com.oreamo.common.dto.PageResponse;
 import com.oreamo.common.dto.RestResponse;
 import com.oreamo.core.security.Authorize;
+import com.oreamo.menu.model.MenuId;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,7 @@ public class PermissionController {
 
     @Operation(summary = "Get Permissions")
     @GetMapping
-    @Authorize(permissionCodes = PermissionCode.AUTHORITY_MANAGEMENT_READ)
+    @Authorize(menuId = MenuId.AUTHORITY_MANAGEMENT, permissionCode = PermissionCode.READ)
     public RestResponse<PageResponse<Permission>> getPermissions(@ModelAttribute PermissionsSearch permissionsSearch) {
         Page<Permission> permissions = permissionService.getPermissions(permissionsSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(permissions));
@@ -52,7 +53,7 @@ public class PermissionController {
 
     @Operation(summary = "Get Permission")
     @GetMapping("/{permissionCode}")
-    @Authorize(permissionCodes = PermissionCode.AUTHORITY_MANAGEMENT_READ)
+    @Authorize(menuId = MenuId.AUTHORITY_MANAGEMENT, permissionCode = PermissionCode.READ)
     public RestResponse<Permission> getPermission(@ModelAttribute PermissionSearch permissionSearch) {
         Permission foundPermission = permissionService.getPermission(permissionSearch);
         return RestResponse.ofSuccess(foundPermission);
@@ -60,7 +61,7 @@ public class PermissionController {
 
     @Operation(summary = "Post Permission")
     @PostMapping
-    @Authorize(permissionCodes = PermissionCode.AUTHORITY_MANAGEMENT_WRITE)
+    @Authorize(menuId = MenuId.AUTHORITY_MANAGEMENT, permissionCode = PermissionCode.WRITE)
     public RestResponse<Permission> postPermission(@Valid @RequestBody PermissionSave permissionSave) {
         Permission createdPermission = permissionService.savePermission(permissionSave);
         return RestResponse.ofSuccess(createdPermission);
@@ -68,7 +69,7 @@ public class PermissionController {
 
     @Operation(summary = "Put Permission")
     @PutMapping("/{permissionCode}")
-    @Authorize(permissionCodes = PermissionCode.AUTHORITY_MANAGEMENT_WRITE)
+    @Authorize(menuId = MenuId.AUTHORITY_MANAGEMENT, permissionCode = PermissionCode.WRITE)
     public RestResponse<Void> putPermission(@Valid @RequestBody PermissionUpdate permissionUpdate) {
         permissionService.updatePermission(permissionUpdate);
         return RestResponse.ofSuccess(null);
@@ -76,7 +77,7 @@ public class PermissionController {
 
     @Operation(summary = "Delete Permission")
     @DeleteMapping("/{permissionCode}")
-    @Authorize(permissionCodes = PermissionCode.AUTHORITY_MANAGEMENT_WRITE)
+    @Authorize(menuId = MenuId.AUTHORITY_MANAGEMENT, permissionCode = PermissionCode.WRITE)
     public RestResponse<Boolean> deletePermission(@Valid @RequestBody PermissionDelete permissionDelete) {
         permissionService.deletePermission(permissionDelete);
         return RestResponse.ofSuccess(true);
@@ -84,7 +85,7 @@ public class PermissionController {
 
     @Operation(summary = "Operate Permissions")
     @PostMapping("/operation")
-    @Authorize(permissionCodes = PermissionCode.AUTHORITY_MANAGEMENT_WRITE)
+    @Authorize(menuId = MenuId.AUTHORITY_MANAGEMENT, permissionCode = PermissionCode.WRITE)
     public RestResponse<Boolean> operationPermissions(@Valid @RequestBody PermissionOperation permissionOperation) {
         permissionService.operatePermissions(permissionOperation);
         return RestResponse.ofSuccess(true);

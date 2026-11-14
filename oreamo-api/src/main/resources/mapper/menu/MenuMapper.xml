@@ -10,7 +10,6 @@
              , M.MENU_TYPE
              , M.URL
              , M.PARENT_MENU_ID
-             , M.MENU_PERMISSION_CODE
              , M.SORT_ORDER
              , M.DATA_STATUS
              , M.CREATED_BY
@@ -40,6 +39,12 @@
             <if test="dataStatus != null and dataStatus != ''">
            AND M.DATA_STATUS = #{dataStatus}
             </if>
+            <if test="leaf != null and leaf">
+           AND NOT EXISTS (
+               SELECT 1 FROM TB_MENU C
+                WHERE C.PARENT_MENU_ID = M.MENU_ID
+           )
+            </if>
          ORDER BY M.SORT_ORDER
     </select>
 
@@ -51,7 +56,6 @@
              , M.MENU_TYPE
              , M.URL
              , M.PARENT_MENU_ID
-             , M.MENU_PERMISSION_CODE
              , M.SORT_ORDER
              , M.DATA_STATUS
              , M.CREATED_BY
@@ -78,9 +82,9 @@
                  , M.PARENT_MENU_ID
                  , M.SORT_ORDER
               FROM TB_MENU M
-             WHERE M.MENU_PERMISSION_CODE IN
-            <foreach item="permissionCode" collection="permissionCodes" open="(" separator="," close=")">
-                #{permissionCode}
+             WHERE M.MENU_ID IN
+            <foreach item="menuId" collection="menuIds" open="(" separator="," close=")">
+                #{menuId}
             </foreach>
                AND M.DATA_STATUS = 'ENABLED'
 
@@ -114,7 +118,6 @@
           , MENU_TYPE
           , URL
           , PARENT_MENU_ID
-          , MENU_PERMISSION_CODE
           , SORT_ORDER
           , DATA_STATUS
           , CREATED_BY
@@ -125,7 +128,6 @@
           , #{menuType}
           , #{url}
           , #{parentMenuId}
-          , NULLIF(#{menuPermissionCode}, '')
           , #{sortOrder}
           , #{dataStatus}
           , #{author}
@@ -136,12 +138,11 @@
     <update id="updateMenu"
             parameterType="com.oreamo.menu.model.MenuUpdate">
         UPDATE TB_MENU
-           SET MENU_NAME            = #{menuName}
-             , MENU_PERMISSION_CODE = NULLIF(#{menuPermissionCode}, '')
-             , DATA_STATUS          = #{dataStatus}
-             , UPDATED_BY           = #{author}
-             , UPDATED_AT           = NOW()
-         WHERE MENU_ID              = #{menuId}
+           SET MENU_NAME   = #{menuName}
+             , DATA_STATUS = #{dataStatus}
+             , UPDATED_BY  = #{author}
+             , UPDATED_AT  = NOW()
+         WHERE MENU_ID     = #{menuId}
     </update>
 
     <delete id="deleteMenu"

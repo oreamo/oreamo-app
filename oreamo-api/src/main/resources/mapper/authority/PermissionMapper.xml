@@ -28,6 +28,24 @@
          ORDER BY P.SORT_ORDER
     </select>
 
+    <select id="selectRolePermissions"
+            parameterType="com.oreamo.authority.model.PermissionsSearch"
+            resultType="com.oreamo.authority.model.RolePermission">
+        SELECT RP.MENU_ID
+             , RP.PERMISSION_CODE
+          FROM TB_ROLE_PERMISSION RP
+         INNER JOIN TB_PERMISSION P
+                 ON RP.PERMISSION_CODE = P.PERMISSION_CODE
+         INNER JOIN TB_MENU M
+                 ON RP.MENU_ID = M.MENU_ID
+         WHERE RP.ROLE_CODE = #{roleCode}
+        <if test="dataStatus != null and dataStatus != ''">
+           AND P.DATA_STATUS = #{dataStatus}
+           AND M.DATA_STATUS = #{dataStatus}
+        </if>
+         ORDER BY M.SORT_ORDER, P.SORT_ORDER
+    </select>
+
     <select id="selectPermission"
             parameterType="com.oreamo.authority.model.PermissionSearch"
             resultType="com.oreamo.authority.model.Permission">

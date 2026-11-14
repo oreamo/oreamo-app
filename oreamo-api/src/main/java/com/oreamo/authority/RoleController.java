@@ -17,6 +17,7 @@ import com.oreamo.authority.model.RolesSearch;
 import com.oreamo.common.dto.PageResponse;
 import com.oreamo.common.dto.RestResponse;
 import com.oreamo.core.security.Authorize;
+import com.oreamo.menu.model.MenuId;
 
 import org.springframework.web.bind.annotation.*;
 
@@ -35,7 +36,7 @@ public class RoleController {
 
     @Operation(summary = "Get Roles")
     @GetMapping
-    @Authorize(permissionCodes = PermissionCode.AUTHORITY_MANAGEMENT_READ)
+    @Authorize(menuId = MenuId.AUTHORITY_MANAGEMENT, permissionCode = PermissionCode.READ)
     public RestResponse<PageResponse<Role>> getRoles(@ModelAttribute RolesSearch rolesSearch) {
         Page<Role> roles = roleService.getRoles(rolesSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(roles));
@@ -51,7 +52,7 @@ public class RoleController {
 
     @Operation(summary = "Get Role")
     @GetMapping("/{roleCode}")
-    @Authorize(permissionCodes = PermissionCode.AUTHORITY_MANAGEMENT_READ)
+    @Authorize(menuId = MenuId.AUTHORITY_MANAGEMENT, permissionCode = PermissionCode.READ)
     public RestResponse<Role> getRole(@ModelAttribute RoleSearch roleSearch) {
         Role foundRole = roleService.getRole(roleSearch);
         return RestResponse.ofSuccess(foundRole);
@@ -59,7 +60,7 @@ public class RoleController {
 
     @Operation(summary = "Post Role")
     @PostMapping
-    @Authorize(permissionCodes = PermissionCode.AUTHORITY_MANAGEMENT_WRITE)
+    @Authorize(menuId = MenuId.AUTHORITY_MANAGEMENT, permissionCode = PermissionCode.WRITE)
     public RestResponse<Role> postRole(@Valid @RequestBody RoleSave roleSave) {
         Role createdRole = roleService.saveRole(roleSave);
         return RestResponse.ofSuccess(createdRole);
@@ -67,7 +68,7 @@ public class RoleController {
 
     @Operation(summary = "Put Role")
     @PutMapping("/{roleCode}")
-    @Authorize(permissionCodes = PermissionCode.AUTHORITY_MANAGEMENT_WRITE)
+    @Authorize(menuId = MenuId.AUTHORITY_MANAGEMENT, permissionCode = PermissionCode.WRITE)
     public RestResponse<Void> putRole(@Valid @RequestBody RoleUpdate roleUpdate) {
         roleService.updateRole(roleUpdate);
         return RestResponse.ofSuccess(null);
@@ -75,7 +76,7 @@ public class RoleController {
 
     @Operation(summary = "Delete Role")
     @DeleteMapping("/{roleCode}")
-    @Authorize(permissionCodes = PermissionCode.AUTHORITY_MANAGEMENT_WRITE)
+    @Authorize(menuId = MenuId.AUTHORITY_MANAGEMENT, permissionCode = PermissionCode.WRITE)
     public RestResponse<Boolean> deleteRole(@Valid @RequestBody RoleDelete roleDelete) {
         roleService.deleteRole(roleDelete);
         return RestResponse.ofSuccess(true);
@@ -83,7 +84,7 @@ public class RoleController {
 
     @Operation(summary = "Operate Roles")
     @PostMapping("/operation")
-    @Authorize(permissionCodes = PermissionCode.AUTHORITY_MANAGEMENT_WRITE)
+    @Authorize(menuId = MenuId.AUTHORITY_MANAGEMENT, permissionCode = PermissionCode.WRITE)
     public RestResponse<Boolean> operationRoles(@Valid @RequestBody RoleOperation roleOperation) {
         roleService.operateRoles(roleOperation);
         return RestResponse.ofSuccess(true);

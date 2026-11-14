@@ -21,7 +21,7 @@ public interface MenuRepository {
 
     Optional<Menu> selectMenu(MenuSearch menuSearch);
 
-    List<MenuTreeNode> selectMenuTreeNodes(List<String> permissionCodes);
+    List<MenuTreeNode> selectMenuTreeNodes(List<String> menuIds);
 
     int insertMenu(MenuSave menuSave);
 

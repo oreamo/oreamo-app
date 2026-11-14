@@ -87,7 +87,6 @@ public class TranslationKey {
             public static final String MENU_TYPE = "menu.label.MENU_TYPE";
             public static final String PARENT_MENU_ID = "menu.label.PARENT_MENU_ID";
             public static final String URL = "menu.label.URL";
-            public static final String MENU_PERMISSION_CODE = "menu.label.MENU_PERMISSION_CODE";
         }
 
         public static class Message {

@@ -39,10 +39,10 @@ public class RoleSave extends OperationAuthor {
     @Min(value = 1, message = TranslationKey.Common.Label.SORT_ORDER)
     private Integer sortOrder;
 
-    @Schema(description = "Permission Codes")
-    private List<String> permissionCodes;
+    @Schema(description = "Role Permissions")
+    private List<RolePermission> rolePermissions;
 
-    public boolean hasPermissionCodes() {
-        return !CollectionUtils.isEmpty(permissionCodes);
+    public boolean hasRolePermissions() {
+        return !CollectionUtils.isEmpty(rolePermissions);
     }
 }

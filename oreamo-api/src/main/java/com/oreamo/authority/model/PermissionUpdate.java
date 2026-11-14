@@ -18,7 +18,7 @@ import lombok.Setter;
 @NoArgsConstructor
 public class PermissionUpdate extends OperationAuthor {
 
-    @Schema(description = "Permission Code", example = "USER_MANAGEMENT_READ")
+    @Schema(description = "Permission Code", example = "READ")
     @NotBlank(message = TranslationKey.Authority.Label.PERMISSION_CODE)
     private String permissionCode;
 

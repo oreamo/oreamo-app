@@ -30,15 +30,23 @@ public class MenuController {
 
     @Operation(summary = "Get Menus")
     @GetMapping
-    @Authorize(permissionCodes = PermissionCode.MENU_MANAGEMENT_READ)
+    @Authorize(menuId = MenuId.MENU_MANAGEMENT, permissionCode = PermissionCode.READ)
     public RestResponse<PageResponse<Menu>> getMenus(@Valid @ModelAttribute MenusSearch menusSearch) {
         Page<Menu> pagedMenus = menuService.getMenus(menusSearch);
         return RestResponse.ofSuccess(PageResponse.ofPage(pagedMenus));
     }
 
+    @Operation(summary = "Get Menu Infos")
+    @GetMapping("/infos")
+    public RestResponse<List<MenuInfo>> getMenuInfos() {
+        Page<Menu> menus = menuService.getMenus(MenusSearch.ofEnabledLeaf());
+        List<MenuInfo> menuInfos = menus.stream().map(Menu::toMenuInfo).toList();
+        return RestResponse.ofSuccess(menuInfos);
+    }
+
     @Operation(summary = "Get Menu")
     @GetMapping("/{menuId}")
-    @Authorize(permissionCodes = PermissionCode.MENU_MANAGEMENT_READ)
+    @Authorize(menuId = MenuId.MENU_MANAGEMENT, permissionCode = PermissionCode.READ)
     public RestResponse<Menu> getMenu(@ModelAttribute MenuSearch menuSearch) {
         Menu foundMenu = menuService.getMenu(menuSearch);
         return RestResponse.ofSuccess(foundMenu);
@@ -52,7 +60,7 @@ public class MenuController {
 
     @Operation(summary = "Post Menu")
     @PostMapping
-    @Authorize(permissionCodes = PermissionCode.MENU_MANAGEMENT_WRITE)
+    @Authorize(menuId = MenuId.MENU_MANAGEMENT, permissionCode = PermissionCode.WRITE)
     public RestResponse<Menu> postMenu(@Valid @RequestBody MenuSave menuSave) {
         Menu createdMenu = menuService.saveMenu(menuSave);
         return RestResponse.ofSuccess(createdMenu);
@@ -60,7 +68,7 @@ public class MenuController {
 
     @Operation(summary = "Put Menu")
     @PutMapping("/{menuId}")
-    @Authorize(permissionCodes = PermissionCode.MENU_MANAGEMENT_WRITE)
+    @Authorize(menuId = MenuId.MENU_MANAGEMENT, permissionCode = PermissionCode.WRITE)
     public RestResponse<Void> putMenu(@Valid @RequestBody MenuUpdate menuUpdate) {
         menuService.updateMenu(menuUpdate);
         return RestResponse.ofSuccess(null);
@@ -68,7 +76,7 @@ public class MenuController {
 
     @Operation(summary = "Delete Menu")
     @DeleteMapping("/{menuId}")
-    @Authorize(permissionCodes = PermissionCode.MENU_MANAGEMENT_WRITE)
+    @Authorize(menuId = MenuId.MENU_MANAGEMENT, permissionCode = PermissionCode.WRITE)
     public RestResponse<Boolean> deleteMenu(@Valid @RequestBody MenuDelete menuDelete) {
         menuService.deleteMenu(menuDelete);
         return RestResponse.ofSuccess(true);
@@ -76,7 +84,7 @@ public class MenuController {
 
     @Operation(summary = "Operate Menus")
     @PostMapping("/operation")
-    @Authorize(permissionCodes = PermissionCode.MENU_MANAGEMENT_WRITE)
+    @Authorize(menuId = MenuId.MENU_MANAGEMENT, permissionCode = PermissionCode.WRITE)
     public RestResponse<Boolean> operationMenus(@Valid @RequestBody MenuOperate menuOperate) {
         menuService.operateMenus(menuOperate);
         return RestResponse.ofSuccess(true);

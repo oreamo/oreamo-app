@@ -1,5 +1,7 @@
 package com.oreamo.authority;
 
+import java.util.List;
+
 import com.github.pagehelper.Page;
 import com.oreamo.authority.model.Permission;
 import com.oreamo.authority.model.PermissionDelete;
@@ -8,6 +10,7 @@ import com.oreamo.authority.model.PermissionSave;
 import com.oreamo.authority.model.PermissionSearch;
 import com.oreamo.authority.model.PermissionUpdate;
 import com.oreamo.authority.model.PermissionsSearch;
+import com.oreamo.authority.model.RolePermission;
 import com.oreamo.common.constant.TranslationKey;
 import com.oreamo.common.exception.RestException;
 
@@ -26,6 +29,11 @@ public class PermissionService {
     public Page<Permission> getPermissions(PermissionsSearch permissionsSearch) {
         permissionsSearch.validatePageable();
         return permissionRepository.selectPermissions(permissionsSearch);
+    }
+
+    @Transactional(readOnly = true)
+    public List<RolePermission> getRolePermissions(PermissionsSearch permissionsSearch) {
+        return permissionRepository.selectRolePermissions(permissionsSearch);
     }
 
     @Transactional(readOnly = true)

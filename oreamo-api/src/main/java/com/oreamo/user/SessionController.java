@@ -6,8 +6,8 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 
 import com.oreamo.authority.PermissionService;
-import com.oreamo.authority.model.Permission;
 import com.oreamo.authority.model.PermissionsSearch;
+import com.oreamo.authority.model.RolePermission;
 import com.oreamo.common.dto.RestResponse;
 import com.oreamo.core.security.AuthenticationHandler;
 import com.oreamo.user.model.SessionUser;
@@ -42,15 +42,11 @@ public class SessionController {
     @Operation(summary = "Get Session Info", description = "Get information about authenticated session user")
     @GetMapping("/user-info")
     public RestResponse<SessionUserInfo> getSessionUserInfo(@AuthenticationPrincipal SessionUser sessionUser) {
-        List<String> permissionCodes =
-                permissionService
-                        .getPermissions(PermissionsSearch.ofEnabledRoleCode(sessionUser.getRoleCode()))
-                        .stream()
-                        .map(Permission::getPermissionCode)
-                        .toList();
+        List<RolePermission> rolePermissions =
+                permissionService.getRolePermissions(PermissionsSearch.ofEnabledRoleCode(sessionUser.getRoleCode()));
         UserProfileImage userProfileImage =
                 userService.getUserProfileImage(UserSearch.ofUsername(sessionUser.getUsername()));
-        SessionUserInfo sessionUserInfo = sessionUser.toPublicInfo(permissionCodes, userProfileImage);
+        SessionUserInfo sessionUserInfo = sessionUser.toPublicInfo(rolePermissions, userProfileImage);
         return RestResponse.ofSuccess(sessionUserInfo);
     }
 

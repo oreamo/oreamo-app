@@ -10,8 +10,8 @@ import java.util.stream.Collectors;
 
 import com.github.pagehelper.Page;
 import com.oreamo.authority.PermissionService;
-import com.oreamo.authority.model.Permission;
 import com.oreamo.authority.model.PermissionsSearch;
+import com.oreamo.authority.model.RolePermission;
 import com.oreamo.common.constant.TranslationKey;
 import com.oreamo.common.exception.RestException;
 import com.oreamo.menu.model.*;
@@ -46,15 +46,16 @@ public class MenuService {
 
     @Transactional(readOnly = true)
     public List<MenuTreeNode> getMenuTree(String roleCode) {
-        List<String> permissionCodes =
-                permissionService.getPermissions(PermissionsSearch.ofEnabledRoleCode(roleCode)).stream()
-                        .map(Permission::getPermissionCode)
+        List<String> readableMenuIds =
+                permissionService.getRolePermissions(PermissionsSearch.ofEnabledRoleCode(roleCode)).stream()
+                        .filter(RolePermission::isReadable)
+                        .map(RolePermission::getMenuId)
                         .toList();
-        if (CollectionUtils.isEmpty(permissionCodes)) {
+        if (CollectionUtils.isEmpty(readableMenuIds)) {
             return List.of();
         }
 
-        List<MenuTreeNode> menus = menuRepository.selectMenuTreeNodes(permissionCodes);
+        List<MenuTreeNode> menus = menuRepository.selectMenuTreeNodes(readableMenuIds);
 
         Map<String, MenuTreeNode> map = menus.stream().collect(Collectors.toMap(MenuTreeNode::getMenuId, menu -> menu));
 

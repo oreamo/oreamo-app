@@ -4,8 +4,9 @@
 
     <resultMap id="roleMap" type="com.oreamo.authority.model.Role">
         <id property="roleCode" column="ROLE_CODE" />
-        <collection property="permissionCodes" ofType="java.lang.String">
-            <result column="PERMISSION_CODE" />
+        <collection property="rolePermissions" ofType="com.oreamo.authority.model.RolePermission">
+            <result property="menuId" column="MENU_ID" />
+            <result property="permissionCode" column="PERMISSION_CODE" />
         </collection>
     </resultMap>
 
@@ -52,6 +53,7 @@
              , R.CREATED_AT
              , R.UPDATED_BY
              , R.UPDATED_AT
+             , RP.MENU_ID
              , RP.PERMISSION_CODE
           FROM TB_ROLE R
           LEFT JOIN TB_ROLE_PERMISSION RP
@@ -60,7 +62,7 @@
         <if test="roleCode != null and roleCode != ''">
            AND R.ROLE_CODE = #{roleCode}
         </if>
-         ORDER BY R.SORT_ORDER, RP.PERMISSION_CODE
+         ORDER BY R.SORT_ORDER, RP.MENU_ID, RP.PERMISSION_CODE
     </select>
 
     <insert id="insertRole"
@@ -86,12 +88,14 @@
             parameterType="com.oreamo.authority.model.RoleSave">
         INSERT INTO TB_ROLE_PERMISSION (
             ROLE_CODE
+          , MENU_ID
           , PERMISSION_CODE
         ) VALUES
-        <foreach collection="permissionCodes" item="permissionCode" separator=",">
+        <foreach collection="rolePermissions" item="rolePermission" separator=",">
         (
             #{roleCode}
-          , #{permissionCode}
+          , #{rolePermission.menuId}
+          , #{rolePermission.permissionCode}
         )
         </foreach>
     </insert>
@@ -117,12 +121,14 @@
             parameterType="com.oreamo.authority.model.RoleUpdate">
         INSERT INTO TB_ROLE_PERMISSION (
             ROLE_CODE
+          , MENU_ID
           , PERMISSION_CODE
         ) VALUES
-        <foreach collection="permissionCodes" item="permissionCode" separator=",">
+        <foreach collection="rolePermissions" item="rolePermission" separator=",">
         (
             #{roleCode}
-          , #{permissionCode}
+          , #{rolePermission.menuId}
+          , #{rolePermission.permissionCode}
         )
         </foreach>
     </insert>
