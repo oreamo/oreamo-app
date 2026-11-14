@@ -25,7 +25,8 @@ Selects the target repositories (Git Target) of a git workflow, which lasts from
 
 #### 2. Ask
 
-- Ask with the `AskUserQuestion` tool: header `Repository`, `multiSelect: true`, options `Application`, `Frontend`, `Backend`, `Agent` with the description `{branch}, {changes} changes`.
+- If only one repository has `Changes` more than `0`, select it without asking.
+- Otherwise, ask with the `AskUserQuestion` tool: header `Repository`, `multiSelect: true`, options `Application`, `Frontend`, `Backend`, `Agent` with the description `{branch}, {changes} changes`.
 
 #### 3. Result
 
