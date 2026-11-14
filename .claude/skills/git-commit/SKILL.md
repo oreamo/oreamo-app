@@ -29,7 +29,11 @@ bash ${CLAUDE_SKILL_DIR}/scripts/collect-target.sh {repository path}
 
 - `Target` is `staged` if there are staged changes, otherwise `unstaged`. If it is `none`, stop.
 
-#### 3. Analyze
+#### 3. Branch
+
+- If the current branch is `develop`, create a new branch for the changes with the `git-branch-create` skill first.
+
+#### 4. Analyze
 
 - Select the matching label of `Labels` for the changes. Only if one label cannot cover all `Target Files`, group the files by label.
 - Type: `(type: {type})` of the label description if exists, otherwise the label name.
@@ -40,7 +44,7 @@ bash ${CLAUDE_SKILL_DIR}/scripts/collect-target.sh {repository path}
 bash ${CLAUDE_SKILL_DIR}/scripts/collect-log.sh {repository path} {type}
 ```
 
-#### 4. Commit
+#### 5. Commit
 
 - Commit each group with its files. For a renamed file, pass both paths.
 
