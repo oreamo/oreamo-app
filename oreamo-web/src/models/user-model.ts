@@ -35,8 +35,8 @@ export interface User extends DataRecord {
 
 export interface UserSearch {
   username?: string;
-  roleCode: string;
-  dataStatus: string;
+  roleCode?: string;
+  dataStatus?: string;
 }
 
 export interface UserSave {
