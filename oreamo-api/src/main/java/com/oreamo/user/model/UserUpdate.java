@@ -1,7 +1,9 @@
 package com.oreamo.user.model;
 
+import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
+import jakarta.validation.constraints.Size;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.oreamo.common.constant.TranslationKey;
@@ -21,6 +23,17 @@ public class UserUpdate extends OperationAuthor {
     @Schema(description = "Username")
     @NotBlank(message = TranslationKey.User.Label.USERNAME)
     private String username;
+
+    @Schema(description = "Name", example = "Admin")
+    @NotBlank(message = TranslationKey.User.Label.NAME)
+    @Size(max = 100, message = TranslationKey.User.Label.NAME)
+    private String name;
+
+    @Schema(description = "Email", example = "user@example.com")
+    @NotBlank(message = TranslationKey.User.Label.EMAIL)
+    @Email(message = TranslationKey.User.Label.EMAIL)
+    @Size(max = 100, message = TranslationKey.User.Label.EMAIL)
+    private String email;
 
     @JsonIgnore
     @Schema(hidden = true)

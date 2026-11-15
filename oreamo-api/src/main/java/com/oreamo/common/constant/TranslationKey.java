@@ -46,6 +46,8 @@ public class TranslationKey {
 
             public static final String USER = "user.label.USER";
             public static final String USERNAME = "user.label.USERNAME";
+            public static final String NAME = "user.label.NAME";
+            public static final String EMAIL = "user.label.EMAIL";
             public static final String PASSWORD = "user.label.PASSWORD";
             public static final String PROFILE_IMAGE = "user.label.PROFILE_IMAGE";
         }

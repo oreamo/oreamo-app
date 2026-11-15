@@ -1,6 +1,8 @@
 CREATE TABLE TB_USER
 (
     USERNAME                    VARCHAR(50)  NOT NULL UNIQUE,
+    NAME                        VARCHAR(100) NOT NULL,
+    EMAIL                       VARCHAR(100) NOT NULL,
     PASSWORD                    VARCHAR(255) NOT NULL,
     ROLE_CODE                   VARCHAR(50)  NOT NULL,
     PROFILE_IMAGE_FILE_GROUP_ID VARCHAR(36)  NULL,
