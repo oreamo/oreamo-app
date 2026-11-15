@@ -1,9 +1,9 @@
 import { UserProfileImageUpdate } from "@/models/user-model";
 import { useAction } from "@/resources/_hooks/useAction";
 
-export function useSessionProfileImageUpdate() {
+export function useUserSessionProfileImageUpdate() {
   return useAction<UserProfileImageUpdate, void>({
-    url: "/session/profile-image",
+    url: "/user-session/profile-image",
     method: "put",
     invalidateUrls: ["/session/user-info"],
   });

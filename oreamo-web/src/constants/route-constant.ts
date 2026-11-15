@@ -17,6 +17,16 @@ export const ROUTE = {
     ID: "SETTING",
     PATH: "setting",
     URL: "/setting",
+    USER_SETTING: {
+      ID: "USER_SETTING",
+      PATH: "user",
+      URL: "/setting/user",
+      PROFILE: {
+        ID: "PROFILE",
+        PATH: "profile",
+        URL: "/setting/user/profile",
+      },
+    },
     SYSTEM_SETTING: {
       ID: "SYSTEM_SETTING",
       PATH: "system",

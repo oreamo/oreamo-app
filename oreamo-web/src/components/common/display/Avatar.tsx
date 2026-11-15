@@ -1,4 +1,4 @@
-import { Avatar, styled } from "@mui/material";
+import { Avatar as MuiAvatar, styled } from "@mui/material";
 
 import { Text, TextProps } from "@/components/common/display/Text";
 import { API_URL } from "@/libs/http-instance";
@@ -12,19 +12,19 @@ const AVATAR_SIZE = {
   { size: number; textSize: TextProps["size"] }
 >;
 
-interface UserAvatarProps {
-  username: string;
+interface AvatarProps {
+  name: string;
   imageFileGroupId?: string;
   imageFileId?: string;
   size?: keyof typeof AVATAR_SIZE;
 }
 
-export function UserAvatar({
-  username,
+export function Avatar({
+  name,
   imageFileGroupId,
   imageFileId,
   size = "small",
-}: UserAvatarProps) {
+}: AvatarProps) {
   const { size: avatarSize, textSize } = AVATAR_SIZE[size];
 
   const imageUrl =
@@ -33,15 +33,15 @@ export function UserAvatar({
       : undefined;
 
   return (
-    <StyledUserAvatar avatarSize={avatarSize} src={imageUrl}>
+    <StyledAvatar avatarSize={avatarSize} src={imageUrl}>
       <Text size={textSize} weight="semibold" color="inherit">
-        {username.charAt(0).toUpperCase()}
+        {name.charAt(0).toUpperCase()}
       </Text>
-    </StyledUserAvatar>
+    </StyledAvatar>
   );
 }
 
-const StyledUserAvatar = styled(Avatar, {
+const StyledAvatar = styled(MuiAvatar, {
   shouldForwardProp: (prop) => prop !== "avatarSize",
 })<{ avatarSize: number }>(({ theme, avatarSize }) => ({
   width: avatarSize,
