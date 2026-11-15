@@ -44,6 +44,12 @@ public class UserService {
     private String initialPassword;
 
     @Transactional(readOnly = true)
+    public Page<User> getUsers(UsersSearch usersSearch) {
+        usersSearch.validatePageable();
+        return userRepository.selectUsers(usersSearch);
+    }
+
+    @Transactional(readOnly = true)
     public User getUser(UserSearch userSearch) {
         return userRepository
                 .selectUser(userSearch)
@@ -52,9 +58,19 @@ public class UserService {
     }
 
     @Transactional(readOnly = true)
-    public Page<User> getUsers(UsersSearch usersSearch) {
-        usersSearch.validatePageable();
-        return userRepository.selectUsers(usersSearch);
+    public UserProfileImage getUserProfileImage(UserSearch userSearch) {
+        User foundUser = getUser(userSearch);
+        if (!foundUser.hasProfileImage()) {
+            return UserProfileImage.ofEmpty();
+        }
+
+        String profileImageFileGroupId = foundUser.getProfileImageFileGroupId();
+        FilesSearch filesSearch = FilesSearch.ofFileGroupId(profileImageFileGroupId);
+        return fileService
+                .getFileGroup(filesSearch)
+                .findLatestFile()
+                .map(fileInfo -> UserProfileImage.ofFileInfo(profileImageFileGroupId, fileInfo))
+                .orElseGet(() -> UserProfileImage.ofFileGroupId(profileImageFileGroupId));
     }
 
     @Transactional
@@ -80,6 +96,18 @@ public class UserService {
     }
 
     @Transactional
+    public void resetUserPassword(UserPasswordReset userPasswordReset) {
+        UserSearch userSearch = UserSearch.ofUsername(userPasswordReset.getUsername());
+        getUser(userSearch);
+
+        UserUpdate userUpdate = userPasswordReset.toUserUpdate(passwordEncoder, initialPassword);
+        int updatedUserCount = userRepository.updateUser(userUpdate);
+        if (updatedUserCount == 0) {
+            throw new RestException(TranslationKey.Common.Message.UPDATE_FAILURE);
+        }
+    }
+
+    @Transactional
     public void updateUser(UserUpdate userUpdate) {
         UserSearch userSearch = UserSearch.ofUsername(userUpdate.getUsername());
         getUser(userSearch);
@@ -88,22 +116,6 @@ public class UserService {
         if (updatedUserCount == 0) {
             throw new RestException(TranslationKey.Common.Message.UPDATE_FAILURE);
         }
-    }
-
-    @Transactional(readOnly = true)
-    public UserProfileImage getUserProfileImage(UserSearch userSearch) {
-        User foundUser = getUser(userSearch);
-        if (!foundUser.hasProfileImage()) {
-            return UserProfileImage.ofEmpty();
-        }
-
-        String profileImageFileGroupId = foundUser.getProfileImageFileGroupId();
-        FilesSearch filesSearch = FilesSearch.ofFileGroupId(profileImageFileGroupId);
-        return fileService
-                .getFileGroup(filesSearch)
-                .findLatestFile()
-                .map(fileInfo -> UserProfileImage.ofFileInfo(profileImageFileGroupId, fileInfo))
-                .orElseGet(() -> UserProfileImage.ofFileGroupId(profileImageFileGroupId));
     }
 
     @Transactional
@@ -136,6 +148,17 @@ public class UserService {
     }
 
     @Transactional
+    public void deleteUser(UserDelete userDelete) {
+        UserSearch userSearch = UserSearch.ofUsername(userDelete.getUsername());
+        getUser(userSearch);
+
+        int deletedUserCount = userRepository.deleteUser(userDelete);
+        if (deletedUserCount == 0) {
+            throw new RestException(TranslationKey.Common.Message.DELETE_FAILURE);
+        }
+    }
+
+    @Transactional
     public void deleteUserProfileImage(UserProfileImageDelete userProfileImageDelete) {
         UserProfileImageUpdate userProfileImageUpdate = userProfileImageDelete.toUserProfileImageUpdate();
         UserSearch userSearch = UserSearch.ofUsername(userProfileImageUpdate.getUsername());
@@ -144,29 +167,6 @@ public class UserService {
         int updatedUserCount = userRepository.updateUserProfileImage(userProfileImageUpdate);
         if (updatedUserCount == 0) {
             throw new RestException(TranslationKey.Common.Message.UPDATE_FAILURE);
-        }
-    }
-
-    @Transactional
-    public void resetUserPassword(UserPasswordReset userPasswordReset) {
-        UserSearch userSearch = UserSearch.ofUsername(userPasswordReset.getUsername());
-        getUser(userSearch);
-
-        UserUpdate userUpdate = userPasswordReset.toUserUpdate(passwordEncoder, initialPassword);
-        int updatedUserCount = userRepository.updateUser(userUpdate);
-        if (updatedUserCount == 0) {
-            throw new RestException(TranslationKey.Common.Message.UPDATE_FAILURE);
-        }
-    }
-
-    @Transactional
-    public void deleteUser(UserDelete userDelete) {
-        UserSearch userSearch = UserSearch.ofUsername(userDelete.getUsername());
-        getUser(userSearch);
-
-        int deletedUserCount = userRepository.deleteUser(userDelete);
-        if (deletedUserCount == 0) {
-            throw new RestException(TranslationKey.Common.Message.DELETE_FAILURE);
         }
     }
 
