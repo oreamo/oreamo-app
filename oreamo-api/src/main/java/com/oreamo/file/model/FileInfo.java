@@ -19,6 +19,9 @@ public class FileInfo {
 
     public static final Set<String> IMAGE_CONTENT_TYPES = Set.of("image/png", "image/jpeg", "image/webp", "image/gif");
 
+    @Schema(description = "File Group ID")
+    private String fileGroupId;
+
     @Schema(description = "File ID")
     private String fileId;
 
@@ -33,10 +36,6 @@ public class FileInfo {
 
     @Schema(description = "File Size")
     private long fileSize;
-
-    @JsonIgnore
-    @Schema(hidden = true)
-    private String fileGroupId;
 
     @JsonIgnore
     @Schema(hidden = true)

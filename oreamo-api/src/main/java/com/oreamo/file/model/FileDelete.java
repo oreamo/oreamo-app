@@ -17,6 +17,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class FileDelete extends OperationAuthor {
 
+    @Schema(description = "File Group ID", hidden = true)
+    private String fileGroupId;
+
     @Schema(description = "File ID", hidden = true)
     private String fileId;
 }

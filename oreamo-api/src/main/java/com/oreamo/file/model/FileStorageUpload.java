@@ -19,11 +19,11 @@ import lombok.Getter;
 @AllArgsConstructor(access = AccessLevel.PRIVATE)
 public class FileStorageUpload {
 
-    @Schema(description = "File ID")
-    private final String fileId;
-
     @Schema(description = "File Group ID")
     private final String fileGroupId;
+
+    @Schema(description = "File ID")
+    private final String fileId;
 
     @Schema(description = "File Name")
     private final String fileName;
@@ -54,8 +54,8 @@ public class FileStorageUpload {
                 Objects.requireNonNullElse(multipartFile.getContentType(), MediaType.APPLICATION_OCTET_STREAM_VALUE);
         String filePath = fileGroupId + "/" + fileId;
         return new FileStorageUpload(
-                fileId,
                 fileGroupId,
+                fileId,
                 fileName,
                 fileExtension,
                 fileContentType,

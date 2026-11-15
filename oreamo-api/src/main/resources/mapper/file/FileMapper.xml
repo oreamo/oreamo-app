@@ -5,7 +5,8 @@
     <select id="selectFiles"
             parameterType="com.oreamo.file.model.FilesSearch"
             resultType="com.oreamo.file.model.FileInfo">
-        SELECT F.FILE_ID
+        SELECT F.FILE_GROUP_ID
+             , F.FILE_ID
              , F.FILE_NAME
              , F.FILE_EXTENSION
              , F.FILE_CONTENT_TYPE
@@ -20,23 +21,24 @@
     <select id="selectFile"
             parameterType="com.oreamo.file.model.FileSearch"
             resultType="com.oreamo.file.model.FileInfo">
-        SELECT F.FILE_ID
+        SELECT F.FILE_GROUP_ID
+             , F.FILE_ID
              , F.FILE_NAME
              , F.FILE_EXTENSION
              , F.FILE_CONTENT_TYPE
              , F.FILE_SIZE
-             , F.FILE_GROUP_ID
              , F.FILE_PATH
           FROM TB_FILE F
-         WHERE F.FILE_ID     = #{fileId}
-           AND F.DATA_STATUS = 'ENABLED'
+         WHERE F.FILE_GROUP_ID = #{fileGroupId}
+           AND F.FILE_ID       = #{fileId}
+           AND F.DATA_STATUS   = 'ENABLED'
     </select>
 
     <insert id="insertFiles"
             parameterType="java.util.List">
         INSERT INTO TB_FILE (
-            FILE_ID
-          , FILE_GROUP_ID
+            FILE_GROUP_ID
+          , FILE_ID
           , FILE_NAME
           , FILE_EXTENSION
           , FILE_CONTENT_TYPE
@@ -47,8 +49,8 @@
         ) VALUES
         <foreach collection="list" item="fileStorageUpload" separator=",">
         (
-            #{fileStorageUpload.fileId}
-          , #{fileStorageUpload.fileGroupId}
+            #{fileStorageUpload.fileGroupId}
+          , #{fileStorageUpload.fileId}
           , #{fileStorageUpload.fileName}
           , #{fileStorageUpload.fileExtension}
           , #{fileStorageUpload.fileContentType}
@@ -77,11 +79,12 @@
     <update id="deleteFile"
             parameterType="com.oreamo.file.model.FileDelete">
         UPDATE TB_FILE
-           SET DATA_STATUS = 'DISABLED'
-             , UPDATED_BY  = #{author}
-             , UPDATED_AT  = NOW()
-         WHERE FILE_ID     = #{fileId}
-           AND DATA_STATUS = 'ENABLED'
+           SET DATA_STATUS   = 'DISABLED'
+             , UPDATED_BY    = #{author}
+             , UPDATED_AT    = NOW()
+         WHERE FILE_GROUP_ID = #{fileGroupId}
+           AND FILE_ID       = #{fileId}
+           AND DATA_STATUS   = 'ENABLED'
     </update>
 
 </mapper>
