@@ -44,9 +44,12 @@ public class SessionUser implements UserDetails {
         return username;
     }
 
-    public SessionUserInfo toPublicInfo(List<RolePermission> rolePermissions, UserProfileImage userProfileImage) {
+    public SessionUserInfo toPublicInfo(
+            User user, List<RolePermission> rolePermissions, UserProfileImage userProfileImage) {
         return SessionUserInfo.builder()
                 .username(username)
+                .name(user.getName())
+                .email(user.getEmail())
                 .roleCode(roleCode)
                 .rolePermissions(rolePermissions)
                 .profileImageFileGroupId(userProfileImage.getFileGroupId())

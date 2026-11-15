@@ -3,7 +3,6 @@ package com.oreamo.user;
 import java.util.List;
 
 import jakarta.servlet.http.HttpServletResponse;
-import jakarta.validation.Valid;
 
 import com.oreamo.authority.PermissionService;
 import com.oreamo.authority.model.PermissionsSearch;
@@ -12,9 +11,8 @@ import com.oreamo.common.dto.RestResponse;
 import com.oreamo.core.security.AuthenticationHandler;
 import com.oreamo.user.model.SessionUser;
 import com.oreamo.user.model.SessionUserInfo;
+import com.oreamo.user.model.User;
 import com.oreamo.user.model.UserProfileImage;
-import com.oreamo.user.model.UserProfileImageDelete;
-import com.oreamo.user.model.UserProfileImageUpdate;
 import com.oreamo.user.model.UserSearch;
 
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
@@ -44,26 +42,11 @@ public class SessionController {
     public RestResponse<SessionUserInfo> getSessionUserInfo(@AuthenticationPrincipal SessionUser sessionUser) {
         List<RolePermission> rolePermissions =
                 permissionService.getRolePermissions(PermissionsSearch.ofEnabledRoleCode(sessionUser.getRoleCode()));
-        UserProfileImage userProfileImage =
-                userService.getUserProfileImage(UserSearch.ofUsername(sessionUser.getUsername()));
-        SessionUserInfo sessionUserInfo = sessionUser.toPublicInfo(rolePermissions, userProfileImage);
+        UserSearch userSearch = UserSearch.ofUsername(sessionUser.getUsername());
+        User user = userService.getUser(userSearch);
+        UserProfileImage userProfileImage = userService.getUserProfileImage(userSearch);
+        SessionUserInfo sessionUserInfo = sessionUser.toPublicInfo(user, rolePermissions, userProfileImage);
         return RestResponse.ofSuccess(sessionUserInfo);
-    }
-
-    @Operation(summary = "Put Session Profile Image", description = "Set profile image of authenticated session user")
-    @PutMapping("/profile-image")
-    public RestResponse<Void> putProfileImage(@Valid @RequestBody UserProfileImageUpdate userProfileImageUpdate) {
-        userService.updateUserProfileImage(userProfileImageUpdate);
-        return RestResponse.ofSuccess(null);
-    }
-
-    @Operation(
-            summary = "Delete Session Profile Image",
-            description = "Remove profile image of authenticated session user")
-    @DeleteMapping("/profile-image")
-    public RestResponse<Boolean> deleteProfileImage(@ModelAttribute UserProfileImageDelete userProfileImageDelete) {
-        userService.deleteUserProfileImage(userProfileImageDelete);
-        return RestResponse.ofSuccess(true);
     }
 
     @Operation(
