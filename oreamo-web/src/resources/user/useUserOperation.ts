@@ -4,6 +4,6 @@ import { useAction } from "@/resources/_hooks/useAction";
 export function useUserOperation() {
   return useAction<UserOperate, boolean>({
     url: "/users/operation",
-    invalidateUrls: ["/users"],
+    invalidateUrls: ["/users", "/session/user-info"],
   });
 }

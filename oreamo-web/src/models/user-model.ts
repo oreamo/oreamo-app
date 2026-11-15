@@ -8,10 +8,17 @@ export interface LoginInfo {
 
 export interface UserInfo {
   username: string;
+  name: string;
+  email: string;
   roleCode: string;
   rolePermissions: RolePermission[];
   profileImageFileGroupId?: string;
   profileImageFileId?: string;
+}
+
+export interface UserSessionUpdate {
+  name: string;
+  email: string;
 }
 
 export interface UserProfileImageUpdate {
@@ -20,18 +27,22 @@ export interface UserProfileImageUpdate {
 
 export interface User extends DataRecord {
   username: string;
+  name: string;
+  email: string;
   password?: string;
   roleCode: string;
 }
 
 export interface UserSearch {
   username?: string;
-  roleCode?: string;
-  dataStatus?: string;
+  roleCode: string;
+  dataStatus: string;
 }
 
 export interface UserSave {
   username: string;
+  name: string;
+  email: string;
   password?: string;
   roleCode: string;
   dataStatus: string;
@@ -39,6 +50,8 @@ export interface UserSave {
 
 export interface UserUpdate {
   username: string;
+  name: string;
+  email: string;
   roleCode: string;
   dataStatus: string;
 }

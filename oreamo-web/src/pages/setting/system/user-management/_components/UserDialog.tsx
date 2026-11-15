@@ -15,6 +15,8 @@ import { useUserUpdate } from "@/resources/user/useUserUpdate";
 
 interface UserDetail {
   username: string;
+  name: string;
+  email: string;
   password?: string;
   roleCode: string;
   dataStatus: DataStatus;
@@ -54,6 +56,8 @@ export function UserDialog({
   const toUserDetail = (user: User): UserDetail => {
     return {
       username: user.username,
+      name: user.name,
+      email: user.email,
       roleCode: user.roleCode,
       dataStatus: user.dataStatus,
     };
@@ -67,6 +71,8 @@ export function UserDialog({
       saveUser(
         {
           username: data.username,
+          name: data.name,
+          email: data.email,
           password: data.password as string,
           roleCode: data.roleCode,
           dataStatus: data.dataStatus,
@@ -79,6 +85,8 @@ export function UserDialog({
     updateUser(
       {
         username: data.username,
+        name: data.name,
+        email: data.email,
         roleCode: data.roleCode,
         dataStatus: data.dataStatus,
       },
@@ -126,6 +134,30 @@ export function UserDialog({
                 : undefined;
             },
           }}
+        />
+      </DetailForm.Item>
+      <DetailForm.Item
+        title={translate(TRANSLATION_KEY.user.label.NAME)}
+        required
+      >
+        <TextInputField<UserDetail, "name">
+          name="name"
+          label={translate(TRANSLATION_KEY.user.label.NAME)}
+          required
+          readonly={readonly}
+          maxLength={100}
+        />
+      </DetailForm.Item>
+      <DetailForm.Item
+        title={translate(TRANSLATION_KEY.user.label.EMAIL)}
+        required
+      >
+        <TextInputField<UserDetail, "email">
+          name="email"
+          label={translate(TRANSLATION_KEY.user.label.EMAIL)}
+          required
+          readonly={readonly}
+          maxLength={100}
         />
       </DetailForm.Item>
       {!isEditMode && (

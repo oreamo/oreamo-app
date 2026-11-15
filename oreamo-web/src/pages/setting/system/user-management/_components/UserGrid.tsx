@@ -64,11 +64,15 @@ export function UserGrid({
       {
         userSaves: newRows.map((row) => ({
           username: row.username,
+          name: row.name,
+          email: row.email,
           roleCode: row.roleCode,
           dataStatus: row.dataStatus,
         })),
         userUpdates: editedRows.map((row) => ({
           username: row.username,
+          name: row.name,
+          email: row.email,
           roleCode: row.roleCode,
           dataStatus: row.dataStatus,
         })),
@@ -86,13 +90,12 @@ export function UserGrid({
 
   const handleResetUserPassword = (data: User) => {
     const messageVariables = {
-      updateTarget: TRANSLATION_KEY.user.label.PASSWORD,
-      updateTargetValue: data.username,
+      username: data.username,
     };
 
     confirm({
       content: translate(
-        TRANSLATION_KEY.common.message.UPDATE_CONFIRM,
+        TRANSLATION_KEY.user.message.USER_PASSWORD_RESET_CONFIRM,
         messageVariables,
       ),
       onConfirm: () => {
@@ -103,7 +106,7 @@ export function UserGrid({
               toast({
                 type: "success",
                 message: translate(
-                  TRANSLATION_KEY.common.message.UPDATE_SUCCESS,
+                  TRANSLATION_KEY.user.message.USER_PASSWORD_RESET_SUCCESS,
                   messageVariables,
                 ),
               });
@@ -143,6 +146,32 @@ export function UserGrid({
               cell: {
                 type: "text",
                 addable: true,
+              },
+            },
+          },
+          {
+            field: "name",
+            headerName: translate(TRANSLATION_KEY.user.label.NAME),
+            minWidth: GRID_WIDTH.lg,
+            flex: 1,
+            editable: true,
+            context: {
+              required: true,
+              cell: {
+                type: "text",
+              },
+            },
+          },
+          {
+            field: "email",
+            headerName: translate(TRANSLATION_KEY.user.label.EMAIL),
+            minWidth: GRID_WIDTH.lg,
+            flex: 1,
+            editable: true,
+            context: {
+              required: true,
+              cell: {
+                type: "text",
               },
             },
           },
