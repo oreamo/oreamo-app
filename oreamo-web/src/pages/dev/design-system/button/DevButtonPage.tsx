@@ -27,12 +27,12 @@ const TOGGLE_OPTIONS: ToggleOptions[] = [
 ];
 
 const TOGGLE_ICON_OPTIONS: ToggleOptions[] = [
-  { value: "left", label: <Icon iconName="FormatAlignLeft" size="small" /> },
+  { value: "left", label: <Icon iconName="FormatAlignLeft" size="sm" /> },
   {
     value: "center",
-    label: <Icon iconName="FormatAlignCenter" size="small" />,
+    label: <Icon iconName="FormatAlignCenter" size="sm" />,
   },
-  { value: "right", label: <Icon iconName="FormatAlignRight" size="small" /> },
+  { value: "right", label: <Icon iconName="FormatAlignRight" size="sm" /> },
 ];
 
 export function DevButtonPage() {

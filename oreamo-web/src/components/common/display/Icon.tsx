@@ -4,10 +4,10 @@ export type IconName = keyof typeof MuiIcons;
 
 export interface IconProps {
   iconName: IconName;
-  size?: "small" | "medium" | "large";
+  size?: "xs" | "sm" | "md" | "lg" | "xl";
 }
 
-export function Icon({ iconName, size = "medium" }: IconProps) {
+export function Icon({ iconName, size = "md" }: IconProps) {
   const IconComponent = MuiIcons[iconName];
 
   return <IconComponent fontSize={size} />;

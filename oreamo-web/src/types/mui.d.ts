@@ -1,6 +1,7 @@
 import type {} from "@mui/material/styles";
 import "@mui/material/Dialog";
 import "@mui/material/IconButton";
+import "@mui/material/SvgIcon";
 
 import {
   BORDER_RADIUS,
@@ -84,6 +85,16 @@ declare module "@mui/material/IconButton" {
 
   interface IconButtonPropsVariantOverrides {
     outlined: true;
+  }
+}
+
+declare module "@mui/material/SvgIcon" {
+  interface SvgIconPropsSizeOverrides {
+    xs: true;
+    sm: true;
+    md: true;
+    lg: true;
+    xl: true;
   }
 }
 

@@ -113,7 +113,7 @@ export function UserProfile() {
           <MenuList disablePadding>
             <MenuItem onClick={handleEditProfileClick}>
               <Flex gap={2} align="center">
-                <Icon iconName="ManageAccountsOutlined" size="small" />
+                <Icon iconName="ManageAccountsOutlined" size="sm" />
                 <Text size="sm" color="inherit">
                   {translate(TRANSLATION_KEY.user.label.EDIT_PROFILE)}
                 </Text>
@@ -123,7 +123,7 @@ export function UserProfile() {
           <Divider />
           <StyledPreferenceContainer justify="between" align="center" gap={2}>
             <Flex gap={2} align="center">
-              <Icon iconName="ContrastOutlined" size="small" />
+              <Icon iconName="ContrastOutlined" size="sm" />
               <Text size="sm" color="inherit">
                 {translate(TRANSLATION_KEY.user.label.THEME)}
               </Text>
@@ -133,16 +133,16 @@ export function UserProfile() {
               options={[
                 {
                   value: "light",
-                  label: <Icon iconName="LightModeOutlined" size="small" />,
+                  label: <Icon iconName="LightModeOutlined" size="sm" />,
                 },
                 {
                   value: "dark",
-                  label: <Icon iconName="DarkModeOutlined" size="small" />,
+                  label: <Icon iconName="DarkModeOutlined" size="sm" />,
                 },
                 {
                   value: "system",
                   label: (
-                    <Icon iconName="SettingsBrightnessOutlined" size="small" />
+                    <Icon iconName="SettingsBrightnessOutlined" size="sm" />
                   ),
                 },
               ]}
@@ -153,7 +153,7 @@ export function UserProfile() {
           {isDesktop && (
             <StyledPreferenceContainer justify="between" align="center" gap={2}>
               <Flex gap={2} align="center">
-                <Icon iconName="TabOutlined" size="small" />
+                <Icon iconName="TabOutlined" size="sm" />
                 <Text size="sm" color="inherit">
                   {translate(TRANSLATION_KEY.user.label.MENU_TAB)}
                 </Text>
@@ -169,7 +169,7 @@ export function UserProfile() {
           <MenuList disablePadding>
             <MenuItem onClick={handleLogoutClick}>
               <Flex gap={2} align="center">
-                <Icon iconName="Logout" size="small" />
+                <Icon iconName="Logout" size="sm" />
                 <Text size="sm" color="inherit">
                   {translate(TRANSLATION_KEY.user.label.SIGN_OUT)}
                 </Text>

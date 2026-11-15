@@ -7,6 +7,7 @@ import { colorSchemeTheme } from "@/themes/color-scheme-theme";
 import { datePickerTheme } from "@/themes/date-picker-theme";
 import { dialogTheme } from "@/themes/dialog-theme";
 import { drawerTheme } from "@/themes/drawer-theme";
+import { iconTheme } from "@/themes/icon-theme";
 import { inputTheme } from "@/themes/input-theme";
 import { paperTheme } from "@/themes/paper-theme";
 import { progressTheme } from "@/themes/progress-theme";
@@ -31,6 +32,7 @@ export const theme = createTheme(
   datePickerTheme,
   dialogTheme,
   drawerTheme,
+  iconTheme,
   inputTheme,
   paperTheme,
   progressTheme,

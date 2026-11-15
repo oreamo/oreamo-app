@@ -12,7 +12,7 @@ export function Breadcrumb({ items }: BreadcrumbProps) {
   const currentItem = items.at(-1);
 
   return (
-    <MuiBreadcrumbs separator={<Icon iconName="NavigateNext" size="small" />}>
+    <MuiBreadcrumbs separator={<Icon iconName="NavigateNext" size="sm" />}>
       {parentItems.map((item, index) => (
         <Text key={`breadcrumb-item-${index}`} size="sm" color="secondary">
           {item}
