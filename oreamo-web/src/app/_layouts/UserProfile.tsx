@@ -89,6 +89,7 @@ export function UserProfile() {
       <StyledUserProfileButton onClick={handleProfileClick}>
         <UserAvatar
           username={userInfo.username}
+          imageFileGroupId={userInfo.profileImageFileGroupId}
           imageFileId={userInfo.profileImageFileId}
         />
       </StyledUserProfileButton>
@@ -102,6 +103,7 @@ export function UserProfile() {
           <StyledUserProfileWrapper gap={2} align="center">
             <UserAvatar
               username={userInfo.username}
+              imageFileGroupId={userInfo.profileImageFileGroupId}
               imageFileId={userInfo.profileImageFileId}
               size="medium"
             />

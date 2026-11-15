@@ -1,4 +1,5 @@
 export interface FileInfo {
+  fileGroupId: string;
   fileId: string;
   fileName: string;
   fileExtension: string;

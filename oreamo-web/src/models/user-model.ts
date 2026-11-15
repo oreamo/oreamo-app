@@ -10,8 +10,8 @@ export interface UserInfo {
   username: string;
   roleCode: string;
   rolePermissions: RolePermission[];
-  profileImageFileId?: string;
   profileImageFileGroupId?: string;
+  profileImageFileId?: string;
 }
 
 export interface UserProfileImageUpdate {

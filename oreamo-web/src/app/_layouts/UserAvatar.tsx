@@ -14,20 +14,23 @@ const AVATAR_SIZE = {
 
 interface UserAvatarProps {
   username: string;
+  imageFileGroupId?: string;
   imageFileId?: string;
   size?: keyof typeof AVATAR_SIZE;
 }
 
 export function UserAvatar({
   username,
+  imageFileGroupId,
   imageFileId,
   size = "small",
 }: UserAvatarProps) {
   const { size: avatarSize, textSize } = AVATAR_SIZE[size];
 
-  const imageUrl = imageFileId
-    ? `${API_URL}/files/${imageFileId}/view`
-    : undefined;
+  const imageUrl =
+    imageFileGroupId && imageFileId
+      ? `${API_URL}/files/${imageFileGroupId}/${imageFileId}/view`
+      : undefined;
 
   return (
     <StyledUserAvatar avatarSize={avatarSize} src={imageUrl}>

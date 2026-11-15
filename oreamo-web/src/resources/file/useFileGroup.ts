@@ -11,7 +11,7 @@ export function useFileGroup({
   enabled = true,
 }: UseFileGroupOptions) {
   return useFetch<FileGroup>({
-    url: `/files/groups/${fileGroupId}`,
+    url: `/files/${fileGroupId}`,
     enabled: enabled && !!fileGroupId,
   });
 }

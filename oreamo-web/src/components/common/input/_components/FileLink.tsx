@@ -9,6 +9,7 @@ interface FileLinkProps {
 
 export function FileLink({ file }: FileLinkProps) {
   const { mutate: downloadFile } = useFileDownload({
+    fileGroupId: file.fileGroupId,
     fileId: file.fileId,
   });
 

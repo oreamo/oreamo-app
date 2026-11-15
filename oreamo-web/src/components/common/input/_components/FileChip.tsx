@@ -33,11 +33,12 @@ export function FileChip({
   const [previewOpen, setPreviewOpen] = useState(false);
 
   const { mutate: downloadFile, isPending: isDownloading } = useFileDownload({
+    fileGroupId: file.fileGroupId,
     fileId: file.fileId,
   });
   const { mutate: deleteFile, isPending: isDeleting } = useFileDelete({
-    fileId: file.fileId,
     fileGroupId,
+    fileId: file.fileId,
   });
 
   const handleClick = (e: MouseEvent) => {
