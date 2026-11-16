@@ -35,7 +35,8 @@ bash ${CLAUDE_SKILL_DIR}/scripts/collect-target.sh {repository path}
 
 #### 4. Analyze
 
-- Select the matching label of `Labels` for the changes. Only if one label cannot cover all `Target Files`, group the files by label.
+- Group the `Target Files` by feature. Put a file shared by multiple features into the group of its main feature.
+- Select the matching label of `Labels` for each group.
 - Type: `(type: {type})` of the label description if exists, otherwise the label name.
 - Scope: the file name for a single file, the business domain for multiple files of one domain, otherwise none.
 - Fill `${CLAUDE_SKILL_DIR}/templates/commit-template.md` in English. Refer to the recent logs of the type only for the message style.
