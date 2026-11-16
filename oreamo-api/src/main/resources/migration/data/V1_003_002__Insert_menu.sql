@@ -2,6 +2,7 @@ INSERT INTO TB_MENU (MENU_ID, MENU_NAME, MENU_TYPE, URL, PARENT_MENU_ID, SORT_OR
 VALUES ('MAIN', 'Main', 'PAGE', '/', NULL, 100)
      , ('SETTING', 'Setting', 'GRP_NAV', '/setting', NULL, 800)
      , ('USER_SETTING', 'User Setting', 'GRP_NAV', '/setting/user', 'SETTING', 810)
+     , ('PROFILE', 'Profile', 'NAV', '/setting/user/profile', 'USER_SETTING', 811)
      , ('PROJECT_SETTING', 'Project Setting', 'GRP_NAV', '/setting/project', 'SETTING', 820)
      , ('SYSTEM_SETTING', 'System Setting', 'GRP_NAV', '/setting/system', 'SETTING', 830)
      , ('CODE_MANAGEMENT', 'Code Management', 'NAV', '/setting/system/code-management', 'SYSTEM_SETTING', 831)

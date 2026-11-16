@@ -2,28 +2,12 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.oreamo.user.UserRepository">
 
-    <select id="selectUser"
-            parameterType="com.oreamo.user.model.UserSearch"
-            resultType="com.oreamo.user.model.User">
-        SELECT U.USERNAME
-             , U.PASSWORD
-             , U.ROLE_CODE
-             , U.PROFILE_IMAGE_FILE_GROUP_ID
-             , U.DATA_STATUS
-             , U.CREATED_BY
-             , U.CREATED_AT
-             , U.UPDATED_BY
-             , U.UPDATED_AT
-          FROM TB_USER U
-        <if test="username != null and username != ''">
-         WHERE U.USERNAME = #{username}
-        </if>
-    </select>
-
     <select id="selectUsers"
             parameterType="com.oreamo.user.model.UsersSearch"
             resultType="com.oreamo.user.model.User">
         SELECT U.USERNAME
+             , U.NAME
+             , U.EMAIL
              , U.ROLE_CODE
              , U.DATA_STATUS
              , U.CREATED_BY
@@ -44,10 +28,32 @@
          ORDER BY U.USERNAME
     </select>
 
+    <select id="selectUser"
+            parameterType="com.oreamo.user.model.UserSearch"
+            resultType="com.oreamo.user.model.User">
+        SELECT U.USERNAME
+             , U.NAME
+             , U.EMAIL
+             , U.PASSWORD
+             , U.ROLE_CODE
+             , U.PROFILE_IMAGE_FILE_GROUP_ID
+             , U.DATA_STATUS
+             , U.CREATED_BY
+             , U.CREATED_AT
+             , U.UPDATED_BY
+             , U.UPDATED_AT
+          FROM TB_USER U
+        <if test="username != null and username != ''">
+         WHERE U.USERNAME = #{username}
+        </if>
+    </select>
+
     <insert id="insertUser"
             parameterType="com.oreamo.user.model.UserSave">
         INSERT INTO TB_USER (
             USERNAME
+          , NAME
+          , EMAIL
           , PASSWORD
           , ROLE_CODE
           , DATA_STATUS
@@ -55,6 +61,8 @@
           , UPDATED_BY
         ) VALUES (
             #{username}
+          , #{name}
+          , #{email}
           , #{password}
           , #{roleCode}
           , #{dataStatus}
@@ -68,6 +76,12 @@
         UPDATE TB_USER
            SET UPDATED_BY  = #{author}
              , UPDATED_AT  = NOW()
+        <if test="name != null and name != ''">
+             , NAME        = #{name}
+        </if>
+        <if test="email != null and email != ''">
+             , EMAIL       = #{email}
+        </if>
         <if test="dataStatus != null and dataStatus != ''">
              , DATA_STATUS = #{dataStatus}
         </if>

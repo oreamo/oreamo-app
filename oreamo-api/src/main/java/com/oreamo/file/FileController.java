@@ -30,14 +30,14 @@ public class FileController {
     private final FileService fileService;
 
     @Operation(summary = "Get File Group")
-    @GetMapping("/groups/{fileGroupId}")
+    @GetMapping("/{fileGroupId}")
     public RestResponse<FileGroup> getFileGroup(@ModelAttribute FilesSearch filesSearch) {
         FileGroup foundFileGroup = fileService.getFileGroup(filesSearch);
         return RestResponse.ofSuccess(foundFileGroup);
     }
 
     @Operation(summary = "Download File")
-    @GetMapping("/{fileId}/download")
+    @GetMapping("/{fileGroupId}/{fileId}/download")
     public ResponseEntity<InputStreamResource> downloadFile(@ModelAttribute FileDownload fileDownload) {
         FileDownloadInfo fileDownloadInfo = fileService.downloadFile(fileDownload);
         return ResponseEntity.ok()
@@ -50,7 +50,7 @@ public class FileController {
     }
 
     @Operation(summary = "View File", description = "Show image files inline, download other files")
-    @GetMapping("/{fileId}/view")
+    @GetMapping("/{fileGroupId}/{fileId}/view")
     public ResponseEntity<InputStreamResource> viewFile(@ModelAttribute FileDownload fileDownload) {
         FileDownloadInfo fileDownloadInfo = fileService.downloadFile(fileDownload);
         return ResponseEntity.ok()
@@ -70,7 +70,7 @@ public class FileController {
     }
 
     @Operation(summary = "Delete File")
-    @DeleteMapping("/{fileId}")
+    @DeleteMapping("/{fileGroupId}/{fileId}")
     public RestResponse<FileGroup> deleteFile(@ModelAttribute FileDelete fileDelete) {
         FileGroup deletedFileGroup = fileService.deleteFile(fileDelete);
         return RestResponse.ofSuccess(deletedFileGroup);

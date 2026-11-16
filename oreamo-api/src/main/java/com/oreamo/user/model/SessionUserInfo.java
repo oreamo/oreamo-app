@@ -17,6 +17,12 @@ public class SessionUserInfo {
     @Schema(description = "Username", example = "oreamo-admin")
     private String username;
 
+    @Schema(description = "Name", example = "Admin")
+    private String name;
+
+    @Schema(description = "Email", example = "user@example.com")
+    private String email;
+
     @Schema(description = "Role Code", example = "ROLE_ADMIN")
     private String roleCode;
 

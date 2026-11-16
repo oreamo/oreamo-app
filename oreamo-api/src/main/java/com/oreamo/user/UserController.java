@@ -56,20 +56,20 @@ public class UserController {
         return RestResponse.ofSuccess(createdUser);
     }
 
-    @Operation(summary = "Put User")
-    @PutMapping("/{username}")
-    @Authorize(menuId = MenuId.USER_MANAGEMENT, permissionCode = PermissionCode.WRITE)
-    public RestResponse<Void> putUser(@Valid @RequestBody UserUpdate userUpdate) {
-        userService.updateUser(userUpdate);
-        return RestResponse.ofSuccess(null);
-    }
-
     @Operation(summary = "Reset User Password")
     @PostMapping("/password/reset")
     @Authorize(menuId = MenuId.USER_MANAGEMENT, permissionCode = PermissionCode.WRITE)
     public RestResponse<Boolean> resetUserPassword(@Valid @RequestBody UserPasswordReset userPasswordReset) {
         userService.resetUserPassword(userPasswordReset);
         return RestResponse.ofSuccess(true);
+    }
+
+    @Operation(summary = "Put User")
+    @PutMapping("/{username}")
+    @Authorize(menuId = MenuId.USER_MANAGEMENT, permissionCode = PermissionCode.WRITE)
+    public RestResponse<Void> putUser(@Valid @RequestBody UserUpdate userUpdate) {
+        userService.updateUser(userUpdate);
+        return RestResponse.ofSuccess(null);
     }
 
     @Operation(summary = "Delete User")

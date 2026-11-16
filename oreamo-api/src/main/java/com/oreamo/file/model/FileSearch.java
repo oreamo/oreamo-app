@@ -15,10 +15,13 @@ import lombok.Setter;
 @AllArgsConstructor
 public class FileSearch {
 
+    @Schema(description = "File Group ID")
+    private String fileGroupId;
+
     @Schema(description = "File ID")
     private String fileId;
 
-    public static FileSearch ofFileId(String fileId) {
-        return FileSearch.builder().fileId(fileId).build();
+    public static FileSearch ofFileId(String fileGroupId, String fileId) {
+        return FileSearch.builder().fileGroupId(fileGroupId).fileId(fileId).build();
     }
 }

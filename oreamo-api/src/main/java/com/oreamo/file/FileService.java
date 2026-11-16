@@ -42,7 +42,7 @@ public class FileService {
 
     @Transactional(readOnly = true)
     public FileDownloadInfo downloadFile(FileDownload fileDownload) {
-        FileSearch fileSearch = FileSearch.ofFileId(fileDownload.getFileId());
+        FileSearch fileSearch = FileSearch.ofFileId(fileDownload.getFileGroupId(), fileDownload.getFileId());
         FileInfo fileInfo = fileRepository
                 .selectFile(fileSearch)
                 .orElseThrow(() -> new RestException(
@@ -89,7 +89,7 @@ public class FileService {
 
     @Transactional
     public FileGroup deleteFile(FileDelete fileDelete) {
-        FileSearch fileSearch = FileSearch.ofFileId(fileDelete.getFileId());
+        FileSearch fileSearch = FileSearch.ofFileId(fileDelete.getFileGroupId(), fileDelete.getFileId());
         FileInfo fileInfo = fileRepository
                 .selectFile(fileSearch)
                 .orElseThrow(() -> new RestException(

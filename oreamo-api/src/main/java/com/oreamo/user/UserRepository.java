@@ -16,9 +16,9 @@ import org.apache.ibatis.annotations.Mapper;
 @Mapper
 public interface UserRepository {
 
-    Optional<User> selectUser(UserSearch userSearch);
-
     Page<User> selectUsers(UsersSearch usersSearch);
+
+    Optional<User> selectUser(UserSearch userSearch);
 
     int insertUser(UserSave userSave);
 
