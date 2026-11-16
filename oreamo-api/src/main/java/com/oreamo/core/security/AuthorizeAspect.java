@@ -1,0 +1,57 @@
+package com.oreamo.core.security;
+
+import java.util.List;
+import java.util.Optional;
+
+import com.oreamo.authority.PermissionService;
+import com.oreamo.authority.model.PermissionsSearch;
+import com.oreamo.authority.model.RolePermission;
+import com.oreamo.user.model.SessionUser;
+
+import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.reflect.MethodSignature;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.stereotype.Component;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+@Aspect
+@Component
+@RequiredArgsConstructor
+public class AuthorizeAspect {
+
+    private static final String AUTHENTICATION_FAILURE_MESSAGE =
+            "[AuthorizeAspect] Authorization failed because user is not authenticated.";
+
+    private static final String AUTHORIZATION_FAILURE_MESSAGE =
+            "[AuthorizeAspect] Authorization failed because user is not authorized.";
+
+    private final PermissionService permissionService;
+
+    @Before("@annotation(com.oreamo.core.security.Authorize)")
+    public void authorize(JoinPoint joinPoint) {
+        MethodSignature signature = (MethodSignature) joinPoint.getSignature();
+        Authorize authorize = signature.getMethod().getAnnotation(Authorize.class);
+
+        String roleCode = Optional.ofNullable(SecurityContextHolder.getContext().getAuthentication())
+                .map(Authentication::getPrincipal)
+                .map(SessionUser.class::cast)
+                .orElseThrow(() -> new IllegalArgumentException(AUTHENTICATION_FAILURE_MESSAGE))
+                .getRoleCode();
+
+        List<RolePermission> rolePermissions =
+                permissionService.getRolePermissions(PermissionsSearch.ofEnabledRoleCode(roleCode));
+
+        boolean isNotAuthorized = rolePermissions.stream()
+                .noneMatch(rolePermission -> rolePermission.isGranted(authorize.menuId(), authorize.permissionCode()));
+        if (isNotAuthorized) {
+            throw new AccessDeniedException(AUTHORIZATION_FAILURE_MESSAGE);
+        }
+    }
+}

@@ -1,0 +1,23 @@
+package com.oreamo.file.model;
+
+import io.swagger.v3.oas.annotations.media.Schema;
+
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
+
+@Getter
+@Setter
+@Builder
+@NoArgsConstructor
+@AllArgsConstructor
+public class FileDownload {
+
+    @Schema(description = "File Group ID", hidden = true)
+    private String fileGroupId;
+
+    @Schema(description = "File ID", hidden = true)
+    private String fileId;
+}

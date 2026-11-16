@@ -1,0 +1,8 @@
+spring:
+  security:
+    secret:
+      token: ${SPRING_SECURITY_JWT_SECRET_VALUE}
+
+app:
+  agent:
+    server-key: ${OREAMO_SERVER_KEY}

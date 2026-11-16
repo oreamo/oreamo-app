@@ -1,0 +1,39 @@
+spring:
+  security:
+    secret:
+      token: ${SPRING_SECURITY_JWT_SECRET_VALUE:SPRING_SECURITY_JWT_SECRET_VALUE}
+    cookie:
+      secure: false
+
+  datasource:
+    url: jdbc:postgresql://localhost:5432/oreamo
+    username: oreamo
+    password: 1q2w3e4r!
+
+  data:
+    redis:
+      host: localhost
+      port: 6379
+      database: 0
+
+  flyway:
+    enabled: true
+    locations: classpath:migration
+    baseline-on-migrate: true
+    clean-disabled: false
+    clean-on-error: ${FLYWAY_CLEAN_ON_ERROR:true}
+
+app:
+  client:
+    base-url: http://localhost:3000
+  agent:
+    base-url: http://localhost:8000
+    server-key: ${OREAMO_SERVER_KEY:OREAMO_SERVER_KEY}
+
+aws:
+  region: ap-northeast-2
+  s3:
+    endpoint: http://localhost:4566
+    bucket: oreamo
+    access-key: test
+    secret-key: test

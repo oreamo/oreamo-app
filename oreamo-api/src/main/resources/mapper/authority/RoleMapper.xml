@@ -1,0 +1,148 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oreamo.authority.RoleRepository">
+
+    <resultMap id="roleMap" type="com.oreamo.authority.model.Role">
+        <id property="roleCode" column="ROLE_CODE" />
+        <collection property="rolePermissions" ofType="com.oreamo.authority.model.RolePermission">
+            <result property="menuId" column="MENU_ID" />
+            <result property="permissionCode" column="PERMISSION_CODE" />
+        </collection>
+    </resultMap>
+
+    <select id="selectRoles"
+            parameterType="com.oreamo.authority.model.RolesSearch"
+            resultType="com.oreamo.authority.model.Role">
+        SELECT R.ROLE_CODE
+             , R.ROLE_NAME
+             , R.SORT_ORDER
+             , R.DATA_STATUS
+             , R.CREATED_BY
+             , R.CREATED_AT
+             , R.UPDATED_BY
+             , R.UPDATED_AT
+          FROM TB_ROLE R
+         WHERE TRUE
+        <if test="roleName != null and roleName != ''">
+           AND R.ROLE_NAME ILIKE CONCAT('%', #{roleName}, '%')
+        </if>
+        <if test="permissionCodes != null and !permissionCodes.isEmpty()">
+           AND EXISTS (
+               SELECT 1 FROM TB_ROLE_PERMISSION RP
+                WHERE RP.ROLE_CODE = R.ROLE_CODE
+                  AND RP.PERMISSION_CODE IN
+                <foreach collection="permissionCodes" item="permissionCode" open="(" separator="," close=")">
+                    #{permissionCode}
+                </foreach>
+           )
+        </if>
+        <if test="dataStatus != null and dataStatus != ''">
+           AND R.DATA_STATUS = #{dataStatus}
+        </if>
+         ORDER BY R.SORT_ORDER
+    </select>
+
+    <select id="selectRole"
+            parameterType="com.oreamo.authority.model.RoleSearch"
+            resultMap="roleMap">
+        SELECT R.ROLE_CODE
+             , R.ROLE_NAME
+             , R.SORT_ORDER
+             , R.DATA_STATUS
+             , R.CREATED_BY
+             , R.CREATED_AT
+             , R.UPDATED_BY
+             , R.UPDATED_AT
+             , RP.MENU_ID
+             , RP.PERMISSION_CODE
+          FROM TB_ROLE R
+          LEFT JOIN TB_ROLE_PERMISSION RP
+                 ON R.ROLE_CODE = RP.ROLE_CODE
+         WHERE TRUE
+        <if test="roleCode != null and roleCode != ''">
+           AND R.ROLE_CODE = #{roleCode}
+        </if>
+         ORDER BY R.SORT_ORDER, RP.MENU_ID, RP.PERMISSION_CODE
+    </select>
+
+    <insert id="insertRole"
+            parameterType="com.oreamo.authority.model.RoleSave">
+        INSERT INTO TB_ROLE (
+            ROLE_CODE
+          , ROLE_NAME
+          , DATA_STATUS
+          , SORT_ORDER
+          , CREATED_BY
+          , UPDATED_BY
+        ) VALUES (
+            #{roleCode}
+          , #{roleName}
+          , #{dataStatus}
+          , #{sortOrder}
+          , #{author}
+          , #{author}
+        )
+    </insert>
+
+    <insert id="insertRolePermissionsByRoleSave"
+            parameterType="com.oreamo.authority.model.RoleSave">
+        INSERT INTO TB_ROLE_PERMISSION (
+            ROLE_CODE
+          , MENU_ID
+          , PERMISSION_CODE
+        ) VALUES
+        <foreach collection="rolePermissions" item="rolePermission" separator=",">
+        (
+            #{roleCode}
+          , #{rolePermission.menuId}
+          , #{rolePermission.permissionCode}
+        )
+        </foreach>
+    </insert>
+
+    <update id="updateRole"
+            parameterType="com.oreamo.authority.model.RoleUpdate">
+        UPDATE TB_ROLE
+           SET ROLE_NAME   = #{roleName}
+             , DATA_STATUS = #{dataStatus}
+             , SORT_ORDER  = #{sortOrder}
+             , UPDATED_BY  = #{author}
+             , UPDATED_AT  = NOW()
+         WHERE ROLE_CODE   = #{roleCode}
+    </update>
+
+    <delete id="deleteRolePermissionsByRoleUpdate"
+            parameterType="com.oreamo.authority.model.RoleUpdate">
+        DELETE FROM TB_ROLE_PERMISSION
+         WHERE ROLE_CODE = #{roleCode}
+    </delete>
+
+    <insert id="insertRolePermissionsByRoleUpdate"
+            parameterType="com.oreamo.authority.model.RoleUpdate">
+        INSERT INTO TB_ROLE_PERMISSION (
+            ROLE_CODE
+          , MENU_ID
+          , PERMISSION_CODE
+        ) VALUES
+        <foreach collection="rolePermissions" item="rolePermission" separator=",">
+        (
+            #{roleCode}
+          , #{rolePermission.menuId}
+          , #{rolePermission.permissionCode}
+        )
+        </foreach>
+    </insert>
+
+    <delete id="deleteRole"
+            parameterType="com.oreamo.authority.model.RoleDelete">
+        DELETE FROM TB_ROLE
+         WHERE ROLE_CODE = #{roleCode}
+    </delete>
+
+    <delete id="deleteRolePermissionsByRoleDelete"
+            parameterType="com.oreamo.authority.model.RoleDelete">
+        DELETE FROM TB_ROLE_PERMISSION
+         WHERE ROLE_CODE = #{roleCode}
+    </delete>
+
+</mapper>

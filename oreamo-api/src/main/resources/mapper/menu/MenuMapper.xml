@@ -1,0 +1,153 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.oreamo.menu.MenuRepository">
+
+    <select id="selectMenus"
+            parameterType="com.oreamo.menu.model.MenusSearch"
+            resultType="com.oreamo.menu.model.Menu">
+        SELECT DISTINCT M.MENU_ID
+             , M.MENU_NAME
+             , M.MENU_TYPE
+             , M.URL
+             , M.PARENT_MENU_ID
+             , M.SORT_ORDER
+             , M.DATA_STATUS
+             , M.CREATED_BY
+             , M.CREATED_AT
+             , M.UPDATED_BY
+             , M.UPDATED_AT
+          FROM TB_MENU M
+         WHERE TRUE
+            <if test="menuId != null and menuId != ''">
+           AND M.MENU_ID = #{menuId}
+            </if>
+            <if test="menuIds != null and !menuIds.isEmpty()">
+           AND M.MENU_ID IN
+                <foreach item="menuId" collection="menuIds" open="(" separator="," close=")">
+                    #{menuId}
+                </foreach>
+            </if>
+            <if test="parentMenuId != null and parentMenuId != ''">
+           AND M.PARENT_MENU_ID = #{parentMenuId}
+            </if>
+            <if test="menuName != null and menuName != ''">
+           AND M.MENU_NAME ILIKE CONCAT('%', #{menuName}, '%')
+            </if>
+            <if test="menuType != null and menuType != ''">
+           AND M.MENU_TYPE = #{menuType}
+            </if>
+            <if test="dataStatus != null and dataStatus != ''">
+           AND M.DATA_STATUS = #{dataStatus}
+            </if>
+            <if test="leaf != null and leaf">
+           AND NOT EXISTS (
+               SELECT 1 FROM TB_MENU C
+                WHERE C.PARENT_MENU_ID = M.MENU_ID
+           )
+            </if>
+         ORDER BY M.SORT_ORDER
+    </select>
+
+    <select id="selectMenu"
+            parameterType="com.oreamo.menu.model.MenuSearch"
+            resultType="com.oreamo.menu.model.Menu">
+        SELECT M.MENU_ID
+             , M.MENU_NAME
+             , M.MENU_TYPE
+             , M.URL
+             , M.PARENT_MENU_ID
+             , M.SORT_ORDER
+             , M.DATA_STATUS
+             , M.CREATED_BY
+             , M.CREATED_AT
+             , M.UPDATED_BY
+             , M.UPDATED_AT
+          FROM TB_MENU M
+         WHERE TRUE
+            <if test="menuId != null and menuId != ''">
+           AND M.MENU_ID = #{menuId}
+            </if>
+            <if test="dataStatus != null and dataStatus != ''">
+           AND M.DATA_STATUS = #{dataStatus}
+            </if>
+    </select>
+
+    <select id="selectMenuTreeNodes"
+            resultType="com.oreamo.menu.model.MenuTreeNode">
+        WITH RECURSIVE MENU_TREE_NODE AS (
+            SELECT M.MENU_ID
+                 , M.MENU_NAME
+                 , M.MENU_TYPE
+                 , M.URL
+                 , M.PARENT_MENU_ID
+                 , M.SORT_ORDER
+              FROM TB_MENU M
+             WHERE M.MENU_ID IN
+            <foreach item="menuId" collection="menuIds" open="(" separator="," close=")">
+                #{menuId}
+            </foreach>
+               AND M.DATA_STATUS = 'ENABLED'
+
+             UNION
+
+            SELECT P.MENU_ID
+                 , P.MENU_NAME
+                 , P.MENU_TYPE
+                 , P.URL
+                 , P.PARENT_MENU_ID
+                 , P.SORT_ORDER
+              FROM TB_MENU P
+             INNER JOIN MENU_TREE_NODE C ON P.MENU_ID = C.PARENT_MENU_ID
+             WHERE P.DATA_STATUS = 'ENABLED'
+        )
+        SELECT DISTINCT MENU_ID
+                      , MENU_NAME
+                      , MENU_TYPE
+                      , URL
+                      , PARENT_MENU_ID
+                      , SORT_ORDER
+          FROM MENU_TREE_NODE
+         ORDER BY SORT_ORDER
+    </select>
+
+    <insert id="insertMenu"
+            parameterType="com.oreamo.menu.model.MenuSave">
+        INSERT INTO TB_MENU (
+            MENU_ID
+          , MENU_NAME
+          , MENU_TYPE
+          , URL
+          , PARENT_MENU_ID
+          , SORT_ORDER
+          , DATA_STATUS
+          , CREATED_BY
+          , UPDATED_BY
+        ) VALUES (
+            #{menuId}
+          , #{menuName}
+          , #{menuType}
+          , #{url}
+          , #{parentMenuId}
+          , #{sortOrder}
+          , #{dataStatus}
+          , #{author}
+          , #{author}
+        )
+    </insert>
+
+    <update id="updateMenu"
+            parameterType="com.oreamo.menu.model.MenuUpdate">
+        UPDATE TB_MENU
+           SET MENU_NAME   = #{menuName}
+             , DATA_STATUS = #{dataStatus}
+             , UPDATED_BY  = #{author}
+             , UPDATED_AT  = NOW()
+         WHERE MENU_ID     = #{menuId}
+    </update>
+
+    <delete id="deleteMenu"
+            parameterType="com.oreamo.menu.model.MenuDelete">
+        DELETE FROM TB_MENU
+         WHERE MENU_ID     = #{menuId}
+    </delete>
+</mapper>
