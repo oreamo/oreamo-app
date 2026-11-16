@@ -1,0 +1,6 @@
+.git
+.claude
+.venv
+.ruff_cache
+__pycache__
+.env.*
