@@ -201,11 +201,11 @@ export function DataGridToolbar<R>({
               options={[
                 {
                   value: "read",
-                  label: <Icon iconName="TableRows" size="small" />,
+                  label: <Icon iconName="TableRows" size="sm" />,
                 },
                 {
                   value: "edit",
-                  label: <Icon iconName="Edit" size="small" />,
+                  label: <Icon iconName="Edit" size="sm" />,
                 },
               ]}
               size="small"

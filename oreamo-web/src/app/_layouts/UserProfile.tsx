@@ -1,24 +1,19 @@
 import { MouseEvent, useState } from "react";
 
-import {
-  ButtonBase,
-  Divider,
-  MenuItem,
-  MenuList,
-  styled,
-  useColorScheme,
-} from "@mui/material";
+import { ButtonBase, Divider, styled, useColorScheme } from "@mui/material";
 
-import { UserAvatar } from "@/app/_layouts/UserAvatar";
-import { UserProfileModal } from "@/app/_layouts/UserProfileModal";
 import { Switch } from "@/components/common/button/Switch";
 import { Toggle } from "@/components/common/button/Toggle";
+import { Avatar } from "@/components/common/display/Avatar";
 import { Icon } from "@/components/common/display/Icon";
+import { List } from "@/components/common/display/List";
 import { Text } from "@/components/common/display/Text";
 import { Flex } from "@/components/common/layout/Flex";
 import { Dropdown } from "@/components/common/overlay/Dropdown";
+import { ROUTE } from "@/constants/route-constant";
 import { TRANSLATION_KEY } from "@/constants/translation-constant";
 import { useMedia } from "@/hooks/useMedia";
+import { useNavigator } from "@/hooks/useNavigator";
 import { useTranslate } from "@/hooks/useTranslate";
 import { useSessionUserInfo } from "@/resources/user/useSessionUserInfo";
 import { useSessionUserLogout } from "@/resources/user/useSessionUserLogout";
@@ -28,13 +23,14 @@ import { useSystemToast } from "@/stores/system-toast-store";
 type ColorMode = "light" | "dark" | "system";
 
 export function UserProfile() {
+  const { navigate } = useNavigator();
+
   const toast = useSystemToast();
   const { mode, setMode } = useColorScheme();
   const isMenuTabEnabled = useMenuTabEnabled();
   const { setEnabled: setMenuTabEnabled } = useMenuTabActions();
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
-  const [profileModalOpen, setProfileModalOpen] = useState(false);
 
   const { isDesktop } = useMedia();
   const { translate } = useTranslate();
@@ -52,11 +48,7 @@ export function UserProfile() {
 
   const handleEditProfileClick = () => {
     setAnchorEl(null);
-    setProfileModalOpen(true);
-  };
-
-  const handleProfileModalClose = () => {
-    setProfileModalOpen(false);
+    navigate(ROUTE.SETTING.USER_SETTING.PROFILE.URL);
   };
 
   const handleColorModeChange = (value?: string) => {
@@ -87,8 +79,9 @@ export function UserProfile() {
   return (
     <>
       <StyledUserProfileButton onClick={handleProfileClick}>
-        <UserAvatar
-          username={userInfo.username}
+        <Avatar
+          name={userInfo.username}
+          imageFileGroupId={userInfo.profileImageFileGroupId}
           imageFileId={userInfo.profileImageFileId}
         />
       </StyledUserProfileButton>
@@ -100,28 +93,31 @@ export function UserProfile() {
       >
         <StyledUserProfileContainer direction="column" gap={1}>
           <StyledUserProfileWrapper gap={2} align="center">
-            <UserAvatar
-              username={userInfo.username}
+            <Avatar
+              name={userInfo.username}
+              imageFileGroupId={userInfo.profileImageFileGroupId}
               imageFileId={userInfo.profileImageFileId}
               size="medium"
             />
-            <Text weight="semibold">{userInfo.username}</Text>
+            <Flex direction="column">
+              <Text weight="semibold">{userInfo.name}</Text>
+              <Text size="xs" color="secondary">
+                {userInfo.username}
+              </Text>
+            </Flex>
           </StyledUserProfileWrapper>
           <Divider />
-          <MenuList disablePadding>
-            <MenuItem onClick={handleEditProfileClick}>
-              <Flex gap={2} align="center">
-                <Icon iconName="ManageAccountsOutlined" size="small" />
-                <Text size="sm" color="inherit">
-                  {translate(TRANSLATION_KEY.user.label.EDIT_PROFILE)}
-                </Text>
-              </Flex>
-            </MenuItem>
-          </MenuList>
+          <List>
+            <List.Item
+              iconName="ManageAccountsOutlined"
+              label={translate(TRANSLATION_KEY.user.label.PROFILE)}
+              onClick={handleEditProfileClick}
+            />
+          </List>
           <Divider />
           <StyledPreferenceContainer justify="between" align="center" gap={2}>
             <Flex gap={2} align="center">
-              <Icon iconName="ContrastOutlined" size="small" />
+              <Icon iconName="ContrastOutlined" size="sm" />
               <Text size="sm" color="inherit">
                 {translate(TRANSLATION_KEY.user.label.THEME)}
               </Text>
@@ -131,16 +127,16 @@ export function UserProfile() {
               options={[
                 {
                   value: "light",
-                  label: <Icon iconName="LightModeOutlined" size="small" />,
+                  label: <Icon iconName="LightModeOutlined" size="sm" />,
                 },
                 {
                   value: "dark",
-                  label: <Icon iconName="DarkModeOutlined" size="small" />,
+                  label: <Icon iconName="DarkModeOutlined" size="sm" />,
                 },
                 {
                   value: "system",
                   label: (
-                    <Icon iconName="SettingsBrightnessOutlined" size="small" />
+                    <Icon iconName="SettingsBrightnessOutlined" size="sm" />
                   ),
                 },
               ]}
@@ -151,7 +147,7 @@ export function UserProfile() {
           {isDesktop && (
             <StyledPreferenceContainer justify="between" align="center" gap={2}>
               <Flex gap={2} align="center">
-                <Icon iconName="TabOutlined" size="small" />
+                <Icon iconName="TabOutlined" size="sm" />
                 <Text size="sm" color="inherit">
                   {translate(TRANSLATION_KEY.user.label.MENU_TAB)}
                 </Text>
@@ -164,25 +160,15 @@ export function UserProfile() {
             </StyledPreferenceContainer>
           )}
           <Divider />
-          <MenuList disablePadding>
-            <MenuItem onClick={handleLogoutClick}>
-              <Flex gap={2} align="center">
-                <Icon iconName="Logout" size="small" />
-                <Text size="sm" color="inherit">
-                  {translate(TRANSLATION_KEY.user.label.SIGN_OUT)}
-                </Text>
-              </Flex>
-            </MenuItem>
-          </MenuList>
+          <List>
+            <List.Item
+              iconName="Logout"
+              label={translate(TRANSLATION_KEY.user.label.SIGN_OUT)}
+              onClick={handleLogoutClick}
+            />
+          </List>
         </StyledUserProfileContainer>
       </Dropdown>
-      {profileModalOpen && (
-        <UserProfileModal
-          open={profileModalOpen}
-          userInfo={userInfo}
-          onClose={handleProfileModalClose}
-        />
-      )}
     </>
   );
 }

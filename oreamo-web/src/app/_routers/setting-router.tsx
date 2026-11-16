@@ -6,12 +6,24 @@ import { CodeManagementPage } from "@/pages/setting/system/code-management/CodeM
 import { MenuManagementPage } from "@/pages/setting/system/menu-management/MenuManagementPage";
 import { TranslationManagementPage } from "@/pages/setting/system/translation-management/TranslationManagementPage";
 import { UserManagementPage } from "@/pages/setting/system/user-management/UserManagementPage";
+import { ProfilePage } from "@/pages/setting/user/profile/ProfilePage";
 
 export const SettingRouter: RouteObject[] = [
   {
     id: ROUTE.SETTING.ID,
     path: ROUTE.SETTING.PATH,
     children: [
+      {
+        id: ROUTE.SETTING.USER_SETTING.ID,
+        path: ROUTE.SETTING.USER_SETTING.PATH,
+        children: [
+          {
+            id: ROUTE.SETTING.USER_SETTING.PROFILE.ID,
+            path: ROUTE.SETTING.USER_SETTING.PROFILE.PATH,
+            element: <ProfilePage />,
+          },
+        ],
+      },
       {
         id: ROUTE.SETTING.SYSTEM_SETTING.ID,
         path: ROUTE.SETTING.SYSTEM_SETTING.PATH,

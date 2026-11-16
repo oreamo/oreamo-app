@@ -9,6 +9,6 @@ export function useUserUpdate({ username }: UseUserUpdateOptions) {
   return useAction<UserUpdate, void>({
     url: `/users/${username}`,
     method: "put",
-    invalidateUrls: ["/users"],
+    invalidateUrls: ["/users", "/session/user-info"],
   });
 }

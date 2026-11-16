@@ -9,7 +9,7 @@ import { PageLayout } from "@/pages/_components/PageLayout";
 import { DevCardGrid } from "@/pages/dev/_components/DevCardGrid";
 import { DevComponentCard } from "@/pages/dev/_components/DevComponentCard";
 
-const SIZES = ["small", "medium", "large"] as const;
+const SIZES = ["xs", "sm", "md", "lg", "xl"] as const;
 const CHIP_SIZES = ["small", "medium"] as const;
 
 export function DevDisplayPage() {

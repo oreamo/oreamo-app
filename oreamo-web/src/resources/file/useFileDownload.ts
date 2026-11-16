@@ -1,11 +1,15 @@
 import { useDownload } from "@/resources/_hooks/useDownload";
 
 interface UseFileDownloadOptions {
+  fileGroupId?: string;
   fileId?: string;
 }
 
-export function useFileDownload({ fileId }: UseFileDownloadOptions) {
+export function useFileDownload({
+  fileGroupId,
+  fileId,
+}: UseFileDownloadOptions) {
   return useDownload({
-    url: `/files/${fileId}/download`,
+    url: `/files/${fileGroupId}/${fileId}/download`,
   });
 }

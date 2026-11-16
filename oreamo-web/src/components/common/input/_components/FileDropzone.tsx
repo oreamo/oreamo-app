@@ -31,7 +31,7 @@ export function FileDropzone({
   return (
     <StyledFileDropzoneContainer {...getRootProps()} isDragging={isDragActive}>
       <input {...getInputProps()} />
-      <Icon iconName="UploadFile" size="large" />
+      <Icon iconName="UploadFile" size="lg" />
       <Text size="sm">{translate(TRANSLATION_KEY.common.label.ADD)}</Text>
     </StyledFileDropzoneContainer>
   );

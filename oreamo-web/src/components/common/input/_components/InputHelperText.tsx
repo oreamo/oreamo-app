@@ -15,10 +15,7 @@ export function InputHelperText({
     <InputAdornment position="start">
       <Tooltip title={helperText} placement="top-start">
         <StyledInputHelperTextIcon error={error}>
-          <Icon
-            iconName={error ? "ErrorOutline" : "InfoOutlined"}
-            size="small"
-          />
+          <Icon iconName={error ? "ErrorOutline" : "InfoOutlined"} size="sm" />
         </StyledInputHelperTextIcon>
       </Tooltip>
     </InputAdornment>

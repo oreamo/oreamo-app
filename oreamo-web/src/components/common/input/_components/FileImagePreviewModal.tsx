@@ -38,7 +38,7 @@ export function FileImagePreviewModal({
     >
       <StyledFileImagePreviewContainer align="center" justify="center">
         <Image
-          src={`${API_URL}/files/${file.fileId}/view`}
+          src={`${API_URL}/files/${file.fileGroupId}/${file.fileId}/view`}
           alt={file.fileName}
           fit="contain"
         />

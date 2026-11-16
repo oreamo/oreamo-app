@@ -234,7 +234,7 @@ export function useDataGridColumns<R extends object>({
                         return undefined;
                     }
                   })()!,
-                  size: "small",
+                  size: "sm",
                 })
               : null;
           },

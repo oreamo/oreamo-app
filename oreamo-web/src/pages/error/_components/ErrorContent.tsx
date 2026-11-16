@@ -48,7 +48,7 @@ export function ErrorContent({
       fullHeight
     >
       <StyledErrorIcon align="center" justify="center">
-        <Icon iconName={iconName} size="large" />
+        <Icon iconName={iconName} size="lg" />
       </StyledErrorIcon>
       <Text size="xs" color="disabled" weight="semibold">
         {code}

@@ -8,13 +8,13 @@ export function SystemToastBar() {
   const icon = (() => {
     switch (type) {
       case "success":
-        return <Icon iconName="CheckCircle" size="small" />;
+        return <Icon iconName="CheckCircle" size="sm" />;
       case "error":
-        return <Icon iconName="Error" size="small" />;
+        return <Icon iconName="Error" size="sm" />;
       case "warning":
-        return <Icon iconName="Warning" size="small" />;
+        return <Icon iconName="Warning" size="sm" />;
       case "info":
-        return <Icon iconName="Info" size="small" />;
+        return <Icon iconName="Info" size="sm" />;
     }
   })();
 

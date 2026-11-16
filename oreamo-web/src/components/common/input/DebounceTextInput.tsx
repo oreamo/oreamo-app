@@ -52,7 +52,7 @@ export function DebounceTextInput({
         <InputAdornment position="end">
           {debounceKey > 0 &&
             (isFilled ? (
-              <Icon iconName="Check" size="small" />
+              <Icon iconName="Check" size="sm" />
             ) : (
               <StyledDebounceProgress
                 key={debounceKey}
