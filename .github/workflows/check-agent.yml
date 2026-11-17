@@ -6,10 +6,6 @@ on:
   push:
     branches: [develop]
 
-defaults:
-  run:
-    working-directory: oreamo-agent
-
 jobs:
   # Detect the changes to skip the check when the service is not changed.
   changes:
@@ -42,7 +38,13 @@ jobs:
           python-version: "3.14"
 
       - name: Install dependencies
-        run: uv sync --frozen
+        run: uv sync --frozen --directory oreamo-agent
 
-      - name: Lint, format and type check
-        run: make check
+      - name: Lint
+        run: make lint agent
+
+      - name: Format
+        run: make format agent
+
+      - name: Type check
+        run: make build agent

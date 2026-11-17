@@ -6,10 +6,6 @@ on:
   push:
     branches: [develop]
 
-defaults:
-  run:
-    working-directory: oreamo-api
-
 jobs:
   # Detect the changes to skip the check when the service is not changed.
   changes:
@@ -44,5 +40,8 @@ jobs:
 
       - uses: gradle/actions/setup-gradle@v4
 
-      - name: Compile and format
-        run: ./gradlew compileJava spotlessCheck
+      - name: Compile
+        run: oreamo-api/gradlew -p oreamo-api compileJava
+
+      - name: Format
+        run: make format api
