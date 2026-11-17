@@ -3,21 +3,36 @@ name: Check Web
 on:
   pull_request:
     branches: [develop]
-    paths:
-      - "oreamo-web/**"
-      - ".github/workflows/check-web.yml"
   push:
     branches: [develop]
-    paths:
-      - "oreamo-web/**"
-      - ".github/workflows/check-web.yml"
 
 defaults:
   run:
     working-directory: oreamo-web
 
 jobs:
-  check:
+  # Detect the changes to skip the check when the service is not changed.
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      changed: ${{ steps.filter.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            changed:
+              - "oreamo-web/**"
+              - ".github/workflows/check-web.yml"
+
+  web:
+    needs: changes
+    if: needs.changes.outputs.changed == 'true'
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
