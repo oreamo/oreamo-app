@@ -14,6 +14,13 @@ All services are managed in this repository as a monorepo.
 
 ## Start Application
 
+The commands run with `make` on macOS and Linux. On Windows, run them in WSL2 (Ubuntu).
+
+```bash
+# Install make if it is not installed (Ubuntu, WSL2)
+sudo apt install make
+```
+
 ```bash
 # Install dependencies and git hooks
 make init
