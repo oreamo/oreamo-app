@@ -27,20 +27,20 @@ for service in oreamo-web oreamo-api oreamo-agent; do
   # Check commands of each service.
   case "$service" in
     oreamo-web)
-      commands=("pnpm lint" "pnpm format:check" "pnpm build")
+      commands=("make lint web" "make format web" "make build web")
       ;;
     oreamo-api)
-      commands=("./gradlew spotlessCheck build")
+      commands=("make format api" "make build api")
       ;;
     oreamo-agent)
-      commands=("make check")
+      commands=("make lint agent" "make format agent" "make build agent")
       ;;
   esac
 
   checked="true"
   for command in "${commands[@]}"; do
     echo "### $service: $command"
-    if (cd "$service" && bash -c "$command") >"$log" 2>&1; then
+    if bash -c "$command" >"$log" 2>&1; then
       echo "passed"
     else
       failed="true"

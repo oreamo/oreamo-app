@@ -12,10 +12,7 @@ Pulls the latest `develop`, checks the errors of the changed services, and fixes
 
 - Base Branch: `develop`, unless the user requests another. Pass it as the first argument of the scripts.
 - Fix Commands: Fix format and lint errors with the formatter first, then fix the remaining errors by editing the code.
-  - `oreamo-web`: `pnpm lint:fix`, `pnpm format`
-  - `oreamo-api`: `./gradlew spotlessApply`
-  - `oreamo-agent`: `make lint-fix`, `make format`
-  - Run them in the directory of the service.
+  - `make lint-fix {services}`, `make format-fix {services}` at the repository root.
 - Environment Error: If a check fails by the environment (e.g. Docker is not running), do not change the code. Tell the user how to fix it and stop.
 - Stop On Failure: If a script fails, show its output and stop.
 
