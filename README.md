@@ -1,21 +1,21 @@
 # Oreamo Application
 
-Workspace for shared configuration across Oreamo services.
+Monorepo of the Oreamo services and their shared configuration.
 
-## Repositories
+## Services
 
-| Directory          | Description                                    | Repository                                |
-| ------------------ | ---------------------------------------------- | ----------------------------------------- |
-| `oreamo-web/`      | Web client (React, TypeScript, Vite)           | https://github.com/oreamo/oreamo-web      |
-| `oreamo-api/`      | API server (Spring Boot, MyBatis, PostgreSQL)  | https://github.com/oreamo/oreamo-api      |
-| `oreamo-agent/`    | Agent server (FastAPI, SQLAlchemy, PostgreSQL) | https://github.com/oreamo/oreamo-agent    |
+| Directory       | Description                                    |
+| --------------- | ---------------------------------------------- |
+| `oreamo-web/`   | Web client (React, TypeScript, Vite)           |
+| `oreamo-api/`   | API server (Spring Boot, MyBatis, PostgreSQL)  |
+| `oreamo-agent/` | Agent server (FastAPI, SQLAlchemy, PostgreSQL) |
 
-Each service is an independent git repository and is excluded from this repository via `.gitignore`.
+All services are managed in this repository as a monorepo.
 
 ## Start Application
 
 ```bash
-# Clone repositories and install dependencies
+# Install dependencies and git hooks
 bash scripts/init.sh
 
 # Start all services
