@@ -15,7 +15,7 @@ Web client for Oreamo, built with React, TypeScript and Vite.
 | Grid         | AG Grid 35                               |
 | Form         | React Hook Form 7                        |
 | Utility      | Day.js, crypto-js, react-dropzone        |
-| Code Quality | ESLint 9, Prettier 3, Husky, lint-staged |
+| Code Quality | ESLint 9, Prettier 3                    |
 
 ## Requirements
 

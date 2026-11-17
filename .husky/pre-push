@@ -1,6 +1,6 @@
 while read -r local_ref _; do
   if [ "$local_ref" != "(delete)" ]; then
-    pnpm build
+    pnpm --dir oreamo-web build
     exit 0
   fi
 done

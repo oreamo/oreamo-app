@@ -13,7 +13,7 @@ Agent server for Oreamo, built with FastAPI, SQLAlchemy and PostgreSQL.
 | Persistence  | SQLAlchemy 2.0 (asyncio, asyncpg)                   |
 | Cache        | Redis                                               |
 | API Docs     | OpenAPI (Swagger UI)                                |
-| Code Quality | Ruff, ty, pre-commit                                |
+| Code Quality | Ruff, ty                                            |
 
 ## Requirements
 
