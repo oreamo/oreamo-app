@@ -19,7 +19,7 @@ All services are managed in this repository as a monorepo.
 bash scripts/init.sh
 
 # Start all services
-docker compose up -d
+make up
 ```
 
 ## Docker
@@ -33,18 +33,18 @@ docker compose up -d
 | `agent`    | http://localhost:8000 |
 
 ```bash
-# Start all services
-docker compose up -d
+# Start all services (rebuilds after source changes)
+make up
 
-# Rebuild and restart after source changes
-docker compose up -d --build
+# Start only the infrastructure
+make up infra
 
 # Rebuild and restart a single service
-docker compose up -d --build api
+make run api
 
 # Show logs of a service
 docker compose logs -f api
 
 # Stop and remove all containers
-docker compose down
+make down
 ```
