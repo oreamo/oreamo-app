@@ -1,10 +1,20 @@
-name: Check
+name: Check API
 
 on:
   pull_request:
     branches: [develop]
+    paths:
+      - "oreamo-api/**"
+      - ".github/workflows/check-api.yml"
   push:
     branches: [develop]
+    paths:
+      - "oreamo-api/**"
+      - ".github/workflows/check-api.yml"
+
+defaults:
+  run:
+    working-directory: oreamo-api
 
 jobs:
   check:

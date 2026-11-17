@@ -1,10 +1,20 @@
-name: Check
+name: Check Agent
 
 on:
   pull_request:
     branches: [develop]
+    paths:
+      - "oreamo-agent/**"
+      - ".github/workflows/check-agent.yml"
   push:
     branches: [develop]
+    paths:
+      - "oreamo-agent/**"
+      - ".github/workflows/check-agent.yml"
+
+defaults:
+  run:
+    working-directory: oreamo-agent
 
 jobs:
   check:
