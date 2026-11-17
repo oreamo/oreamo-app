@@ -20,15 +20,14 @@ while read -r local_ref local_oid _ remote_oid; do
 "
 done
 
-# Check only the changed services.
-if echo "$changed" | grep -q '^oreamo-web/'; then
-  pnpm --dir oreamo-web build
-fi
+# Build only the changed services.
+services=""
+for service in web api agent; do
+  if echo "$changed" | grep -q "^oreamo-$service/"; then
+    services="$services $service"
+  fi
+done
 
-if echo "$changed" | grep -q '^oreamo-api/'; then
-  oreamo-api/gradlew -p oreamo-api build
-fi
-
-if echo "$changed" | grep -q '^oreamo-agent/'; then
-  make -C oreamo-agent check
+if [ -n "$services" ]; then
+  make build $services
 fi
