@@ -23,8 +23,21 @@ Agent server for Oreamo, built with FastAPI, SQLAlchemy and PostgreSQL.
 
 ## Getting Started
 
+Run all services with Docker at the repository root.
+
 ```bash
-docker compose up -d
+make up
+```
+
+### Run Directly
+
+Start the dependent services with Docker at the repository root, then run this service in this directory.
+
+```bash
+# Repository root
+make up infra
+
+# oreamo-agent
 make sync
 make migrate
 make run
@@ -52,7 +65,7 @@ See `.env.example` for all variables.
 
 | Script           | Description                       |
 | ---------------- | --------------------------------- |
-| `make sync`      | Install dependencies & hooks      |
+| `make sync`      | Install dependencies              |
 | `make run`       | Run the server                    |
 | `make migrate`   | Run database migrations           |
 | `make lint`      | Lint with Ruff                    |

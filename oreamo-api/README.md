@@ -24,8 +24,21 @@ API server for Oreamo, built with Spring Boot, MyBatis and PostgreSQL.
 
 ## Getting Started
 
+Run all services with Docker at the repository root.
+
 ```bash
-docker compose up -d
+make up
+```
+
+### Run Directly
+
+Start the dependent services with Docker at the repository root, then run this service in this directory.
+
+```bash
+# Repository root
+make up infra agent
+
+# oreamo-api
 ./gradlew bootRun --args='--spring.profiles.active=local'
 ```
 

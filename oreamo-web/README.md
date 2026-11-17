@@ -24,7 +24,21 @@ Web client for Oreamo, built with React, TypeScript and Vite.
 
 ## Getting Started
 
+Run all services with Docker at the repository root.
+
 ```bash
+make up
+```
+
+### Run Directly
+
+Start the dependent services with Docker at the repository root, then run this service in this directory.
+
+```bash
+# Repository root
+make up infra api agent
+
+# oreamo-web
 pnpm install
 pnpm dev
 ```
