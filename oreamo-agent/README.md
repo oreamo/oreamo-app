@@ -4,16 +4,16 @@ Agent server for Oreamo, built with FastAPI, SQLAlchemy and PostgreSQL.
 
 ## Tech Stack
 
-| Category     | Library                                             |
-| ------------ | --------------------------------------------------- |
-| Framework    | FastAPI, Uvicorn                                    |
-| Language     | Python 3.14                                         |
-| Package      | uv, make                                            |
-| Database     | PostgreSQL, Alembic                                 |
-| Persistence  | SQLAlchemy 2.0 (asyncio, asyncpg)                   |
-| Cache        | Redis                                               |
-| API Docs     | OpenAPI (Swagger UI)                                |
-| Code Quality | Ruff, ty                                            |
+| Category     | Library                           |
+| ------------ | --------------------------------- |
+| Framework    | FastAPI, Uvicorn                  |
+| Language     | Python 3.14                       |
+| Package      | uv, make                          |
+| Database     | PostgreSQL, Alembic               |
+| Persistence  | SQLAlchemy 2.0 (asyncio, asyncpg) |
+| Cache        | Redis                             |
+| API Docs     | OpenAPI (Swagger UI)              |
+| Code Quality | Ruff, ty                          |
 
 ## Requirements
 
@@ -31,16 +31,12 @@ make up
 
 ### Run Directly
 
-Start the dependent services with Docker at the repository root, then run this service in this directory.
+Start the dependent services with Docker, then run this service directly at the repository root.
 
 ```bash
-# Repository root
 make up infra
-
-# oreamo-agent
-make sync
-make migrate
-make run
+make -C oreamo-agent migrate
+make run agent
 ```
 
 The server runs on `http://localhost:8000`.

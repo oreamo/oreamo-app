@@ -32,15 +32,11 @@ make up
 
 ### Run Directly
 
-Start the dependent services with Docker at the repository root, then run this service in this directory.
+Start the dependent services with Docker, then run this service directly at the repository root.
 
 ```bash
-# Repository root
 make up infra api agent
-
-# oreamo-web
-pnpm install
-pnpm dev
+make run web
 ```
 
 The dev server runs on `http://localhost:3000`.

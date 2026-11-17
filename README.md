@@ -16,15 +16,51 @@ All services are managed in this repository as a monorepo.
 
 ```bash
 # Install dependencies and git hooks
-bash scripts/init.sh
+make init
 
 # Start all services
 make up
 ```
 
-## Docker
+## Commands
 
-`docker-compose.yml` runs the services and their infrastructure (PostgreSQL, Redis, LocalStack) for local development.
+Run `make {command} {targets}` at the repository root. Without a target, it runs all targets of the command.
+
+| Command           | Targets                                     | Description                                 |
+| ----------------- | ------------------------------------------- | ------------------------------------------- |
+| `make init`       | -                                           | Install dependencies and git hooks          |
+| `make up`         | `web`, `api`, `agent`, `db`, `redis`, `aws` | Build and start the containers with Docker  |
+| `make down`       | `web`, `api`, `agent`, `db`, `redis`, `aws` | Stop and remove the containers              |
+| `make run`        | `web`, `api`, `agent`                       | Run the services directly in the background |
+| `make stop`       | `web`, `api`, `agent`                       | Stop the services run directly              |
+| `make logs`       | `web`, `api`, `agent`                       | Show the logs of the services               |
+| `make status`     | `web`, `api`, `agent`, `db`, `redis`, `aws` | Show whether the targets are running        |
+| `make build`      | `web`, `api`, `agent`                       | Build the services (`agent`: type check)    |
+| `make lint`       | `web`, `agent`                              | Check lint                                  |
+| `make lint-fix`   | `web`, `agent`                              | Fix lint                                    |
+| `make format`     | `web`, `api`, `agent`                       | Check format                                |
+| `make format-fix` | `web`, `api`, `agent`                       | Fix format                                  |
+| `make help`       | -                                           | Show the commands and their targets         |
+
+`make up`, `make down` and `make status` also take `service` (`web`, `api`, `agent`) and `infra` (`db`, `redis`, `aws`).
+
+```bash
+# Start only the infrastructure
+make up infra
+
+# Rebuild and restart a single service
+make up api
+
+# Run the web directly with the others in Docker
+make up infra api agent
+make run web
+
+# Fix lint and format of the web and agent
+make lint-fix web agent
+make format-fix web agent
+```
+
+## Services URL
 
 | Service | URL                   |
 | ------- | --------------------- |
@@ -32,29 +68,4 @@ make up
 | `api`   | http://localhost:8080 |
 | `agent` | http://localhost:8000 |
 
-Run `make up` or `make down` with the targets below. Without a target, it runs all of them.
-
-| Target    | Containers            |
-| --------- | --------------------- |
-| `web`     | Web client            |
-| `api`     | API server            |
-| `agent`   | Agent server          |
-| `db`      | PostgreSQL            |
-| `redis`   | Redis                 |
-| `aws`     | LocalStack            |
-| `service` | `web`, `api`, `agent` |
-| `infra`   | `db`, `redis`, `aws`  |
-
-```bash
-# Start all services (rebuilds after source changes)
-make up
-
-# Start only the infrastructure
-make up infra
-
-# Rebuild and restart a single service
-make up api
-
-# Stop and remove all containers
-make down
-```
+`make run` writes the logs to `logs/{target}.log`.
