@@ -1,18 +1,17 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: update-pull-request.sh {repository path} {number} {title} {assignee} {labels} <<< {body}
+# Usage: update-pull-request.sh {number} {title} {assignee} {labels} <<< {body}
 # Updates the title, body, assignee and labels of the existing pull request, reading the body from stdin.
 # Uses REST API since `gh pr edit` fails on the deprecated Projects classic. Labels are comma-separated and replace the existing ones.
 
-# Move to the target repository.
-cd "$1"
-cd "$(git rev-parse --show-toplevel)"
+# Move to the repository root.
+cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
 
-number="$2"
-title="$3"
-assignee="$4"
-labels="${5:-}"
+number="$1"
+title="$2"
+assignee="$3"
+labels="${4:-}"
 repository="$(gh repo view --json nameWithOwner --jq '.nameWithOwner')"
 
 # Update the title and the body.

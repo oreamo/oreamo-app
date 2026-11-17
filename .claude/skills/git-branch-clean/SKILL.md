@@ -10,18 +10,14 @@ Switches to the latest `develop`, and deletes the current branch from the local 
 
 ### Rules
 
-- Base Branch: `develop`, unless the user requests another. Pass it as the second argument of the script.
+- Base Branch: `develop`, unless the user requests another. Pass it as the first argument of the script.
 - Script Only: Never switch, pull or delete branches directly. Use only the script below.
 - Stop On Failure: If the script fails, show its output and stop. Do not force delete with `-D`.
 
 ### Pipeline
 
-#### 1. Select
-
-- Select the target repositories.
-
-#### 2. Clean
+#### 1. Clean
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/clean-branch.sh {repository path}
+bash ${CLAUDE_SKILL_DIR}/scripts/clean-branch.sh
 ```

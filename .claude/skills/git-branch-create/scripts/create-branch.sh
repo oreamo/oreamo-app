@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: create-branch.sh {repository path} {branch name} {base branch (default: develop)}
+# Usage: create-branch.sh {branch name} {base branch (default: develop)}
 # Switches to the latest base branch and creates a new branch from it.
 
-# Move to the target repository.
-cd "$1"
-cd "$(git rev-parse --show-toplevel)"
+# Move to the repository root.
+cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
 
-branch="$2"
-base="${3:-develop}"
+branch="$1"
+base="${2:-develop}"
 
 git switch "$base"
 git pull

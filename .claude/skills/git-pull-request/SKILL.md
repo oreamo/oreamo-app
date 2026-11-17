@@ -18,44 +18,40 @@ Prepares the branch, writes the pull request, and creates or updates it.
 
 ### Pipeline
 
-#### 1. Select
-
-- Select the target repositories.
-
-#### 2. Prepare
+#### 1. Prepare
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/collect-status.sh {repository path}
+bash ${CLAUDE_SKILL_DIR}/scripts/collect-status.sh
 ```
 
 - If there are `Uncommitted Changes`, ask `Commit` or `Ignore` with the `AskUserQuestion` tool. Commit them for `Commit`.
 - Update the source with the latest `origin/develop`.
 
-#### 3. Analyze
+#### 2. Analyze
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/collect-diff.sh {repository path}
+bash ${CLAUDE_SKILL_DIR}/scripts/collect-diff.sh
 ```
 
 - If there is no difference or `Assignee` is `None`, stop.
 - Fill `${CLAUDE_SKILL_DIR}/templates/pull-request-template.md` in Korean. Do not include the commit type in the title.
 - Select every matching label of `Labels`.
 
-#### 4. Pull Request
+#### 3. Pull Request
 
 - If `Unpushed Commits` is not `0`, push.
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/push-branch.sh {repository path}
+bash ${CLAUDE_SKILL_DIR}/scripts/push-branch.sh
 ```
 
 - If `Existing Pull Request` is `None`, create. Otherwise, update only if the title, body, assignee or labels differ. Labels are comma-separated, and the body starts from `# Pull Request`.
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/create-pull-request.sh {repository path} {base branch} "{title}" {assignee} "{labels}" <<'EOF'
+bash ${CLAUDE_SKILL_DIR}/scripts/create-pull-request.sh {base branch} "{title}" {assignee} "{labels}" <<'EOF'
 {body}
 EOF
-bash ${CLAUDE_SKILL_DIR}/scripts/update-pull-request.sh {repository path} {number} "{title}" {assignee} "{labels}" <<'EOF'
+bash ${CLAUDE_SKILL_DIR}/scripts/update-pull-request.sh {number} "{title}" {assignee} "{labels}" <<'EOF'
 {body}
 EOF
 ```

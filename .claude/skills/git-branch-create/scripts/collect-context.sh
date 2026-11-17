@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: collect-context.sh {repository path}
+# Usage: collect-context.sh
 # Collects the changes and the GitHub labels of the repository for the branch name.
 
-# Move to the target repository.
-cd "$1"
-cd "$(git rev-parse --show-toplevel)"
+# Move to the repository root.
+cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
 
 echo "### Repository"
 pwd

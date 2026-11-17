@@ -1,11 +1,10 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: abort-merge.sh {repository path}
+# Usage: abort-merge.sh
 # Aborts the ongoing merge and restores the state before the merge.
 
-# Move to the target repository.
-cd "$1"
-cd "$(git rev-parse --show-toplevel)"
+# Move to the repository root.
+cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
 
 git merge --abort
