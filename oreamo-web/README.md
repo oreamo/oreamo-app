@@ -4,18 +4,18 @@ Web client for Oreamo, built with React, TypeScript and Vite.
 
 ## Tech Stack
 
-| Category     | Library                                  |
-| ------------ | ---------------------------------------- |
-| Framework    | React 19 (React Compiler), Vite 8        |
-| Language     | TypeScript 5.9                           |
-| Routing      | React Router 7                           |
-| Server State | TanStack Query 5, Axios                  |
-| Client State | Zustand 5                                |
-| UI           | MUI 7, Emotion, MUI X Date Pickers       |
-| Grid         | AG Grid 35                               |
-| Form         | React Hook Form 7                        |
-| Utility      | Day.js, crypto-js, react-dropzone        |
-| Code Quality | ESLint 9, Prettier 3                    |
+| Category     | Library                            |
+| ------------ | ---------------------------------- |
+| Framework    | React 19 (React Compiler), Vite 8  |
+| Language     | TypeScript 5.9                     |
+| Routing      | React Router 7                     |
+| Server State | TanStack Query 5, Axios            |
+| Client State | Zustand 5                          |
+| UI           | MUI 7, Emotion, MUI X Date Pickers |
+| Grid         | AG Grid 35                         |
+| Form         | React Hook Form 7                  |
+| Utility      | Day.js, crypto-js, react-dropzone  |
+| Code Quality | ESLint 9, Prettier 3               |
 
 ## Requirements
 
