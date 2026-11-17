@@ -1,6 +1,34 @@
-while read -r local_ref _; do
-  if [ "$local_ref" != "(delete)" ]; then
-    pnpm --dir oreamo-web build
-    exit 0
+# Collect the files changed by the pushed commits.
+changed=""
+while read -r local_ref local_oid _ remote_oid; do
+  if [ "$local_ref" = "(delete)" ]; then
+    continue
   fi
+
+  # Compare with the base branch if the remote branch is new or unknown, otherwise with the remote branch.
+  case "$remote_oid" in
+    *[!0]*) base="$remote_oid" ;;
+    *) base="" ;;
+  esac
+  if [ -n "$base" ] && git cat-file -e "$base^{commit}" 2>/dev/null; then
+    range="$base..$local_oid"
+  else
+    range="origin/develop...$local_oid"
+  fi
+
+  changed="$changed$(git diff --name-only "$range")
+"
 done
+
+# Check only the changed services.
+if echo "$changed" | grep -q '^oreamo-web/'; then
+  pnpm --dir oreamo-web build
+fi
+
+if echo "$changed" | grep -q '^oreamo-api/'; then
+  oreamo-api/gradlew -p oreamo-api build
+fi
+
+if echo "$changed" | grep -q '^oreamo-agent/'; then
+  make -C oreamo-agent check
+fi
