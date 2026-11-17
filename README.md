@@ -26,11 +26,24 @@ make up
 
 `docker-compose.yml` runs the services and their infrastructure (PostgreSQL, Redis, LocalStack) for local development.
 
-| Service    | URL                   |
-| ---------- | --------------------- |
-| `web`      | http://localhost:3000 |
-| `api`      | http://localhost:8080 |
-| `agent`    | http://localhost:8000 |
+| Service | URL                   |
+| ------- | --------------------- |
+| `web`   | http://localhost:3000 |
+| `api`   | http://localhost:8080 |
+| `agent` | http://localhost:8000 |
+
+Run `make up` or `make down` with the targets below. Without a target, it runs all of them.
+
+| Target    | Containers            |
+| --------- | --------------------- |
+| `web`     | Web client            |
+| `api`     | API server            |
+| `agent`   | Agent server          |
+| `db`      | PostgreSQL            |
+| `redis`   | Redis                 |
+| `aws`     | LocalStack            |
+| `service` | `web`, `api`, `agent` |
+| `infra`   | `db`, `redis`, `aws`  |
 
 ```bash
 # Start all services (rebuilds after source changes)
@@ -40,10 +53,7 @@ make up
 make up infra
 
 # Rebuild and restart a single service
-make run api
-
-# Show logs of a service
-docker compose logs -f api
+make up api
 
 # Stop and remove all containers
 make down
