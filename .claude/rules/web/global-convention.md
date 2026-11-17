@@ -1,3 +1,8 @@
+---
+paths:
+  - "oreamo-web/**"
+---
+
 # Global Convention
 
 This file describes the global conventions for the project.

@@ -1,8 +1,8 @@
 ---
 description: Conventions for TypeScript
 paths:
-  - "src/**/*.{tsx}"
-  - "src/**/*.{ts}"
+  - "oreamo-web/src/**/*.{tsx}"
+  - "oreamo-web/src/**/*.{ts}"
 ---
 
 # TypeScript Convention

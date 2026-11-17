@@ -1,8 +1,8 @@
 ---
 description: This file describes the conventions for implementing React.
 paths:
-  - "src/**/*.{tsx}"
-  - "src/**/*.{ts}"
+  - "oreamo-web/src/**/*.{tsx}"
+  - "oreamo-web/src/**/*.{ts}"
 ---
 
 # React Convention
