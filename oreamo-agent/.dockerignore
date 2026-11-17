@@ -1,5 +1,3 @@
-.git
-.claude
 .venv
 .ruff_cache
 __pycache__
