@@ -13,27 +13,12 @@ require_command() {
   fi
 }
 
-clone_repository() {
-  local name="$1"
-  local path="$root/$name"
-
-  if [ -d "$path/.git" ]; then
-    echo "### $name: already exists"
-    return
-  fi
-
-  echo "### $name: cloning"
-  git clone --branch develop "https://github.com/oreamo/$name.git" "$path"
-}
-
-require_command "git"
 require_command "make"
 require_command "pnpm"
 require_command "uv"
 
-clone_repository "oreamo-web"
-clone_repository "oreamo-api"
-clone_repository "oreamo-agent"
+echo "### oreamo-app: installing"
+pnpm --dir "$root" install
 
 echo "### oreamo-web: installing"
 pnpm --dir "$root/oreamo-web" install
