@@ -37,12 +37,16 @@ export function useFieldErrorAutoOpenEffect<
   useEffect(() => {
     if (autoOpenSubmitCount === undefined) return;
 
-    const timeoutId = setTimeout(() => {
+    const closeAutoOpen = () => {
       setAutoOpenSubmitCount(undefined);
-    }, FIELD_ERROR_AUTO_OPEN_DURATION);
+    };
+
+    const timeoutId = setTimeout(closeAutoOpen, FIELD_ERROR_AUTO_OPEN_DURATION);
+    document.addEventListener("pointerdown", closeAutoOpen);
 
     return () => {
       clearTimeout(timeoutId);
+      document.removeEventListener("pointerdown", closeAutoOpen);
     };
   }, [autoOpenSubmitCount]);
 
