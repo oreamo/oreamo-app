@@ -1,6 +1,6 @@
 ---
 paths:
-  - "**/*.java"
+  - "oreamo-api/**/*.java"
 ---
 
 # Java Convention

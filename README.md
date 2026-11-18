@@ -1,50 +1,78 @@
 # Oreamo Application
 
-Workspace for shared configuration across Oreamo services.
+Monorepo of the Oreamo services and their shared configuration.
 
-## Repositories
+## Services
 
-| Directory          | Description                                    | Repository                                |
-| ------------------ | ---------------------------------------------- | ----------------------------------------- |
-| `oreamo-web/`      | Web client (React, TypeScript, Vite)           | https://github.com/oreamo/oreamo-web      |
-| `oreamo-api/`      | API server (Spring Boot, MyBatis, PostgreSQL)  | https://github.com/oreamo/oreamo-api      |
-| `oreamo-agent/`    | Agent server (FastAPI, SQLAlchemy, PostgreSQL) | https://github.com/oreamo/oreamo-agent    |
+| Directory       | Description                                    |
+| --------------- | ---------------------------------------------- |
+| `oreamo-web/`   | Web client (React, TypeScript, Vite)           |
+| `oreamo-api/`   | API server (Spring Boot, MyBatis, PostgreSQL)  |
+| `oreamo-agent/` | Agent server (FastAPI, SQLAlchemy, PostgreSQL) |
 
-Each service is an independent git repository and is excluded from this repository via `.gitignore`.
+All services are managed in this repository as a monorepo.
 
 ## Start Application
 
-```bash
-# Clone repositories and install dependencies
-bash scripts/init.sh
+The commands run with `make` on macOS and Linux. On Windows, run them in WSL2 (Ubuntu).
 
-# Start all services
-docker compose up -d
+```bash
+# Install make if it is not installed (Ubuntu, WSL2)
+sudo apt install make
 ```
 
-## Docker
+```bash
+# Install dependencies and git hooks
+make init
 
-`docker-compose.yml` runs the services and their infrastructure (PostgreSQL, Redis, LocalStack) for local development.
+# Start all services
+make up
+```
 
-| Service    | URL                   |
-| ---------- | --------------------- |
-| `web`      | http://localhost:3000 |
-| `api`      | http://localhost:8080 |
-| `agent`    | http://localhost:8000 |
+## Commands
+
+Run `make {command} {targets}` at the repository root. Without a target, it runs all targets of the command.
+
+| Command           | Targets                                     | Description                                 |
+| ----------------- | ------------------------------------------- | ------------------------------------------- |
+| `make init`       | -                                           | Install dependencies and git hooks          |
+| `make up`         | `web`, `api`, `agent`, `db`, `redis`, `aws` | Build and start the containers with Docker  |
+| `make down`       | `web`, `api`, `agent`, `db`, `redis`, `aws` | Stop and remove the containers              |
+| `make run`        | `web`, `api`, `agent`                       | Run the services directly in the background |
+| `make stop`       | `web`, `api`, `agent`                       | Stop the services run directly              |
+| `make logs`       | `web`, `api`, `agent`                       | Show the logs of the services               |
+| `make status`     | `web`, `api`, `agent`, `db`, `redis`, `aws` | Show whether the targets are running        |
+| `make build`      | `web`, `api`, `agent`                       | Build the services (`agent`: type check)    |
+| `make lint`       | `web`, `agent`                              | Check lint                                  |
+| `make lint-fix`   | `web`, `agent`                              | Fix lint                                    |
+| `make format`     | `web`, `api`, `agent`                       | Check format                                |
+| `make format-fix` | `web`, `api`, `agent`                       | Fix format                                  |
+| `make help`       | -                                           | Show the commands and their targets         |
+
+`make up`, `make down` and `make status` also take `service` (`web`, `api`, `agent`) and `infra` (`db`, `redis`, `aws`).
 
 ```bash
-# Start all services
-docker compose up -d
-
-# Rebuild and restart after source changes
-docker compose up -d --build
+# Start only the infrastructure
+make up infra
 
 # Rebuild and restart a single service
-docker compose up -d --build api
+make up api
 
-# Show logs of a service
-docker compose logs -f api
+# Run the web directly with the others in Docker
+make up infra api agent
+make run web
 
-# Stop and remove all containers
-docker compose down
+# Fix lint and format of the web and agent
+make lint-fix web agent
+make format-fix web agent
 ```
+
+## Services URL
+
+| Service | URL                   |
+| ------- | --------------------- |
+| `web`   | http://localhost:3000 |
+| `api`   | http://localhost:8080 |
+| `agent` | http://localhost:8000 |
+
+`make run` writes the logs to `logs/{target}.log`.

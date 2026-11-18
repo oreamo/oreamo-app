@@ -17,23 +17,19 @@ Collects the changes, writes the commit message, and commits them.
 
 ### Pipeline
 
-#### 1. Select
-
-- Select the target repositories.
-
-#### 2. Collect
+#### 1. Collect
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/collect-target.sh {repository path}
+bash ${CLAUDE_SKILL_DIR}/scripts/collect-target.sh
 ```
 
 - `Target` is `staged` if there are staged changes, otherwise `unstaged`. If it is `none`, stop.
 
-#### 3. Branch
+#### 2. Branch
 
 - If the current branch is `develop`, create a new branch for the changes with the `git-branch-create` skill first.
 
-#### 4. Analyze
+#### 3. Analyze
 
 - Group the `Target Files` by feature. Put a file shared by multiple features into the group of its main feature.
 - Select the matching label of `Labels` for each group.
@@ -42,15 +38,15 @@ bash ${CLAUDE_SKILL_DIR}/scripts/collect-target.sh {repository path}
 - Fill `${CLAUDE_SKILL_DIR}/templates/commit-template.md` in English. Refer to the recent logs of the type only for the message style.
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/collect-log.sh {repository path} {type}
+bash ${CLAUDE_SKILL_DIR}/scripts/collect-log.sh {type}
 ```
 
-#### 5. Commit
+#### 4. Commit
 
 - Commit each group with its files. For a renamed file, pass both paths.
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/commit.sh {repository path} {target} {file}... <<'EOF'
+bash ${CLAUDE_SKILL_DIR}/scripts/commit.sh {target} {file}... <<'EOF'
 {commit message}
 EOF
 ```

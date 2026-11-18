@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: finish-merge.sh {repository path}
+# Usage: finish-merge.sh
 # Completes the ongoing merge with the default merge commit message.
 
-# Move to the target repository.
-cd "$1"
-cd "$(git rev-parse --show-toplevel)"
+# Move to the repository root.
+cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
 
 if ! git rev-parse -q --verify MERGE_HEAD >/dev/null; then
   echo "No merge is in progress." >&2

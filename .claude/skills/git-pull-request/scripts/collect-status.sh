@@ -1,12 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: collect-status.sh {repository path}
+# Usage: collect-status.sh
 # Collects the uncommitted changes of the repository.
 
-# Move to the target repository.
-cd "$1"
-cd "$(git rev-parse --show-toplevel)"
+# Move to the repository root.
+cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
 
 echo "### Repository"
 pwd

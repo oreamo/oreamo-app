@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: check-update.sh {repository path} {base branch (default: develop)}
+# Usage: check-update.sh {base branch (default: develop)}
 # Checks whether the current branch includes the latest remote base branch.
 
-# Move to the target repository.
-cd "$1"
-cd "$(git rev-parse --show-toplevel)"
+# Move to the repository root.
+cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
 
-base="${2:-develop}"
+base="${1:-develop}"
 head="$(git branch --show-current)"
 
 git fetch origin "$base" --quiet

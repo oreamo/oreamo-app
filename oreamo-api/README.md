@@ -4,18 +4,18 @@ API server for Oreamo, built with Spring Boot, MyBatis and PostgreSQL.
 
 ## Tech Stack
 
-| Category     | Library                                             |
-| ------------ | --------------------------------------------------- |
+| Category     | Library                                              |
+| ------------ | ---------------------------------------------------- |
 | Framework    | Spring Boot 4.0 (Web MVC, Security, AOP, Validation) |
-| Language     | Java 25                                             |
-| Build        | Gradle 9.6                                          |
-| Database     | PostgreSQL, Flyway                                  |
-| Persistence  | MyBatis 4, PageHelper                               |
-| Cache        | Redis                                               |
-| Storage      | AWS S3 (LocalStack for local)                       |
-| Auth         | JWT (jjwt) with cookie-based access/refresh tokens  |
-| API Docs     | springdoc-openapi (Swagger UI)                      |
-| Code Quality | Spotless (Palantir Java Format)                     |
+| Language     | Java 25                                              |
+| Build        | Gradle 9.6                                           |
+| Database     | PostgreSQL, Flyway                                   |
+| Persistence  | MyBatis 4, PageHelper                                |
+| Cache        | Redis                                                |
+| Storage      | AWS S3 (LocalStack for local)                        |
+| Auth         | JWT (jjwt) with cookie-based access/refresh tokens   |
+| API Docs     | springdoc-openapi (Swagger UI)                       |
+| Code Quality | Spotless (Palantir Java Format)                      |
 
 ## Requirements
 
@@ -24,9 +24,19 @@ API server for Oreamo, built with Spring Boot, MyBatis and PostgreSQL.
 
 ## Getting Started
 
+Run all services with Docker at the repository root.
+
 ```bash
-docker compose up -d
-./gradlew bootRun --args='--spring.profiles.active=local'
+make up
+```
+
+### Run Directly
+
+Start the dependent services with Docker, then run this service directly at the repository root.
+
+```bash
+make up infra agent
+make run api
 ```
 
 The server runs on `http://localhost:8080`.
@@ -43,17 +53,17 @@ The server runs on `http://localhost:8080`.
 | `development` | `application-development.yml` | Development server                     |
 | `production`  | `application-production.yml`  | Production server                      |
 
-| Variable                           | Description                              |
-| ---------------------------------- | ---------------------------------------- |
-| `SPRING_SECURITY_JWT_SECRET_VALUE` | Secret key for JWT signing               |
+| Variable                           | Description                               |
+| ---------------------------------- | ----------------------------------------- |
+| `SPRING_SECURITY_JWT_SECRET_VALUE` | Secret key for JWT signing                |
 | `FLYWAY_CLEAN_ON_ERROR`            | Clean database on migration error (local) |
 
 ## Scripts
 
-| Script                    | Description             |
-| ------------------------- | ----------------------- |
-| `./gradlew bootRun`       | Run the server          |
-| `./gradlew build`         | Build the project       |
-| `./gradlew test`          | Run tests               |
-| `./gradlew spotlessApply` | Format with Spotless    |
-| `./gradlew spotlessCheck` | Check formatting        |
+| Script                    | Description          |
+| ------------------------- | -------------------- |
+| `./gradlew bootRun`       | Run the server       |
+| `./gradlew build`         | Build the project    |
+| `./gradlew test`          | Run tests            |
+| `./gradlew spotlessApply` | Format with Spotless |
+| `./gradlew spotlessCheck` | Check formatting     |

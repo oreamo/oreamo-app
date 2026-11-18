@@ -1,14 +1,13 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: collect-history.sh {repository path} {base branch (default: develop)}
+# Usage: collect-history.sh {base branch (default: develop)}
 # Collects the commit logs of the current branch from the base branch and the GitHub labels for the new branch name.
 
-# Move to the target repository.
-cd "$1"
-cd "$(git rev-parse --show-toplevel)"
+# Move to the repository root.
+cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
 
-base="${2:-develop}"
+base="${1:-develop}"
 head="$(git branch --show-current)"
 
 git fetch origin "$base" --quiet

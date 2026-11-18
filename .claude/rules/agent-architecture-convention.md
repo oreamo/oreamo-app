@@ -1,6 +1,6 @@
 ---
 paths:
-  - "app/**"
+  - "oreamo-agent/app/**"
 ---
 
 # Architecture Convention

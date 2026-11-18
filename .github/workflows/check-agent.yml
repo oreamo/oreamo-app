@@ -1,0 +1,50 @@
+name: Check Agent
+
+on:
+  pull_request:
+    branches: [develop]
+  push:
+    branches: [develop]
+
+jobs:
+  # Detect the changes to skip the check when the service is not changed.
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      changed: ${{ steps.filter.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            changed:
+              - "oreamo-agent/**"
+              - ".github/workflows/check-agent.yml"
+
+  agent:
+    needs: changes
+    if: needs.changes.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: astral-sh/setup-uv@v6
+        with:
+          python-version: "3.14"
+
+      - name: Install dependencies
+        run: uv sync --frozen --directory oreamo-agent
+
+      - name: Lint
+        run: make lint agent
+
+      - name: Format
+        run: make format agent
+
+      - name: Type check
+        run: make build agent

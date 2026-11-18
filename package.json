@@ -1,0 +1,22 @@
+{
+  "name": "oreamo-app",
+  "private": true,
+  "type": "module",
+  "engines": {
+    "node": ">=25"
+  },
+  "devEngines": {
+    "runtime": {
+      "name": "node",
+      "version": "^25.9.0",
+      "onFail": "download"
+    }
+  },
+  "scripts": {
+    "prepare": "husky"
+  },
+  "devDependencies": {
+    "husky": "^9.1.7",
+    "lint-staged": "^16.4.0"
+  }
+}

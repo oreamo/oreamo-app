@@ -1,13 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: mark-resolved.sh {repository path} {file}...
+# Usage: mark-resolved.sh {file}...
 # Marks the given conflicted files as resolved.
 
-# Move to the target repository.
-cd "$1"
-cd "$(git rev-parse --show-toplevel)"
-shift
+# Move to the repository root.
+cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
 
 if [ "$#" -eq 0 ]; then
   echo "No files are given." >&2

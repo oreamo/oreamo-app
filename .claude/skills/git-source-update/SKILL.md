@@ -6,44 +6,38 @@ allowed-tools: Bash(bash ${CLAUDE_SKILL_DIR}/scripts/*)
 
 ### Overview
 
-Pulls the latest `develop`, checks the errors, and fixes them.
+Pulls the latest `develop`, checks the errors of the changed services, and fixes them.
 
 ### Rules
 
-- Base Branch: `develop`, unless the user requests another. Pass it as the second argument of the scripts.
+- Base Branch: `develop`, unless the user requests another. Pass it as the first argument of the scripts.
 - Fix Commands: Fix format and lint errors with the formatter first, then fix the remaining errors by editing the code.
-  - Web: `pnpm lint:fix`, `pnpm format`
-  - API: `./gradlew spotlessApply`
-  - Agent: `make lint-fix`, `make format`
+  - `make lint-fix {services}`, `make format-fix {services}` at the repository root.
 - Environment Error: If a check fails by the environment (e.g. Docker is not running), do not change the code. Tell the user how to fix it and stop.
 - Stop On Failure: If a script fails, show its output and stop.
 
 ### Pipeline
 
-#### 1. Select
-
-- Select the target repositories.
-
-#### 2. Check
+#### 1. Check
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/check-update.sh {repository path}
+bash ${CLAUDE_SKILL_DIR}/scripts/check-update.sh
 ```
 
 - If `Behind` is `0`, stop.
 
-#### 3. Update
+#### 2. Update
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/update.sh {repository path}
+bash ${CLAUDE_SKILL_DIR}/scripts/update.sh
 ```
 
 - If `Result` is `conflict`, resolve the merge conflicts.
 
-#### 4. Verify
+#### 3. Verify
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/verify.sh {repository path}
+bash ${CLAUDE_SKILL_DIR}/scripts/verify.sh
 ```
 
 - If `Result` is `failed`, fix the errors and verify again until it passes. Then commit the fixes.

@@ -4,16 +4,16 @@ Agent server for Oreamo, built with FastAPI, SQLAlchemy and PostgreSQL.
 
 ## Tech Stack
 
-| Category     | Library                                             |
-| ------------ | --------------------------------------------------- |
-| Framework    | FastAPI, Uvicorn                                    |
-| Language     | Python 3.14                                         |
-| Package      | uv, make                                            |
-| Database     | PostgreSQL, Alembic                                 |
-| Persistence  | SQLAlchemy 2.0 (asyncio, asyncpg)                   |
-| Cache        | Redis                                               |
-| API Docs     | OpenAPI (Swagger UI)                                |
-| Code Quality | Ruff, ty, pre-commit                                |
+| Category     | Library                           |
+| ------------ | --------------------------------- |
+| Framework    | FastAPI, Uvicorn                  |
+| Language     | Python 3.14                       |
+| Package      | uv, make                          |
+| Database     | PostgreSQL, Alembic               |
+| Persistence  | SQLAlchemy 2.0 (asyncio, asyncpg) |
+| Cache        | Redis                             |
+| API Docs     | OpenAPI (Swagger UI)              |
+| Code Quality | Ruff, ty                          |
 
 ## Requirements
 
@@ -23,11 +23,20 @@ Agent server for Oreamo, built with FastAPI, SQLAlchemy and PostgreSQL.
 
 ## Getting Started
 
+Run all services with Docker at the repository root.
+
 ```bash
-docker compose up -d
-make sync
-make migrate
-make run
+make up
+```
+
+### Run Directly
+
+Start the dependent services with Docker, then run this service directly at the repository root.
+
+```bash
+make up infra
+make -C oreamo-agent migrate
+make run agent
 ```
 
 The server runs on `http://localhost:8000`.
@@ -52,7 +61,7 @@ See `.env.example` for all variables.
 
 | Script           | Description                       |
 | ---------------- | --------------------------------- |
-| `make sync`      | Install dependencies & hooks      |
+| `make sync`      | Install dependencies              |
 | `make run`       | Run the server                    |
 | `make migrate`   | Run database migrations           |
 | `make lint`      | Lint with Ruff                    |

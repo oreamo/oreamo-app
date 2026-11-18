@@ -16,31 +16,27 @@ Analyzes the merge conflicts, resolves them, and completes the merge commit.
 
 ### Pipeline
 
-#### 1. Select
-
-- Select the target repositories.
-
-#### 2. Collect
+#### 1. Collect
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/collect-conflicts.sh {repository path}
+bash ${CLAUDE_SKILL_DIR}/scripts/collect-conflicts.sh
 ```
 
 - If `Merge` is `None`, stop.
 
-#### 3. Resolve
+#### 2. Resolve
 
 - Resolve the certain conflicts by editing the files.
 - Ask the others with the `AskUserQuestion` tool, showing the code and intent of both sides. Options: `Ours`, `Theirs`, `Combine`, `Abort merge`.
 - If `Abort merge` is selected, abort and stop.
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/abort-merge.sh {repository path}
+bash ${CLAUDE_SKILL_DIR}/scripts/abort-merge.sh
 ```
 
-#### 4. Commit
+#### 3. Commit
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/mark-resolved.sh {repository path} {file}...
-bash ${CLAUDE_SKILL_DIR}/scripts/finish-merge.sh {repository path}
+bash ${CLAUDE_SKILL_DIR}/scripts/mark-resolved.sh {file}...
+bash ${CLAUDE_SKILL_DIR}/scripts/finish-merge.sh
 ```

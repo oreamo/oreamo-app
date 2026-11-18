@@ -26,14 +26,14 @@ services:
     volumes:
       - ./oreamo-api/docker/localstack/init:/etc/localstack/init/ready.d
   web:
-    image: oreamo-application-web:1.0.0
+    image: oreamo-app-web:1.0.0
     build: ./oreamo-web
     ports:
       - "3000:3000"
     depends_on:
       - api
   api:
-    image: oreamo-application-api:1.0.0
+    image: oreamo-app-api:1.0.0
     build: ./oreamo-api
     ports:
       - "8080:8080"
@@ -51,7 +51,7 @@ services:
       localstack:
         condition: service_started
   agent:
-    image: oreamo-application-agent:1.0.0
+    image: oreamo-app-agent:1.0.0
     build: ./oreamo-agent
     ports:
       - "8000:8000"

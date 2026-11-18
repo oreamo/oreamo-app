@@ -1,0 +1,33 @@
+# Collect the files changed by the pushed commits.
+changed=""
+while read -r local_ref local_oid _ remote_oid; do
+  if [ "$local_ref" = "(delete)" ]; then
+    continue
+  fi
+
+  # Compare with the base branch if the remote branch is new or unknown, otherwise with the remote branch.
+  case "$remote_oid" in
+    *[!0]*) base="$remote_oid" ;;
+    *) base="" ;;
+  esac
+  if [ -n "$base" ] && git cat-file -e "$base^{commit}" 2>/dev/null; then
+    range="$base..$local_oid"
+  else
+    range="origin/develop...$local_oid"
+  fi
+
+  changed="$changed$(git diff --name-only "$range")
+"
+done
+
+# Build only the changed services.
+services=""
+for service in web api agent; do
+  if echo "$changed" | grep -q "^oreamo-$service/"; then
+    services="$services $service"
+  fi
+done
+
+if [ -n "$services" ]; then
+  make build $services
+fi

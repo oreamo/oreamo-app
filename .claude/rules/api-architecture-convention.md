@@ -1,6 +1,6 @@
 ---
 paths:
-  - "src/main/java/**"
+  - "oreamo-api/src/main/java/**"
 ---
 
 # Architecture Convention

@@ -1,3 +1,8 @@
+---
+paths:
+  - "oreamo-agent/**/*.py"
+---
+
 # Python Convention
 
 ```

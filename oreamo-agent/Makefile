@@ -2,7 +2,6 @@
 
 sync:
 	uv sync
-	uv run pre-commit install
 
 run:
 	uv run uvicorn app.main:app --reload --port 8000

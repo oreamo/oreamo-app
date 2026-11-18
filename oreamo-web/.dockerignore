@@ -1,6 +1,3 @@
-.git
-.claude
-.husky
 node_modules
 dist
 *.local

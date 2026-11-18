@@ -23,38 +23,34 @@ Creates a new branch from the latest `develop`, or renames the current branch by
 
 ### Pipeline
 
-#### 1. Select
-
-- Select the target repositories.
-
-#### 2. Collect
+#### 1. Collect
 
 - `Create`
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/collect-context.sh {repository path}
+bash ${CLAUDE_SKILL_DIR}/scripts/collect-context.sh
 ```
 
 - `Rename`
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/collect-history.sh {repository path}
+bash ${CLAUDE_SKILL_DIR}/scripts/collect-history.sh
 ```
 
-#### 3. Name
+#### 2. Name
 
 - Write the branch name with the collected `Labels` and the work.
 
-#### 4. Apply
+#### 3. Apply
 
 - `Create`
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/create-branch.sh {repository path} {branch name}
+bash ${CLAUDE_SKILL_DIR}/scripts/create-branch.sh {branch name}
 ```
 
 - `Rename`: Renames the remote branch too if it exists.
 
 ```bash
-bash ${CLAUDE_SKILL_DIR}/scripts/rename-branch.sh {repository path} {branch name}
+bash ${CLAUDE_SKILL_DIR}/scripts/rename-branch.sh {branch name}
 ```

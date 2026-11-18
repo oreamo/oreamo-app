@@ -1,0 +1,47 @@
+name: Check API
+
+on:
+  pull_request:
+    branches: [develop]
+  push:
+    branches: [develop]
+
+jobs:
+  # Detect the changes to skip the check when the service is not changed.
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      changed: ${{ steps.filter.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            changed:
+              - "oreamo-api/**"
+              - ".github/workflows/check-api.yml"
+
+  api:
+    needs: changes
+    if: needs.changes.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: actions/setup-java@v5
+        with:
+          distribution: temurin
+          java-version: 25
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Compile
+        run: oreamo-api/gradlew -p oreamo-api compileJava
+
+      - name: Format
+        run: make format api

@@ -1,7 +1,7 @@
 ---
 description: This file describes the conventions for implementing React hooks.
 paths:
-  - "src/**/use*.ts"
+  - "oreamo-web/src/**/use*.ts"
 ---
 
 # Hook Convention

@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: rename-branch.sh {repository path} {branch name} {base branch (default: develop)}
+# Usage: rename-branch.sh {branch name} {base branch (default: develop)}
 # Renames the current branch, and replaces the remote branch too if it exists.
 
-# Move to the target repository.
-cd "$1"
-cd "$(git rev-parse --show-toplevel)"
+# Move to the repository root.
+cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
 
-branch="$2"
-base="${3:-develop}"
+branch="$1"
+base="${2:-develop}"
 head="$(git branch --show-current)"
 
 if [ -z "$head" ] || [ "$head" = "$base" ]; then

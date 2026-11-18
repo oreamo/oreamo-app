@@ -1,7 +1,7 @@
 ---
 description: This file describes the conventions for implementing React components.
 paths:
-  - "src/**/*.{tsx}"
+  - "oreamo-web/src/**/*.{tsx}"
 ---
 
 # Component Convention

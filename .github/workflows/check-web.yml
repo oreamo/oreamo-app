@@ -1,0 +1,56 @@
+name: Check Web
+
+on:
+  pull_request:
+    branches: [develop]
+  push:
+    branches: [develop]
+
+jobs:
+  # Detect the changes to skip the check when the service is not changed.
+  changes:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      pull-requests: read
+    outputs:
+      changed: ${{ steps.filter.outputs.changed }}
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: dorny/paths-filter@v3
+        id: filter
+        with:
+          filters: |
+            changed:
+              - "oreamo-web/**"
+              - ".github/workflows/check-web.yml"
+
+  web:
+    needs: changes
+    if: needs.changes.outputs.changed == 'true'
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v5
+
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 12.3.4
+
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 25
+          cache: pnpm
+          cache-dependency-path: oreamo-web/pnpm-lock.yaml
+
+      - name: Install dependencies
+        run: pnpm --dir oreamo-web install --frozen-lockfile --ignore-scripts
+
+      - name: Lint
+        run: make lint web
+
+      - name: Format
+        run: make format web
+
+      - name: Type check
+        run: pnpm --dir oreamo-web exec tsc -b

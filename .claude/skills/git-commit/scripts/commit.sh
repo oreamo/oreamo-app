@@ -1,15 +1,14 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: commit.sh {repository path} {staged|unstaged} {file}... <<< {commit message}
+# Usage: commit.sh {staged|unstaged} {file}... <<< {commit message}
 # Commits only the given files of the commit target, reading the commit message from stdin.
 
-# Move to the target repository.
-cd "$1"
-cd "$(git rev-parse --show-toplevel)"
+# Move to the repository root.
+cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
 
-target="$2"
-shift 2
+target="$1"
+shift
 files=("$@")
 
 if [ "${#files[@]}" -eq 0 ]; then
