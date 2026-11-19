@@ -5,6 +5,7 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import com.oreamo.common.constant.TranslationKey;
+import com.oreamo.common.enums.DataStatus;
 import com.oreamo.common.model.OperationAuthor;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -41,4 +42,8 @@ public class CommonCodeSave extends OperationAuthor {
     @NotNull(message = TranslationKey.Common.Label.SORT_ORDER)
     @Min(value = 1, message = TranslationKey.Common.Label.SORT_ORDER)
     private Integer sortOrder;
+
+    public boolean isEnabled() {
+        return DataStatus.ofValue(dataStatus).isEnabled();
+    }
 }

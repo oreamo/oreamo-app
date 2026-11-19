@@ -2,6 +2,8 @@ package com.oreamo.menu.model;
 
 import com.oreamo.common.model.DataRecord;
 
+import org.springframework.util.StringUtils;
+
 import io.swagger.v3.oas.annotations.media.Schema;
 
 import lombok.Getter;
@@ -30,6 +32,10 @@ public class Menu extends DataRecord {
 
     @Schema(description = "Sort Order")
     private Integer sortOrder;
+
+    public boolean hasParentMenu() {
+        return StringUtils.hasText(parentMenuId);
+    }
 
     public MenuInfo toMenuInfo() {
         return MenuInfo.builder().menuId(menuId).menuName(menuName).build();

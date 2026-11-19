@@ -6,7 +6,10 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import com.oreamo.common.constant.TranslationKey;
+import com.oreamo.common.enums.DataStatus;
 import com.oreamo.common.model.OperationAuthor;
+
+import org.springframework.util.StringUtils;
 
 import io.swagger.v3.oas.annotations.media.Schema;
 
@@ -47,4 +50,12 @@ public class MenuSave extends OperationAuthor {
     @Schema(description = "Data Status")
     @NotBlank(message = TranslationKey.Common.Label.DATA_STATUS)
     private String dataStatus;
+
+    public boolean isEnabled() {
+        return DataStatus.ofValue(dataStatus).isEnabled();
+    }
+
+    public boolean hasParentMenu() {
+        return StringUtils.hasText(parentMenuId);
+    }
 }

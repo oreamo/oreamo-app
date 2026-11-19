@@ -88,6 +88,10 @@ public class MenuService {
                     menuSave.getMenuId());
         }
 
+        if (menuSave.isEnabled() && menuSave.hasParentMenu()) {
+            validateParentMenuEnabled(menuSave.getParentMenuId());
+        }
+
         int createdCount = menuRepository.insertMenu(menuSave);
         if (createdCount == 0) {
             throw new RestException(TranslationKey.Common.Message.CREATE_FAILURE);
@@ -102,14 +106,19 @@ public class MenuService {
     @Transactional
     public void updateMenu(MenuUpdate menuUpdate) {
         MenuSearch menuSearch = MenuSearch.ofMenuId(menuUpdate.getMenuId());
-        menuRepository
-                .selectMenu(menuSearch)
-                .orElseThrow(() -> new RestException(
-                        TranslationKey.Common.Message.NOT_FOUND_FAILURE, TranslationKey.Menu.Label.MENU));
+        Menu menu = getMenu(menuSearch);
+
+        if (menuUpdate.isEnabled() && menu.hasParentMenu()) {
+            validateParentMenuEnabled(menu.getParentMenuId());
+        }
 
         int updatedMenuCount = menuRepository.updateMenu(menuUpdate);
         if (updatedMenuCount == 0) {
             throw new RestException(TranslationKey.Common.Message.UPDATE_FAILURE);
+        }
+
+        if (menuUpdate.hasDataStatusChanged(menu)) {
+            menuRepository.updateSubMenusByMenuUpdate(menuUpdate);
         }
     }
 
@@ -137,14 +146,7 @@ public class MenuService {
     @Transactional
     public void operateMenus(MenuOperate menuOperate) {
         if (menuOperate.hasDeleteTargets()) {
-            List<String> deleteMenuIds = menuOperate.getDeleteMenuIds();
-            MenusSearch deleteMenusSearch = MenusSearch.ofMenuIds(deleteMenuIds);
-            List<Menu> deleteMenus = menuRepository.selectMenus(deleteMenusSearch);
-            Map<String, String> parentMenuIdsOfDeleteMenus = deleteMenus.stream()
-                    .collect(
-                            HashMap::new,
-                            (map, menu) -> map.put(menu.getMenuId(), menu.getParentMenuId()),
-                            HashMap::putAll);
+            Map<String, String> parentMenuIdsOfDeleteMenus = getParentMenuIds(menuOperate.getDeleteMenuIds());
 
             menuOperate
                     .getMenuDeletesSortedByHierarchy(parentMenuIdsOfDeleteMenus)
@@ -152,11 +154,35 @@ public class MenuService {
         }
 
         if (menuOperate.hasUpdateTargets()) {
-            menuOperate.getMenuUpdates().forEach(this::updateMenu);
+            Map<String, String> parentMenuIdsOfUpdateMenus = getParentMenuIds(menuOperate.getUpdateMenuIds());
+
+            menuOperate
+                    .getMenuUpdatesSortedByHierarchy(parentMenuIdsOfUpdateMenus)
+                    .forEach(this::updateMenu);
         }
 
         if (menuOperate.hasSaveTargets()) {
             menuOperate.getMenuSavesSortedByHierarchy().forEach(this::saveMenu);
+        }
+    }
+
+    private Map<String, String> getParentMenuIds(List<String> menuIds) {
+        MenusSearch menusSearch = MenusSearch.ofMenuIds(menuIds);
+        List<Menu> menus = menuRepository.selectMenus(menusSearch);
+
+        return menus.stream()
+                .collect(
+                        HashMap::new,
+                        (map, menu) -> map.put(menu.getMenuId(), menu.getParentMenuId()),
+                        HashMap::putAll);
+    }
+
+    private void validateParentMenuEnabled(String parentMenuId) {
+        MenuSearch parentMenuSearch = MenuSearch.ofMenuId(parentMenuId);
+        Menu parentMenu = getMenu(parentMenuSearch);
+
+        if (!parentMenu.isEnabled()) {
+            throw new RestException(TranslationKey.Menu.Message.MENU_ENABLE_FAILURE_BY_DISABLED_PARENT_MENU);
         }
     }
 }
