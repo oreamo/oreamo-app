@@ -27,7 +27,5 @@ public interface MenuRepository {
 
     int updateMenu(MenuUpdate menuUpdate);
 
-    int updateSubMenusByMenuUpdate(MenuUpdate menuUpdate);
-
     int deleteMenu(MenuDelete menuDelete);
 }

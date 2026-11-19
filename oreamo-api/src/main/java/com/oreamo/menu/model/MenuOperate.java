@@ -46,10 +46,6 @@ public class MenuOperate extends OperationAuthor {
         return menuDeletes.stream().map(MenuDelete::getMenuId).collect(Collectors.toList());
     }
 
-    public List<String> getUpdateMenuIds() {
-        return menuUpdates.stream().map(MenuUpdate::getMenuId).collect(Collectors.toList());
-    }
-
     public List<MenuSave> getMenuSavesSortedByHierarchy() {
         Map<String, String> parentMenuIdByMenuId = menuSaves.stream()
                 .collect(
@@ -60,13 +56,6 @@ public class MenuOperate extends OperationAuthor {
         return menuSaves.stream()
                 .sorted(Comparator.comparingInt(
                         menuSave -> depthWithinBatch(menuSave.getMenuId(), parentMenuIdByMenuId)))
-                .toList();
-    }
-
-    public List<MenuUpdate> getMenuUpdatesSortedByHierarchy(Map<String, String> parentMenuIdsOfUpdateMenus) {
-        return menuUpdates.stream()
-                .sorted(Comparator.comparingInt(
-                        menuUpdate -> depthWithinBatch(menuUpdate.getMenuId(), parentMenuIdsOfUpdateMenus)))
                 .toList();
     }
 

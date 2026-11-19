@@ -34,15 +34,12 @@
         SELECT RP.MENU_ID
              , RP.PERMISSION_CODE
           FROM TB_ROLE_PERMISSION RP
-         INNER JOIN TB_ROLE R
-                 ON RP.ROLE_CODE = R.ROLE_CODE
          INNER JOIN TB_PERMISSION P
                  ON RP.PERMISSION_CODE = P.PERMISSION_CODE
          INNER JOIN TB_MENU M
                  ON RP.MENU_ID = M.MENU_ID
          WHERE RP.ROLE_CODE = #{roleCode}
         <if test="dataStatus != null and dataStatus != ''">
-           AND R.DATA_STATUS = #{dataStatus}
            AND P.DATA_STATUS = #{dataStatus}
            AND M.DATA_STATUS = #{dataStatus}
         </if>

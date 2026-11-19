@@ -37,8 +37,6 @@ public class TranslationKey {
         public static class Message {
             public static final String GROUP_CODE_DELETE_FAILURE_BY_ENABLED_COMMON_CODE =
                     "code.message.GROUP_CODE_DELETE_FAILURE_BY_ENABLED_COMMON_CODE";
-            public static final String COMMON_CODE_ENABLE_FAILURE_BY_DISABLED_GROUP_CODE =
-                    "code.message.COMMON_CODE_ENABLE_FAILURE_BY_DISABLED_GROUP_CODE";
         }
     }
 
@@ -95,8 +93,6 @@ public class TranslationKey {
 
         public static class Message {
             public static final String MENU_DELETE_FAILURE_BY_SUB_MENU = "menu.message.MENU_DELETE_FAILURE_BY_SUB_MENU";
-            public static final String MENU_ENABLE_FAILURE_BY_DISABLED_PARENT_MENU =
-                    "menu.message.MENU_ENABLE_FAILURE_BY_DISABLED_PARENT_MENU";
         }
     }
 

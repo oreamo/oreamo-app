@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
 import com.oreamo.common.constant.TranslationKey;
-import com.oreamo.common.enums.DataStatus;
 import com.oreamo.common.model.OperationAuthor;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -31,12 +30,4 @@ public class MenuUpdate extends OperationAuthor {
     @Schema(description = "Data Status", example = "ENABLED")
     @NotNull(message = TranslationKey.Common.Label.DATA_STATUS)
     private String dataStatus;
-
-    public boolean isEnabled() {
-        return DataStatus.ofValue(dataStatus).isEnabled();
-    }
-
-    public boolean hasDataStatusChanged(Menu menu) {
-        return !dataStatus.equals(menu.getDataStatus());
-    }
 }
