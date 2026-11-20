@@ -22,30 +22,12 @@ for service in "$@"; do
   fi
 done
 
-# Print the processes run by the given process and their descendants.
-descendants() {
-  for child in $(pgrep -P "$1" || true); do
-    echo "$child"
-    descendants "$child"
-  done
-}
-
-# Stop all the services together when the script is stopped.
-cleanup() {
-  trap - INT TERM EXIT
-  kill $(descendants $$) 2> /dev/null || true
-  wait
-}
-trap cleanup INT TERM EXIT
-
 for service in "$@"; do
   echo "### $service: running"
 
   case "$service" in
-    web) (cd "$root/oreamo-web" && pnpm dev) & ;;
-    api) (cd "$root/oreamo-api" && ./gradlew bootRun --args='--spring.profiles.active=local') & ;;
-    agent) (cd "$root/oreamo-agent" && make run) & ;;
+    web) (cd "$root/oreamo-web" && nohup pnpm dev < /dev/null > /dev/null 2>&1 &) ;;
+    api) (cd "$root/oreamo-api" && nohup ./gradlew bootRun --args='--spring.profiles.active=local' < /dev/null > /dev/null 2>&1 &) ;;
+    agent) (cd "$root/oreamo-agent" && nohup make run < /dev/null > /dev/null 2>&1 &) ;;
   esac
 done
-
-wait
