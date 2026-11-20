@@ -17,11 +17,11 @@ require_command "make"
 require_command "pnpm"
 require_command "uv"
 
-echo "### oreamo-app: installing"
+echo "oreamo-app: installing"
 pnpm --dir "$root" install
 
-echo "### oreamo-web: installing"
+echo "oreamo-web: installing"
 pnpm --dir "$root/oreamo-web" install
 
-echo "### oreamo-agent: installing"
+echo "oreamo-agent: installing"
 make -C "$root/oreamo-agent" sync
