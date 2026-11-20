@@ -33,23 +33,23 @@ make up
 
 Run `make {command} {targets}` at the repository root. Without a target, it runs all targets of the command.
 
-| Command           | Targets                                     | Description                                 |
-| ----------------- | ------------------------------------------- | ------------------------------------------- |
-| `make init`       | -                                           | Install dependencies and git hooks          |
-| `make up`         | `web`, `api`, `agent`, `db`, `redis`, `aws` | Build and start the containers with Docker  |
-| `make down`       | `web`, `api`, `agent`, `db`, `redis`, `aws` | Stop and remove the containers              |
-| `make run`        | `web`, `api`, `agent`                       | Run the services directly in the background |
-| `make stop`       | `web`, `api`, `agent`                       | Stop the services run directly              |
-| `make logs`       | `web`, `api`, `agent`                       | Show the logs of the containers             |
-| `make status`     | `web`, `api`, `agent`, `db`, `redis`, `aws` | Show whether the targets are running        |
-| `make build`      | `web`, `api`, `agent`                       | Build the services (`agent`: type check)    |
-| `make lint`       | `web`, `agent`                              | Check lint                                  |
-| `make lint-fix`   | `web`, `agent`                              | Fix lint                                    |
-| `make format`     | `web`, `api`, `agent`                       | Check format                                |
-| `make format-fix` | `web`, `api`, `agent`                       | Fix format                                  |
-| `make help`       | -                                           | Show the commands and their targets         |
+| Command           | Targets                                                  | Description                                 |
+|-------------------|----------------------------------------------------------|---------------------------------------------|
+| `make init`       | -                                                        | Install dependencies and git hooks          |
+| `make up`         | `web`, `api`, `agent`, `postgres`, `redis`, `localstack` | Build and start the containers with Docker  |
+| `make down`       | `web`, `api`, `agent`, `postgres`, `redis`, `localstack` | Stop and remove the containers              |
+| `make run`        | `web`, `api`, `agent`                                    | Run the services directly in the background |
+| `make stop`       | `web`, `api`, `agent`                                    | Stop the services run directly              |
+| `make logs`       | `web`, `api`, `agent`                                    | Show the logs of the containers             |
+| `make status`     | `web`, `api`, `agent`, `postgres`, `redis`, `localstack` | Show whether the targets are running        |
+| `make build`      | `web`, `api`, `agent`                                    | Build the services (`agent`: type check)    |
+| `make lint`       | `web`, `agent`                                           | Check lint                                  |
+| `make lint-fix`   | `web`, `agent`                                           | Fix lint                                    |
+| `make format`     | `web`, `api`, `agent`                                    | Check format                                |
+| `make format-fix` | `web`, `api`, `agent`                                    | Fix format                                  |
+| `make help`       | -                                                        | Show the commands and their targets         |
 
-`make up`, `make down` and `make status` also take `service` (`web`, `api`, `agent`) and `infra` (`db`, `redis`, `aws`).
+`make up`, `make down` and `make status` also take `service` (`web`, `api`, `agent`) and `infra` (`postgres`, `redis`, `localstack`).
 
 ```bash
 # Start only the infrastructure
