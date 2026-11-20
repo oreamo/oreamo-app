@@ -77,7 +77,7 @@ stop:
 	bash scripts/stop.sh $(SERVICES)
 
 logs:
-	bash scripts/logs.sh $(SERVICES)
+	docker compose logs -f $(SERVICES)
 
 status:
 	@bash scripts/status.sh $(foreach name,$(or $(strip $(NAMES)),$(SERVICE) $(INFRA)),$(name):$(COMPOSE_$(name)))
@@ -89,9 +89,9 @@ help:
 	@echo "  init         Install dependencies and git hooks"
 	@echo "  up           Build and start the containers with Docker   (web, api, agent, db, redis, aws, service, infra)"
 	@echo "  down         Stop and remove the containers               (web, api, agent, db, redis, aws, service, infra)"
-	@echo "  run          Run the services directly in the background  (web, api, agent)"
+	@echo "  run          Run the services directly                    (web, api, agent)"
 	@echo "  stop         Stop the services run directly               (web, api, agent)"
-	@echo "  logs         Show the logs of the services                (web, api, agent)"
+	@echo "  logs         Show the logs of the containers              (web, api, agent)"
 	@echo "  status       Show whether the targets are running         (web, api, agent, db, redis, aws, service, infra)"
 	@echo "  build        Build the services                           (web, api, agent)"
 	@echo "  lint         Check lint                                   (web, agent)"

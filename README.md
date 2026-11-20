@@ -38,9 +38,9 @@ Run `make {command} {targets}` at the repository root. Without a target, it runs
 | `make init`       | -                                           | Install dependencies and git hooks          |
 | `make up`         | `web`, `api`, `agent`, `db`, `redis`, `aws` | Build and start the containers with Docker  |
 | `make down`       | `web`, `api`, `agent`, `db`, `redis`, `aws` | Stop and remove the containers              |
-| `make run`        | `web`, `api`, `agent`                       | Run the services directly in the background |
+| `make run`        | `web`, `api`, `agent`                       | Run the services directly                   |
 | `make stop`       | `web`, `api`, `agent`                       | Stop the services run directly              |
-| `make logs`       | `web`, `api`, `agent`                       | Show the logs of the services               |
+| `make logs`       | `web`, `api`, `agent`                       | Show the logs of the containers             |
 | `make status`     | `web`, `api`, `agent`, `db`, `redis`, `aws` | Show whether the targets are running        |
 | `make build`      | `web`, `api`, `agent`                       | Build the services (`agent`: type check)    |
 | `make lint`       | `web`, `agent`                              | Check lint                                  |
@@ -74,5 +74,3 @@ make format-fix web agent
 | `web`   | http://localhost:3000 |
 | `api`   | http://localhost:8080 |
 | `agent` | http://localhost:8000 |
-
-`make run` writes the logs to `logs/{target}.log`.
