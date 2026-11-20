@@ -44,6 +44,9 @@ start="$(now)"
 # Results of the targets are written as files named by their indexes, with the exit code and the end time.
 results="$(mktemp -d)"
 
+# Outputs of the targets are kept while running, to show them when the targets failed.
+outputs="$(mktemp -d)"
+
 # Print the processes run by the given process and their descendants.
 descendants() {
   for child in $(pgrep -P "$1" || true); do
@@ -54,7 +57,7 @@ descendants() {
 
 # Hide the cursor and keep the long lines from wrapping while running, and stop the running tasks with their processes when interrupted.
 [ -t 1 ] && printf '\033[?25l\033[?7l'
-trap '[ -t 1 ] && printf "\033[?25h\033[?7h"; rm -rf "$results"' EXIT
+trap '[ -t 1 ] && printf "\033[?25h\033[?7h"; rm -rf "$results" "$outputs"' EXIT
 trap 'kill $(descendants $$) 2> /dev/null; exit 130' INT TERM
 
 # Write the result of the target by the given exit code.
@@ -113,7 +116,7 @@ case "$command" in
         docker compose up -d --build "${containers[@]}"
       else
         docker compose down "${containers[@]}"
-      fi
+      fi > "$outputs/compose" 2>&1
       echo "$?" > "$results/.compose"
     ) < /dev/null > /dev/null 2>&1 &
 
@@ -152,7 +155,7 @@ case "$command" in
   *)
     for i in "${!targets[@]}"; do
       (
-        task "${targets[$i]}"
+        task "${targets[$i]}" > "$outputs/$i" 2>&1
         finish "$i" "$?"
       ) < /dev/null > /dev/null 2>&1 &
     done
@@ -257,6 +260,24 @@ else
   render
 fi
 wait
+
+# Show the outputs of the failed targets, and the output of docker compose once for up and down.
+shown_compose=0
+for i in "${!targets[@]}"; do
+  read -r code end < "$results/$i"
+  if [ "$code" = "0" ] || [ "$code" = "$skipped" ]; then
+    continue
+  fi
+
+  if [ -f "$outputs/$i" ]; then
+    printf '\n\033[31m%s\033[0m\n' "${names[$i]}"
+    cat "$outputs/$i"
+  elif [ "$shown_compose" = "0" ] && [ -f "$outputs/compose" ]; then
+    printf '\n\033[31m%s\033[0m\n' "docker compose"
+    cat "$outputs/compose"
+    shown_compose=1
+  fi
+done
 
 # Fail if any target failed.
 ! grep -qvE "^(0|$skipped) " "$results"/*
