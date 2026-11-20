@@ -2,7 +2,7 @@
 set -euo pipefail
 
 # Usage: status.sh {target:container}...
-# Prints whether the targets are running directly, with docker, or stopped.
+# Prints whether the targets are running locally, with docker, or stopped.
 
 # Workspace root is one level above this script (scripts).
 root="$(cd "$(dirname "$0")/.." && pwd)"
@@ -22,7 +22,7 @@ for item in "$@"; do
   case "$target" in
     web | api | agent)
       if [ -n "$(bash scripts/find-process.sh "$target")" ]; then
-        status="running (direct)"
+        status="running (local)"
       fi
       ;;
   esac
