@@ -28,7 +28,7 @@ if [ -t 1 ]; then
   fi
 fi
 
-printf "%-${width}s  %-16s\n" "TARGET" "STATUS"
+printf "%-${width}s  %-16s\n" "NAME" "STATUS"
 for item in "$@"; do
   target="${item%%:*}"
   container="${item#*:}"
