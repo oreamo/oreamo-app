@@ -1,15 +1,14 @@
+import { AlertColor } from "@mui/material";
 import { create } from "zustand";
-
-type SystemToastType = "info" | "success" | "warning" | "error";
 
 type SystemToastState = {
   open: boolean;
-  type: SystemToastType;
+  type: AlertColor;
   message: string;
 };
 
 type SystemToastAction = {
-  toast: (params: { type?: SystemToastType; message: string }) => void;
+  toast: (params: { type?: AlertColor; message: string }) => void;
   close: () => void;
 };
 
