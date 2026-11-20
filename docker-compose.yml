@@ -2,6 +2,7 @@ name: oreamo-app
 
 services:
   postgres:
+    container_name: oreamo-app-postgres
     image: postgres:17
     ports:
       - "5432:5432"
@@ -15,10 +16,12 @@ services:
       timeout: 5s
       retries: 20
   redis:
+    container_name: oreamo-app-redis
     image: redis:8
     ports:
       - "6379:6379"
   localstack:
+    container_name: oreamo-app-localstack
     image: localstack/localstack:4.14.0
     ports:
       - "4566:4566"
@@ -28,13 +31,13 @@ services:
     volumes:
       - ./oreamo-api/docker/localstack/init:/etc/localstack/init/ready.d
   web:
+    container_name: oreamo-app-web
     image: oreamo-app-web:1.0.0
     build: ./oreamo-web
     ports:
       - "3000:3000"
-    depends_on:
-      - api
   api:
+    container_name: oreamo-app-api
     image: oreamo-app-api:1.0.0
     build: ./oreamo-api
     ports:
@@ -48,11 +51,8 @@ services:
     depends_on:
       postgres:
         condition: service_healthy
-      redis:
-        condition: service_started
-      localstack:
-        condition: service_started
   agent:
+    container_name: oreamo-app-agent
     image: oreamo-app-agent:1.0.0
     build: ./oreamo-agent
     ports:
@@ -63,10 +63,3 @@ services:
       DB_HOST: postgres
       REDIS_HOST: redis
       AWS_S3_ENDPOINT: http://localstack:4566
-    depends_on:
-      postgres:
-        condition: service_healthy
-      redis:
-        condition: service_started
-      localstack:
-        condition: service_started
