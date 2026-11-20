@@ -2,7 +2,7 @@
 set -uo pipefail
 
 # Usage: task.sh {command} {target[:container]}...
-# Runs the command for all targets together quietly, showing a spinner for each target while running and ✓ or ✗ when done.
+# Runs the command for all targets together quietly, showing a spinner for each target while running and ✔, ✘ or - when done, and the outputs of the failed targets.
 
 # Workspace root is one level above this script (scripts).
 root="$(cd "$(dirname "$0")/.." && pwd)"
@@ -94,63 +94,72 @@ task() {
 
 case "$command" in
   up | down)
-    # Print the state of the container as "{running} {started at}", or nothing if it does not exist.
-    state() {
-      docker inspect -f '{{.State.Running}} {{.State.StartedAt}}' "$1" 2> /dev/null
-    }
-
-    # Keep the states of the containers before running, to find the containers started by this run.
-    before=()
-    for i in "${!targets[@]}"; do
-      before+=("$(state "${names[$i]}")")
-
-      # Skip removing the container which does not exist.
-      if [ "$command" = "down" ] && [ -z "${before[$i]}" ]; then
-        finish "$i" "$skipped"
-      fi
-    done
-
-    # Run docker compose once for all targets so that it handles the dependencies.
-    (
-      if [ "$command" = "up" ]; then
-        docker compose up -d --build "${containers[@]}"
-      else
-        docker compose down "${containers[@]}"
-      fi > "$outputs/compose" 2>&1
-      echo "$?" > "$results/.compose"
-    ) < /dev/null > /dev/null 2>&1 &
-
-    # Judge each target by its container while docker compose is running, and the rest when it is done.
-    (
-      while [ "$(done_count)" -lt "${#targets[@]}" ]; do
-        code="$(cat "$results/.compose" 2> /dev/null || true)"
-
-        for i in "${!targets[@]}"; do
-          if [ -f "$results/$i" ]; then
-            continue
-          fi
-
-          current="$(state "${names[$i]}")"
-          if [ "$command" = "up" ]; then
-            # Started by this run, or running when docker compose is done.
-            if [ "${current%% *}" = "true" ] && { [ "$current" != "${before[$i]}" ] || [ "$code" = "0" ]; }; then
-              finish "$i" 0
-            elif [ -n "$code" ]; then
-              finish "$i" 1
-            fi
-          else
-            # Removed by this run.
-            if [ -z "$current" ]; then
-              finish "$i" 0
-            elif [ -n "$code" ]; then
-              finish "$i" 1
-            fi
-          fi
-        done
-
-        sleep 0.5
+    # Fail all targets if docker is not running.
+    if ! docker info > /dev/null 2>&1; then
+      echo "Docker is not running." > "$outputs/compose"
+      for i in "${!targets[@]}"; do
+        finish "$i" 1
       done
-    ) < /dev/null > /dev/null 2>&1 &
+    else
+      # Print the state of the container as "{running} {started at}", or nothing if it does not exist.
+      state() {
+        docker inspect -f '{{.State.Running}} {{.State.StartedAt}}' "$1" 2> /dev/null
+      }
+
+      # Keep the states of the containers before running, to find the containers started by this run.
+      before=()
+      for i in "${!targets[@]}"; do
+        before+=("$(state "${names[$i]}")")
+
+        # Skip removing the container which does not exist.
+        if [ "$command" = "down" ] && [ -z "${before[$i]}" ]; then
+          finish "$i" "$skipped"
+        fi
+      done
+
+      # Run docker compose once for all targets so that it handles the dependencies.
+      (
+        if [ "$command" = "up" ]; then
+          docker compose up -d --build "${containers[@]}"
+        else
+          # Remove the network too once no container of the app is left.
+          docker compose down "${containers[@]}" && { [ -n "$(docker compose ps -a -q)" ] || docker compose down; }
+        fi > "$outputs/compose" 2>&1
+        echo "$?" > "$results/.compose"
+      ) < /dev/null > /dev/null 2>&1 &
+
+      # Judge each target by its container while docker compose is running, and the rest when it is done.
+      (
+        while [ "$(done_count)" -lt "${#targets[@]}" ]; do
+          code="$(cat "$results/.compose" 2> /dev/null || true)"
+
+          for i in "${!targets[@]}"; do
+            if [ -f "$results/$i" ]; then
+              continue
+            fi
+
+            current="$(state "${names[$i]}")"
+            if [ "$command" = "up" ]; then
+              # Started by this run, or running when docker compose is done.
+              if [ "${current%% *}" = "true" ] && { [ "$current" != "${before[$i]}" ] || [ "$code" = "0" ]; }; then
+                finish "$i" 0
+              elif [ -n "$code" ]; then
+                finish "$i" 1
+              fi
+            else
+              # Removed by this run.
+              if [ -z "$current" ]; then
+                finish "$i" 0
+              elif [ -n "$code" ]; then
+                finish "$i" 1
+              fi
+            fi
+          done
+
+          sleep 0.5
+        done
+      ) < /dev/null > /dev/null 2>&1 &
+    fi
     ;;
   *)
     for i in "${!targets[@]}"; do
