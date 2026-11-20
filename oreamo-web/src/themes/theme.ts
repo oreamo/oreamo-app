@@ -1,5 +1,6 @@
 import { createTheme } from "@mui/material";
 
+import { alertTheme } from "@/themes/alert-theme";
 import { borderRadiusTheme } from "@/themes/border-radius-theme";
 import { breakpointTheme } from "@/themes/breakpoint-theme";
 import { buttonTheme } from "@/themes/button-theme";
@@ -28,6 +29,7 @@ export const theme = createTheme(
     ...borderRadiusTheme,
     ...breakpointTheme,
   },
+  alertTheme,
   buttonTheme,
   datePickerTheme,
   dialogTheme,
