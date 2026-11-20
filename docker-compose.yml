@@ -63,3 +63,7 @@ services:
       DB_HOST: postgres
       REDIS_HOST: redis
       AWS_S3_ENDPOINT: http://localstack:4566
+
+networks:
+  default:
+    name: oreamo-app-network
