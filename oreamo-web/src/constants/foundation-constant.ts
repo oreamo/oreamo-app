@@ -26,11 +26,12 @@ export const PALETTE = {
       activeBackground: "#1f222e",
       activeText: "#ffffff",
     },
-    brand: {
-      light: "#3555d4",
-      main: "#2846bd",
-      dark: "#223ba0",
-      contrastText: "#ffffff",
+    semantic: {
+      brand: "#2846bd",
+      info: "#2276a0",
+      success: "#257e55",
+      warning: "#9c6511",
+      error: "#b82e37",
     },
   },
   dark: {
@@ -60,11 +61,12 @@ export const PALETTE = {
       activeBackground: "#ffffff1a",
       activeText: "#f3f4f7",
     },
-    brand: {
-      light: "#3555d4",
-      main: "#2846bd",
-      dark: "#223ba0",
-      contrastText: "#ffffff",
+    semantic: {
+      brand: "#6780e4",
+      info: "#54a9d4",
+      success: "#40bf84",
+      warning: "#e29d36",
+      error: "#e35f67",
     },
   },
 } as const;

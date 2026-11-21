@@ -20,7 +20,10 @@ export type PaletteNavigation = Record<
   keyof typeof PALETTE.light.navigation,
   string
 >;
-export type PaletteBrand = Record<keyof typeof PALETTE.light.brand, string>;
+export type PaletteSemantic = Record<
+  keyof typeof PALETTE.light.semantic,
+  string
+>;
 export type ShadowScale = Record<keyof typeof SHADOW, string>;
 
 declare module "@mui/material/styles" {
