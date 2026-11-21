@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: create-pull-request.sh {base branch} {title} {assignee} {labels} <<< {body}
-# Creates the pull request, reading the body from stdin. Labels are comma-separated.
-
-# Move to the repository root.
-cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
+cd "$(git rev-parse --show-toplevel)"
 
 base="$1"
 title="$2"
