@@ -1,16 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: status.sh {target:container}...
-# Prints whether the targets are running locally, with docker, or stopped.
-
-# Workspace root is one level above this script (scripts).
 root="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$root"
 
 running="$(docker compose ps --services --status running 2> /dev/null || true)"
 
-# Align the statuses after the longest name.
 width=6
 for item in "$@"; do
   name="oreamo-${item#*:}"
@@ -19,7 +14,6 @@ for item in "$@"; do
   fi
 done
 
-# Push the statuses to the right end of the terminal like the other commands.
 if [ -t 1 ]; then
   columns="$(stty size < /dev/tty 2> /dev/null | cut -d ' ' -f 2)"
   columns="${columns:-0}"
@@ -45,7 +39,6 @@ for item in "$@"; do
       ;;
   esac
 
-  # Color the status only on the terminal.
   if [ -t 1 ]; then
     printf "%-${width}s  \033[${color}m%-16s\033[0m\n" "oreamo-$container" "$status"
   else

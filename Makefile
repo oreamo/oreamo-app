@@ -1,7 +1,6 @@
 INFRA := postgres redis localstack
 SERVICE := web api agent
 
-# Map the targets to the docker compose services.
 COMPOSE_postgres := postgres
 COMPOSE_redis := redis
 COMPOSE_localstack := localstack
@@ -13,10 +12,8 @@ COMPOSE_agent := agent
 
 NAMES := $(if $(filter infra,$(MAKECMDGOALS)),$(INFRA)) $(if $(filter service,$(MAKECMDGOALS)),$(SERVICE)) $(filter $(INFRA) $(SERVICE),$(MAKECMDGOALS))
 
-# Pair the targets with the docker compose services, or all targets if none is given.
 PAIRS := $(foreach name,$(or $(strip $(NAMES)),$(SERVICE) $(INFRA)),$(name):$(COMPOSE_$(name)))
 
-# Allowed targets of the commands.
 TARGET_up := infra service $(INFRA) $(SERVICE)
 TARGET_down := $(TARGET_up)
 TARGET_lint := web agent
@@ -37,7 +34,6 @@ ifneq ($(INVALID),)
 $(error Invalid targets of $(COMMAND): $(INVALID))
 endif
 
-# Select the given services, or all allowed services if none is given.
 SERVICES := $(or $(ARGS),$(TARGET_$(COMMAND)))
 
 init:

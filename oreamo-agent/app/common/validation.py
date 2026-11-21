@@ -18,7 +18,6 @@ class Label:
     key: str
 
 
-# Not null, not empty and not whitespace only
 NotBlankStr = Annotated[str, Field(pattern=r"\S")]
 
 
