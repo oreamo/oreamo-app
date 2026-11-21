@@ -40,10 +40,10 @@ export const buttonTheme: ThemeOptions = {
           },
         }),
         contained: ({ theme }) => ({
-          backgroundColor: theme.palette.scale[900],
-          color: theme.palette.scale[0],
-          "&:hover": { backgroundColor: theme.palette.scale[600] },
-          "&:active": { backgroundColor: theme.palette.scale[500] },
+          backgroundColor: theme.palette.primary.main,
+          color: theme.palette.primary.contrastText,
+          "&:hover": { backgroundColor: theme.palette.primary.dark },
+          "&:active": { backgroundColor: theme.palette.primary.dark },
           "&.Mui-disabled": {
             backgroundColor: theme.palette.scale[200],
             color: theme.palette.scale[400],

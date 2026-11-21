@@ -68,7 +68,7 @@ export const inputTheme: ThemeOptions = {
           },
           "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
             borderWidth: 1,
-            borderColor: theme.palette.scale[900],
+            borderColor: theme.palette.primary.main,
           },
           "&.Mui-error .MuiOutlinedInput-notchedOutline": {
             borderColor: theme.palette.error.main,

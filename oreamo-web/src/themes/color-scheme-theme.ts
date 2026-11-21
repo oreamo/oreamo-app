@@ -2,6 +2,7 @@ import type { PaletteOptions, ThemeOptions } from "@mui/material";
 
 import { DARK_SHADOW, PALETTE, SHADOW } from "@/constants/foundation-constant";
 import type {
+  PaletteBrand,
   PaletteNavigation,
   PaletteScale,
   PaletteSurface,
@@ -11,23 +12,20 @@ interface SchemePaletteOptions {
   scale: PaletteScale;
   surface: PaletteSurface;
   navigation: PaletteNavigation;
+  brand: PaletteBrand;
 }
 
 const createSchemePalette = ({
   scale,
   surface,
   navigation,
+  brand,
 }: SchemePaletteOptions): PaletteOptions => {
   return {
     scale,
     surface,
     navigation,
-    primary: {
-      light: scale[700],
-      main: scale[900],
-      dark: scale[900],
-      contrastText: scale[0],
-    },
+    primary: brand,
     secondary: {
       light: scale[200],
       main: scale[400],

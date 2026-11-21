@@ -30,7 +30,7 @@ const TEXT_WEIGHTS: TextProps["weight"][] = [
 
 const BREAKPOINT_MAX_WIDTH = BREAKPOINTS.desktop + 320;
 
-const PALETTE_GROUPS = ["scale", "surface", "navigation"] as const;
+const PALETTE_GROUPS = ["scale", "surface", "navigation", "brand"] as const;
 
 export function DevFoundationPage() {
   const [isDarkPalette, setIsDarkPalette] = useState(false);

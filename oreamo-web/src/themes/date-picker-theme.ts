@@ -29,7 +29,7 @@ export const datePickerTheme: ThemeOptions = {
           },
           "&.Mui-focused .MuiPickersOutlinedInput-notchedOutline": {
             borderWidth: 1,
-            borderColor: theme.palette.scale[900],
+            borderColor: theme.palette.primary.main,
           },
           "&.Mui-error .MuiPickersOutlinedInput-notchedOutline": {
             borderColor: theme.palette.error.main,
@@ -76,10 +76,10 @@ export const datePickerTheme: ThemeOptions = {
             backgroundColor: theme.palette.scale[100],
           },
           "&.Mui-selected": {
-            backgroundColor: theme.palette.scale[900],
-            color: theme.palette.scale[0],
+            backgroundColor: theme.palette.primary.main,
+            color: theme.palette.primary.contrastText,
             "&:hover, &:focus": {
-              backgroundColor: theme.palette.scale[800],
+              backgroundColor: theme.palette.primary.dark,
             },
           },
           "&.MuiPickerDay-today:not(.Mui-selected)": {

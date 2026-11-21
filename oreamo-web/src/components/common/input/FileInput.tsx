@@ -167,8 +167,8 @@ const StyledFileInputWrapper = styled(Flex)(({ theme }) => ({
 
   "& .MuiChip-clickable:hover:not(:has(.MuiChip-deleteIcon:hover, .MuiChip-icon:hover))":
     {
-      backgroundColor: theme.palette.scale[900],
-      color: theme.palette.scale[0],
+      backgroundColor: theme.palette.primary.main,
+      color: theme.palette.primary.contrastText,
     },
 
   "& .MuiChip-clickable:hover:not(:has(.MuiChip-deleteIcon:hover, .MuiChip-icon:hover)) :is(.MuiChip-deleteIcon, .MuiChip-icon)":

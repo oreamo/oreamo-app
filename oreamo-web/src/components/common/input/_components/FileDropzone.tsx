@@ -48,7 +48,7 @@ const StyledFileDropzoneContainer = styled(Box, {
   justifyContent: "center",
   gap: theme.spacing(1),
 
-  border: `1px dashed ${isDragging ? theme.palette.scale[900] : theme.palette.scale[300]}`,
+  border: `1px dashed ${isDragging ? theme.palette.primary.main : theme.palette.scale[300]}`,
   borderRadius: theme.shape.borderRadius,
 
   backgroundColor: isDragging ? theme.palette.scale[100] : "transparent",
@@ -56,7 +56,7 @@ const StyledFileDropzoneContainer = styled(Box, {
   cursor: "pointer",
 
   "&:hover": {
-    borderColor: theme.palette.scale[900],
+    borderColor: theme.palette.primary.main,
   },
 
   "& > *": {

@@ -19,7 +19,7 @@ export const progressTheme: ThemeOptions = {
       },
       styleOverrides: {
         root: ({ theme }) => ({
-          color: theme.palette.scale[900],
+          color: theme.palette.primary.main,
           animation: `${pulse} 1.8s ease-in-out infinite`,
 
           "& .MuiCircularProgress-circle": {
