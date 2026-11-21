@@ -1,3 +1,4 @@
+import { alpha } from "@mui/material";
 import type { ThemeOptions } from "@mui/material";
 
 import { Icon } from "@/components/common/display/Icon";
@@ -18,51 +19,55 @@ export const alertTheme: ThemeOptions = {
         },
       },
       styleOverrides: {
-        root: ({ theme }) => ({
-          padding: `${theme.spacing(1.5)} ${theme.spacing(2)}`,
+        root: ({ theme, ownerState }) => {
+          const color = theme.palette[ownerState.severity ?? "info"].main;
 
-          alignItems: "flex-start",
-          gap: theme.spacing(1),
+          return {
+            padding: `${theme.spacing(1.5)} ${theme.spacing(2)}`,
 
-          borderRadius: BORDER_RADIUS.md,
-          border: `1px solid ${theme.palette.scale[300]}`,
+            alignItems: "flex-start",
+            gap: theme.spacing(1),
 
-          backgroundColor: theme.palette.scale[50],
-          color: theme.palette.scale[900],
+            borderRadius: BORDER_RADIUS.md,
+            border: `1px solid ${alpha(color, 0.4)}`,
 
-          fontSize: TYPOGRAPHY.size.sm,
-          fontWeight: TYPOGRAPHY.weight.regular,
-          lineHeight: TYPOGRAPHY.lineHeight.normal,
-
-          "& .MuiAlert-icon": {
-            height: ALERT_LINE_HEIGHT,
-            padding: 0,
-            marginRight: 0,
-
-            display: "flex",
-            alignItems: "center",
-
-            color: theme.palette.scale[900],
-            opacity: 1,
-          },
-
-          "& .MuiAlert-message": {
-            minWidth: 0,
-            padding: 0,
-
-            overflowWrap: "anywhere",
-          },
-
-          "& .MuiAlertTitle-root": {
-            margin: 0,
-
+            backgroundColor: alpha(color, 0.08),
             color: theme.palette.scale[900],
 
             fontSize: TYPOGRAPHY.size.sm,
-            fontWeight: TYPOGRAPHY.weight.semibold,
+            fontWeight: TYPOGRAPHY.weight.regular,
             lineHeight: TYPOGRAPHY.lineHeight.normal,
-          },
-        }),
+
+            "& .MuiAlert-icon": {
+              height: ALERT_LINE_HEIGHT,
+              padding: 0,
+              marginRight: 0,
+
+              display: "flex",
+              alignItems: "center",
+
+              color,
+              opacity: 1,
+            },
+
+            "& .MuiAlert-message": {
+              minWidth: 0,
+              padding: 0,
+
+              overflowWrap: "anywhere",
+            },
+
+            "& .MuiAlertTitle-root": {
+              margin: 0,
+
+              color: theme.palette.scale[900],
+
+              fontSize: TYPOGRAPHY.size.sm,
+              fontWeight: TYPOGRAPHY.weight.semibold,
+              lineHeight: TYPOGRAPHY.lineHeight.normal,
+            },
+          };
+        },
       },
     },
   },
