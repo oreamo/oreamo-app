@@ -47,6 +47,12 @@ results="$(mktemp -d)"
 # Outputs of the targets are kept while running, to show them when the targets failed.
 outputs="$(mktemp -d)"
 
+# Phases of the targets are written as files named by their indexes while running, to show them instead of the status of the command, such as stopping the other run first.
+phases="$(mktemp -d)"
+
+# Notes of the targets are written as files named by their indexes, to show what was done besides the command next to the names.
+notes="$(mktemp -d)"
+
 # Print the processes run by the given process and their descendants.
 descendants() {
   for child in $(pgrep -P "$1" || true); do
@@ -57,7 +63,7 @@ descendants() {
 
 # Hide the cursor and keep the long lines from wrapping while running, and stop the running tasks with their processes when interrupted.
 [ -t 1 ] && printf '\033[?25l\033[?7l'
-trap '[ -t 1 ] && printf "\033[?25h\033[?7h"; rm -rf "$results" "$outputs"' EXIT
+trap '[ -t 1 ] && printf "\033[?25h\033[?7h"; rm -rf "$results" "$outputs" "$phases" "$notes"' EXIT
 trap 'kill $(descendants $$) 2> /dev/null; exit 130' INT TERM
 
 # Write the result of the target by the given exit code.
@@ -120,10 +126,23 @@ case "$command" in
       # Run docker compose once for all targets so that it handles the dependencies.
       (
         if [ "$command" = "up" ]; then
+          # Stop the services run directly first, so that the containers can use their ports.
+          for i in "${!targets[@]}"; do
+            case "${targets[$i]}" in
+              web | api | agent)
+                if [ -n "$(bash scripts/find-process.sh "${targets[$i]}")" ]; then
+                  echo "Stopping (local)" > "$phases/$i"
+                  bash scripts/stop.sh "${targets[$i]}" && echo "local stopped" > "$notes/$i"
+                  rm -f "$phases/$i"
+                fi
+                ;;
+            esac
+          done
+
           docker compose up -d --build "${containers[@]}"
         else
-          # Remove the network too once no container of the app is left.
-          docker compose down "${containers[@]}" && { [ -n "$(docker compose ps -a -q)" ] || docker compose down; }
+          # Remove the network too once no container is left on it, which docker refuses while any container uses it.
+          docker compose down "${containers[@]}" && { docker network rm oreamo-network > /dev/null 2>&1 || true; }
         fi > "$outputs/compose" 2>&1
         echo "$?" > "$results/.compose"
       ) < /dev/null > /dev/null 2>&1 &
@@ -164,6 +183,8 @@ case "$command" in
   *)
     for i in "${!targets[@]}"; do
       (
+        # Let the scripts of the target write its phase and note.
+        export PHASE_FILE="$phases/$i" NOTE_FILE="$notes/$i"
         task "${targets[$i]}" > "$outputs/$i" 2>&1
         finish "$i" "$?"
       ) < /dev/null > /dev/null 2>&1 &
@@ -182,17 +203,20 @@ for name in "${names[@]}"; do
   fi
 done
 
+# Fit the statuses to the longest one, such as "Removing (docker)".
+status_width=17
+
 # Push the statuses to the right end of the terminal, leaving the columns for the wide icons.
 if [ -t 1 ]; then
   columns="$(stty size < /dev/tty 2> /dev/null | cut -d ' ' -f 2)"
   columns="${columns:-0}"
-  if [ $((columns - 21)) -gt "$width" ]; then
-    width=$((columns - 21))
+  if [ $((columns - status_width - 13)) -gt "$width" ]; then
+    width=$((columns - status_width - 13))
   fi
 fi
 
 # Fill the progress bar in the room left in the line after the name, the count and the time.
-bar=$((width - 6))
+bar=$((width + status_width - 14))
 if [ "$bar" -lt 10 ]; then
   bar=10
 fi
@@ -212,6 +236,11 @@ render() {
 
     if [ ! -f "$results/$i" ]; then
       icon="${frames[frame % ${#frames[@]}]}" status="$active" color="0" end="$current"
+
+      # Show the phase of the target instead if it is written.
+      if [ -s "$phases/$i" ]; then
+        status="$(cat "$phases/$i" 2> /dev/null || echo "$active")"
+      fi
     else
       read -r code end < "$results/$i"
       count=$((count + 1))
@@ -229,8 +258,18 @@ render() {
       last="$end"
     fi
 
-    lines+="$(printf "\033[K\033[${color}m%s\033[0m %-${width}s  \033[${color}m%-8s\033[0m %6s" \
-      "$icon" "${names[$i]}" "$status" "$(seconds $((end - start)))")"$'\n'
+    # Show the note in gray after the name, filling the rest of the name column.
+    local note="" pad
+    if [ -s "$notes/$i" ]; then
+      note=" ($(cat "$notes/$i" 2> /dev/null))"
+    fi
+    pad=$((width - ${#names[$i]} - ${#note}))
+    if [ "$pad" -lt 0 ]; then
+      pad=0
+    fi
+
+    lines+="$(printf "\033[K\033[${color}m%s\033[0m %s\033[90m%s\033[0m%${pad}s  \033[${color}m%-${status_width}s\033[0m %6s" \
+      "$icon" "${names[$i]}" "$note" "" "$status" "$(seconds $((end - start)))")"$'\n'
   done
 
   # Fill the bar by the count of the targets done, in red if any target failed.

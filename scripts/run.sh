@@ -15,10 +15,29 @@ case "$service" in
   agent) port=8000 ;;
 esac
 
+# Write the phase of the service to PHASE_FILE if it is given, or clear it without a phase.
+phase() {
+  if [ -n "${PHASE_FILE:-}" ]; then
+    printf '%s' "${1:-}" > "$PHASE_FILE"
+  fi
+}
+
 # Restart the service if it is already running.
+if [ -n "$(bash "$root/scripts/find-process.sh" "$service")" ]; then
+  phase "Stopping (local)"
+fi
 bash "$root/scripts/stop.sh" "$service" || [ "$?" -eq 10 ]
 
-# Fail if the port is still used by others, such as the docker containers.
+# Remove the container of the service if it is running, so that the service can use its port.
+if [ "$(docker inspect -f '{{.State.Running}}' "oreamo-$service" 2> /dev/null)" = "true" ]; then
+  phase "Removing (docker)"
+  if (cd "$root" && docker compose down "$service") > /dev/null 2>&1 && [ -n "${NOTE_FILE:-}" ]; then
+    echo "docker removed" > "$NOTE_FILE"
+  fi
+fi
+phase
+
+# Fail if the port is still used by others.
 pid="$(lsof -ti "tcp:$port" -sTCP:LISTEN | head -1 || true)"
 if [ -n "$pid" ]; then
   echo "Port $port is already used by $(basename "$(ps -p "$pid" -o comm=)")." >&2
