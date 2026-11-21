@@ -62,9 +62,6 @@ export function DevDisplayPage() {
             <Badge content={120} max={99}>
               <Icon iconName="Notifications" />
             </Badge>
-            <Badge content={4} color="error">
-              <Icon iconName="Notifications" />
-            </Badge>
             <Badge content={4} color="default">
               <Icon iconName="Notifications" />
             </Badge>
