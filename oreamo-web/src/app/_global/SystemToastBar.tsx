@@ -3,7 +3,7 @@ import { ToastBar } from "@/components/common/overlay/ToastBar";
 import { useSystemToastStore } from "@/stores/system-toast-store";
 
 export function SystemToastBar() {
-  const { open, type, message, close } = useSystemToastStore();
+  const { id, open, type, message, close } = useSystemToastStore();
 
   const icon = (() => {
     switch (type) {
@@ -18,5 +18,14 @@ export function SystemToastBar() {
     }
   })();
 
-  return <ToastBar open={open} icon={icon} message={message} onClose={close} />;
+  return (
+    <ToastBar
+      key={id}
+      open={open}
+      type={type}
+      icon={icon}
+      message={message}
+      onClose={close}
+    />
+  );
 }

@@ -2,6 +2,7 @@ import { AlertColor } from "@mui/material";
 import { create } from "zustand";
 
 type SystemToastState = {
+  id: number;
   open: boolean;
   type: AlertColor;
   message: string;
@@ -15,10 +16,12 @@ type SystemToastAction = {
 type SystemToastStore = SystemToastState & SystemToastAction;
 
 export const useSystemToastStore = create<SystemToastStore>((set) => ({
+  id: 0,
   open: false,
   type: "info",
   message: "",
-  toast: ({ type = "info", message }) => set({ open: true, type, message }),
+  toast: ({ type = "info", message }) =>
+    set((state) => ({ id: state.id + 1, open: true, type, message })),
   close: () => set({ open: false }),
 }));
 
