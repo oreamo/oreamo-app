@@ -65,7 +65,7 @@ export function Header({
 }
 
 const StyledHeaderContainer = styled(AppBar)(({ theme }) => ({
-  color: theme.palette.text.primary,
+  color: theme.palette.scale[900],
 
   boxShadow: "none",
 

@@ -70,7 +70,7 @@ const StyledLabelContainer = styled(Flex)(({ theme }) => ({
 const StyledRequiredMark = styled("span")(({ theme }) => ({
   marginLeft: theme.spacing(0.5),
 
-  color: theme.palette.error.main,
+  color: theme.palette.semantic.error,
 }));
 
 const StyledValueContainer = styled(Flex)(({ theme }) => ({

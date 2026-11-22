@@ -67,7 +67,7 @@ const StyledIndicator = styled(Flex, {
   top: 0,
   left,
 
-  backgroundColor: theme.palette.scale[900],
+  backgroundColor: theme.palette.brand.primary,
 
   transition: theme.transitions.create(["left", "width"], {
     duration: theme.transitions.duration.short,

@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: clean-branch.sh {base branch (default: develop)}
-# Switches to the latest base branch and deletes the current branch from the local and the remote.
-
-# Move to the repository root.
-cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
+cd "$(git rev-parse --show-toplevel)"
 
 base="${1:-develop}"
 head="$(git branch --show-current)"
@@ -15,8 +11,13 @@ if [ "$head" = "$base" ]; then
   exit 1
 fi
 
-git switch "$base"
-git pull
+if git worktree list --porcelain | grep -qx "branch refs/heads/$base"; then
+  git fetch origin "$base"
+  git switch --detach "origin/$base"
+else
+  git switch "$base"
+  git pull
+fi
 git branch -d "$head"
 git push --delete origin "$head"
 

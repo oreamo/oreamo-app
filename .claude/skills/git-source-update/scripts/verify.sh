@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: verify.sh {base branch (default: develop)}
-# Runs the compile, build, test, format and lint checks of the services changed from the remote base branch.
-
-# Move to the repository root.
-cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
+cd "$(git rev-parse --show-toplevel)"
 
 base="${1:-develop}"
 
@@ -19,12 +15,10 @@ trap 'rm -f "$log"' EXIT
 checked="false"
 failed="false"
 for service in oreamo-web oreamo-api oreamo-agent; do
-  # Skip the service which has no difference from the remote base branch.
   if git diff --quiet "origin/$base" -- "$service"; then
     continue
   fi
 
-  # Check commands of each service.
   case "$service" in
     oreamo-web)
       commands=("make lint web" "make format web" "make build web")
@@ -46,7 +40,6 @@ for service in oreamo-web oreamo-api oreamo-agent; do
       failed="true"
       echo "failed"
       echo
-      # Show only the last lines of the output to keep the error readable.
       tail -n 100 "$log"
     fi
     echo

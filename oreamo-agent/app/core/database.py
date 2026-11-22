@@ -23,10 +23,8 @@ class Base(DeclarativeBase):
 
 
 async def get_db() -> AsyncIterator[AsyncSession]:
-    # One transaction per request: committed when the path operation succeeds, rolled back on any exception.
     async with AsyncSessionLocal() as session, session.begin():
         yield session
 
 
-# scope="function" closes the transaction before the response is sent, so clients never read uncommitted results.
 DbSession = Annotated[AsyncSession, Depends(get_db, scope="function")]

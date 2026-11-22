@@ -8,7 +8,7 @@ export interface ChipProps {
   className?: string;
   label: ReactNode;
   size?: "small" | "medium";
-  color?: "default" | "primary";
+  color?: "default" | "primary" | "secondary";
   icon?: IconName;
   disabled?: boolean;
   onClick?: (event: MouseEvent<HTMLDivElement>) => void;

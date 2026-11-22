@@ -1,10 +1,6 @@
 #!/usr/bin/env bash
 set -uo pipefail
 
-# Usage: task.sh {command} {target[:container]}...
-# Runs the command for all targets together quietly, showing a spinner for each target while running and ✔, ✘ or - when done, and the outputs of the failed targets.
-
-# Workspace root is one level above this script (scripts).
 root="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$root"
 
@@ -20,7 +16,6 @@ for item in "$@"; do
   names+=("oreamo-${item#*:}")
 done
 
-# Statuses of the command while running and when done.
 case "$command" in
   up) active="Starting" complete="Started" ;;
   down) active="Removing" complete="Removed" ;;
@@ -31,23 +26,22 @@ case "$command" in
   stop) active="Stopping" complete="Stopped" ;;
 esac
 
-# Exit code of the task which has nothing to do.
 skipped=10
 
-# Print the current time in tenths of a second.
 now() {
   perl -MTime::HiRes=time -e 'printf "%d\n", time * 10'
 }
 
 start="$(now)"
 
-# Results of the targets are written as files named by their indexes, with the exit code and the end time.
 results="$(mktemp -d)"
 
-# Outputs of the targets are kept while running, to show them when the targets failed.
 outputs="$(mktemp -d)"
 
-# Print the processes run by the given process and their descendants.
+phases="$(mktemp -d)"
+
+notes="$(mktemp -d)"
+
 descendants() {
   for child in $(pgrep -P "$1" || true); do
     descendants "$child"
@@ -55,23 +49,19 @@ descendants() {
   done
 }
 
-# Hide the cursor and keep the long lines from wrapping while running, and stop the running tasks with their processes when interrupted.
 [ -t 1 ] && printf '\033[?25l\033[?7l'
-trap '[ -t 1 ] && printf "\033[?25h\033[?7h"; rm -rf "$results" "$outputs"' EXIT
+trap '[ -t 1 ] && printf "\033[?25h\033[?7h"; rm -rf "$results" "$outputs" "$phases" "$notes"' EXIT
 trap 'kill $(descendants $$) 2> /dev/null; exit 130' INT TERM
 
-# Write the result of the target by the given exit code.
 finish() {
   echo "$2 $(now)" > "$results/$1.tmp"
   mv "$results/$1.tmp" "$results/$1"
 }
 
-# Count the targets which are done.
 done_count() {
   ls "$results" | grep -vc '\.tmp$'
 }
 
-# Run the command for the target.
 task() {
   case "$command:$1" in
     lint:web) pnpm --dir oreamo-web lint ;;
@@ -94,41 +84,46 @@ task() {
 
 case "$command" in
   up | down)
-    # Fail all targets if docker is not running.
     if ! docker info > /dev/null 2>&1; then
       echo "Docker is not running." > "$outputs/compose"
       for i in "${!targets[@]}"; do
         finish "$i" 1
       done
     else
-      # Print the state of the container as "{running} {started at}", or nothing if it does not exist.
       state() {
         docker inspect -f '{{.State.Running}} {{.State.StartedAt}}' "$1" 2> /dev/null
       }
 
-      # Keep the states of the containers before running, to find the containers started by this run.
       before=()
       for i in "${!targets[@]}"; do
         before+=("$(state "${names[$i]}")")
 
-        # Skip removing the container which does not exist.
         if [ "$command" = "down" ] && [ -z "${before[$i]}" ]; then
           finish "$i" "$skipped"
         fi
       done
 
-      # Run docker compose once for all targets so that it handles the dependencies.
       (
         if [ "$command" = "up" ]; then
+          for i in "${!targets[@]}"; do
+            case "${targets[$i]}" in
+              web | api | agent)
+                if [ -n "$(bash scripts/find-process.sh "${targets[$i]}")" ]; then
+                  echo "Stopping (local)" > "$phases/$i"
+                  bash scripts/stop.sh "${targets[$i]}" && echo "local stopped" > "$notes/$i"
+                  rm -f "$phases/$i"
+                fi
+                ;;
+            esac
+          done
+
           docker compose up -d --build "${containers[@]}"
         else
-          # Remove the network too once no container of the app is left.
-          docker compose down "${containers[@]}" && { [ -n "$(docker compose ps -a -q)" ] || docker compose down; }
+          docker compose down "${containers[@]}" && { docker network rm oreamo-network > /dev/null 2>&1 || true; }
         fi > "$outputs/compose" 2>&1
         echo "$?" > "$results/.compose"
       ) < /dev/null > /dev/null 2>&1 &
 
-      # Judge each target by its container while docker compose is running, and the rest when it is done.
       (
         while [ "$(done_count)" -lt "${#targets[@]}" ]; do
           code="$(cat "$results/.compose" 2> /dev/null || true)"
@@ -140,14 +135,12 @@ case "$command" in
 
             current="$(state "${names[$i]}")"
             if [ "$command" = "up" ]; then
-              # Started by this run, or running when docker compose is done.
               if [ "${current%% *}" = "true" ] && { [ "$current" != "${before[$i]}" ] || [ "$code" = "0" ]; }; then
                 finish "$i" 0
               elif [ -n "$code" ]; then
                 finish "$i" 1
               fi
             else
-              # Removed by this run.
               if [ -z "$current" ]; then
                 finish "$i" 0
               elif [ -n "$code" ]; then
@@ -164,6 +157,7 @@ case "$command" in
   *)
     for i in "${!targets[@]}"; do
       (
+        export PHASE_FILE="$phases/$i" NOTE_FILE="$notes/$i"
         task "${targets[$i]}" > "$outputs/$i" 2>&1
         finish "$i" "$?"
       ) < /dev/null > /dev/null 2>&1 &
@@ -174,7 +168,6 @@ esac
 frames=(⠋ ⠙ ⠹ ⠸ ⠼ ⠴ ⠦ ⠧ ⠇ ⠏)
 frame=0
 
-# Align the statuses after the longest name.
 width=0
 for name in "${names[@]}"; do
   if [ "${#name}" -gt "$width" ]; then
@@ -182,27 +175,25 @@ for name in "${names[@]}"; do
   fi
 done
 
-# Push the statuses to the right end of the terminal, leaving the columns for the wide icons.
+status_width=17
+
 if [ -t 1 ]; then
   columns="$(stty size < /dev/tty 2> /dev/null | cut -d ' ' -f 2)"
   columns="${columns:-0}"
-  if [ $((columns - 21)) -gt "$width" ]; then
-    width=$((columns - 21))
+  if [ $((columns - status_width - 13)) -gt "$width" ]; then
+    width=$((columns - status_width - 13))
   fi
 fi
 
-# Fill the progress bar in the room left in the line after the name, the count and the time.
-bar=$((width - 6))
+bar=$((width + status_width - 14))
 if [ "$bar" -lt 10 ]; then
   bar=10
 fi
 
-# Print the seconds of the given tenths of a second.
 seconds() {
   echo "$(($1 / 10)).$(($1 % 10))s"
 }
 
-# Print the progress bar of the app, and the line of each target with its spinner or result, status and elapsed time.
 render() {
   local current lines="" count=0 failed=0 last="$start"
   current="$(now)"
@@ -212,6 +203,10 @@ render() {
 
     if [ ! -f "$results/$i" ]; then
       icon="${frames[frame % ${#frames[@]}]}" status="$active" color="0" end="$current"
+
+      if [ -s "$phases/$i" ]; then
+        status="$(cat "$phases/$i" 2> /dev/null || echo "$active")"
+      fi
     else
       read -r code end < "$results/$i"
       count=$((count + 1))
@@ -229,11 +224,19 @@ render() {
       last="$end"
     fi
 
-    lines+="$(printf "\033[K\033[${color}m%s\033[0m %-${width}s  \033[${color}m%-8s\033[0m %6s" \
-      "$icon" "${names[$i]}" "$status" "$(seconds $((end - start)))")"$'\n'
+    local note="" pad
+    if [ -s "$notes/$i" ]; then
+      note=" ($(cat "$notes/$i" 2> /dev/null))"
+    fi
+    pad=$((width - ${#names[$i]} - ${#note}))
+    if [ "$pad" -lt 0 ]; then
+      pad=0
+    fi
+
+    lines+="$(printf "\033[K\033[${color}m%s\033[0m %s\033[90m%s\033[0m%${pad}s  \033[${color}m%-${status_width}s\033[0m %6s" \
+      "$icon" "${names[$i]}" "$note" "" "$status" "$(seconds $((end - start)))")"$'\n'
   done
 
-  # Fill the bar by the count of the targets done, in red if any target failed.
   local filled=$((bar * count / ${#targets[@]})) fill="" rest="" color="32"
   if [ "$failed" = "1" ]; then
     color="31"
@@ -252,7 +255,6 @@ render() {
 }
 
 if [ -t 1 ]; then
-  # Count the targets done before rendering, so that the last render shows all of them done.
   while true; do
     finished="$(done_count)"
     render
@@ -270,7 +272,6 @@ else
 fi
 wait
 
-# Show the outputs of the failed targets, and the output of docker compose once for up and down.
 shown_compose=0
 for i in "${!targets[@]}"; do
   read -r code end < "$results/$i"
@@ -288,5 +289,4 @@ for i in "${!targets[@]}"; do
   fi
 done
 
-# Fail if any target failed.
 ! grep -qvE "^(0|$skipped) " "$results"/*

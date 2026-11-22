@@ -6,7 +6,7 @@ export interface BadgeProps {
   content?: ReactNode;
   max?: number;
   variant?: "standard" | "dot";
-  color?: "default" | "primary" | "error";
+  color?: "default" | "primary";
   children: ReactNode;
 }
 

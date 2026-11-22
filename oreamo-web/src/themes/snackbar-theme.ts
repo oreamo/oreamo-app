@@ -29,10 +29,10 @@ export const snackbarTheme: ThemeOptions = {
           gap: theme.spacing(1.5),
 
           borderRadius: BORDER_RADIUS.md,
-          border: `1px solid ${theme.palette.scale[900]}33`,
+          border: `1px solid ${theme.palette.scale[300]}`,
 
-          backgroundColor: theme.palette.scale[900],
-          color: theme.palette.scale[0],
+          backgroundColor: theme.palette.surface.overlay,
+          color: theme.palette.scale[900],
           boxShadow: theme.shadowScale.md,
 
           fontSize: TYPOGRAPHY.size.sm,
@@ -49,10 +49,6 @@ export const snackbarTheme: ThemeOptions = {
           "& .MuiSnackbarContent-action": {
             paddingLeft: theme.spacing(1),
             marginRight: 0,
-          },
-
-          "& .MuiSvgIcon-root": {
-            color: theme.palette.scale[0],
           },
         }),
       },
