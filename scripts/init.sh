@@ -19,8 +19,8 @@ require_command "uv"
 echo "oreamo-app: installing"
 pnpm --dir "$root" install
 
-echo "oreamo-web: installing"
-pnpm --dir "$root/oreamo-web" install
+echo "web: installing"
+pnpm --dir "$root/web" install
 
-echo "oreamo-agent: installing"
-make -C "$root/oreamo-agent" sync
+echo "agent: installing"
+make -C "$root/agent" sync

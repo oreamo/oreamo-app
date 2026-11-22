@@ -1,7 +1,7 @@
 ---
 description: Conventions for MUI styled() components. Apply when styled() from @mui/material is used.
 paths:
-  - "oreamo-web/src/**/*.{tsx}"
+  - "web/src/**/*.{tsx}"
 ---
 
 # Styled Component Convention

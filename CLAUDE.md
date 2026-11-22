@@ -7,7 +7,7 @@
 
 ### Application
 
-- This repository is the root of the Oreamo application, which composes `oreamo-web/`, `oreamo-api/` and `oreamo-agent/` into one application.
+- This repository is the root of the Oreamo application, which composes `web/`, `api/` and `agent/` into one application.
 - This repository is a monorepo of all services. Run git operations at the repository root.
 
 ### Rules

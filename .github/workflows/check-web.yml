@@ -4,12 +4,12 @@ on:
   pull_request:
     branches: [develop]
     paths:
-      - "oreamo-web/**"
+      - "web/**"
       - ".github/workflows/check-web.yml"
   push:
     branches: [develop]
     paths:
-      - "oreamo-web/**"
+      - "web/**"
       - ".github/workflows/check-web.yml"
 
 jobs:
@@ -26,10 +26,10 @@ jobs:
         with:
           node-version: 25
           cache: pnpm
-          cache-dependency-path: oreamo-web/pnpm-lock.yaml
+          cache-dependency-path: web/pnpm-lock.yaml
 
       - name: Install dependencies
-        run: pnpm --dir oreamo-web install --frozen-lockfile --ignore-scripts
+        run: pnpm --dir web install --frozen-lockfile --ignore-scripts
 
       - name: Lint
         run: make lint web
@@ -38,4 +38,4 @@ jobs:
         run: make format web
 
       - name: Type check
-        run: pnpm --dir oreamo-web exec tsc -b
+        run: pnpm --dir web exec tsc -b
