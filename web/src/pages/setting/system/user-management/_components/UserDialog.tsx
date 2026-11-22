@@ -4,7 +4,6 @@ import { TextInputField } from "@/components/data-form/components/TextInputField
 import { TRANSLATION_KEY } from "@/constants/translation-constant";
 import { useCodeOptions } from "@/hooks/useCodeOptions";
 import { useTranslate } from "@/hooks/useTranslate";
-import { DataStatus } from "@/models/common-model";
 import { User } from "@/models/user-model";
 import { DetailFormModal } from "@/pages/setting/system/_components/DetailFormModal";
 import { useRoleInfos } from "@/resources/authority/useRoleInfos";
@@ -12,15 +11,6 @@ import { useUser } from "@/resources/user/useUser";
 import { useUserDelete } from "@/resources/user/useUserDelete";
 import { useUserSave } from "@/resources/user/useUserSave";
 import { useUserUpdate } from "@/resources/user/useUserUpdate";
-
-interface UserDetail {
-  username: string;
-  name: string;
-  email: string;
-  password?: string;
-  roleCode: string;
-  dataStatus: DataStatus;
-}
 
 interface UserDialogProps {
   open: boolean;
@@ -53,27 +43,13 @@ export function UserDialog({
     label: roleInfo.roleName,
   }));
 
-  const toUserDetail = (user: User): UserDetail => {
-    return {
-      username: user.username,
-      name: user.name,
-      email: user.email,
-      roleCode: user.roleCode,
-      dataStatus: user.dataStatus,
-    };
-  };
-
-  const handleSubmit = (
-    data: UserDetail,
-    options: { onSuccess: () => void },
-  ) => {
+  const handleSubmit = (data: User, options: { onSuccess: () => void }) => {
     if (!isEditMode) {
       saveUser(
         {
           username: data.username,
           name: data.name,
           email: data.email,
-          password: data.password as string,
           roleCode: data.roleCode,
           dataStatus: data.dataStatus,
         },
@@ -99,11 +75,11 @@ export function UserDialog({
   };
 
   return (
-    <DetailFormModal<UserDetail>
+    <DetailFormModal<User>
       open={open}
       keyValue={userValue}
       labelKey={TRANSLATION_KEY.user.label.USER}
-      formValue={user ? toUserDetail(user) : ({} as UserDetail)}
+      formValue={user ?? ({} as User)}
       isEditMode={isEditMode}
       readonly={readonly}
       getTargetValue={(data) => data.username}
@@ -115,7 +91,7 @@ export function UserDialog({
         title={translate(TRANSLATION_KEY.user.label.USERNAME)}
         required
       >
-        <TextInputField<UserDetail, "username">
+        <TextInputField<User, "username">
           name="username"
           label={translate(TRANSLATION_KEY.user.label.USERNAME)}
           required
@@ -140,7 +116,7 @@ export function UserDialog({
         title={translate(TRANSLATION_KEY.user.label.NAME)}
         required
       >
-        <TextInputField<UserDetail, "name">
+        <TextInputField<User, "name">
           name="name"
           label={translate(TRANSLATION_KEY.user.label.NAME)}
           required
@@ -152,7 +128,7 @@ export function UserDialog({
         title={translate(TRANSLATION_KEY.user.label.EMAIL)}
         required
       >
-        <TextInputField<UserDetail, "email">
+        <TextInputField<User, "email">
           name="email"
           label={translate(TRANSLATION_KEY.user.label.EMAIL)}
           required
@@ -160,27 +136,11 @@ export function UserDialog({
           maxLength={100}
         />
       </DetailForm.Item>
-      {!isEditMode && (
-        <DetailForm.Item
-          title={translate(TRANSLATION_KEY.user.label.PASSWORD)}
-          required
-        >
-          <TextInputField<UserDetail, "password">
-            name="password"
-            label={translate(TRANSLATION_KEY.user.label.PASSWORD)}
-            required
-            readonly={readonly}
-            renderProps={{
-              type: "password",
-            }}
-          />
-        </DetailForm.Item>
-      )}
       <DetailForm.Item
         title={translate(TRANSLATION_KEY.authority.label.ROLE)}
         required
       >
-        <SelectInputField<UserDetail, "roleCode">
+        <SelectInputField<User, "roleCode">
           name="roleCode"
           label={translate(TRANSLATION_KEY.authority.label.ROLE)}
           required
@@ -192,7 +152,7 @@ export function UserDialog({
         title={translate(TRANSLATION_KEY.common.label.DATA_STATUS)}
         required
       >
-        <SelectInputField<UserDetail, "dataStatus">
+        <SelectInputField<User, "dataStatus">
           name="dataStatus"
           label={translate(TRANSLATION_KEY.common.label.DATA_STATUS)}
           required

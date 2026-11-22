@@ -6,6 +6,21 @@ export interface LoginInfo {
   password: string;
 }
 
+export interface LoginResult {
+  passwordChangeRequired: boolean;
+}
+
+export interface UserPasswordChange {
+  username: string;
+  currentPassword: string;
+  newPassword: string;
+}
+
+export interface UserSessionPasswordChange {
+  currentPassword: string;
+  newPassword: string;
+}
+
 export interface UserInfo {
   username: string;
   name: string;
@@ -68,11 +83,4 @@ export interface UserOperate {
   userSaves?: UserSave[];
   userUpdates?: UserUpdate[];
   userDeletes?: UserDelete[];
-}
-
-export enum AuthorityRole {
-  SYSTEM = "ROLE_SYSTEM",
-  ADMIN = "ROLE_ADMIN",
-  MANAGER = "ROLE_MANAGER",
-  USER = "ROLE_USER",
 }
