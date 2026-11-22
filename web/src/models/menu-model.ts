@@ -49,8 +49,3 @@ export interface MenuOperate {
   menuUpdates?: MenuUpdate[];
   menuDeletes?: MenuDelete[];
 }
-
-export interface MenuInfo {
-  menuId: string;
-  menuName: string;
-}

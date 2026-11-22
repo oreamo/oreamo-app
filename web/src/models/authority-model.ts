@@ -4,7 +4,6 @@ export interface Role extends DataRecord {
   roleCode: string;
   roleName: string;
   sortOrder: number;
-  rolePermissions?: RolePermission[];
 }
 
 export interface RolePermission {
@@ -28,7 +27,6 @@ export interface RoleSave {
   roleName: string;
   sortOrder: number;
   dataStatus: string;
-  rolePermissions?: RolePermission[];
 }
 
 export interface RoleUpdate {
@@ -36,7 +34,6 @@ export interface RoleUpdate {
   roleName: string;
   sortOrder: number;
   dataStatus: string;
-  rolePermissions?: RolePermission[];
 }
 
 export interface RoleDelete {
