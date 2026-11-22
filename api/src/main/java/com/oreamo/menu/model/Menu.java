@@ -36,8 +36,4 @@ public class Menu extends DataRecord {
     public boolean hasParentMenu() {
         return StringUtils.hasText(parentMenuId);
     }
-
-    public MenuInfo toMenuInfo() {
-        return MenuInfo.builder().menuId(menuId).menuName(menuName).build();
-    }
 }
