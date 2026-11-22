@@ -79,15 +79,15 @@ const StyledToastContent = styled(SnackbarContent, {
   position: "relative",
   overflow: "hidden",
 
-  border: `1px solid ${alpha(theme.palette[type].main, 0.4)}`,
+  border: `1px solid ${alpha(theme.palette.semantic[type], 0.4)}`,
 
-  backgroundImage: `linear-gradient(${alpha(theme.palette[type].main, 0.08)}, ${alpha(theme.palette[type].main, 0.08)})`,
+  backgroundImage: `linear-gradient(${alpha(theme.palette.semantic[type], 0.08)}, ${alpha(theme.palette.semantic[type], 0.08)})`,
 }));
 
 const StyledToastIcon = styled(Flex, {
   shouldForwardProp: (prop) => prop !== "type",
 })<{ type: AlertColor }>(({ theme, type }) => ({
-  color: theme.palette[type].main,
+  color: theme.palette.semantic[type],
 }));
 
 const StyledToastProgress = styled(Box, {
@@ -100,7 +100,7 @@ const StyledToastProgress = styled(Box, {
   bottom: 0,
   left: 0,
 
-  backgroundColor: theme.palette[type].main,
+  backgroundColor: theme.palette.semantic[type],
 
   transformOrigin: "left",
   animation: `${shrinkProgress} ${duration}ms linear forwards`,

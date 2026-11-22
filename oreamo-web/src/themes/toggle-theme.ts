@@ -1,4 +1,4 @@
-import { alpha } from "@mui/material";
+import { alpha, darken } from "@mui/material";
 import type { ThemeOptions } from "@mui/material";
 
 import {
@@ -48,10 +48,10 @@ export const toggleTheme: ThemeOptions = {
             outlineOffset: -2,
           },
           "&.Mui-selected": {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.primary.contrastText,
+            backgroundColor: theme.palette.brand.primary,
+            color: theme.palette.getContrastText(theme.palette.brand.primary),
             "&:hover": {
-              backgroundColor: theme.palette.primary.dark,
+              backgroundColor: darken(theme.palette.brand.primary, 0.3),
             },
           },
           "&.Mui-disabled": {

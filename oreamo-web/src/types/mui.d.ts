@@ -20,6 +20,7 @@ export type PaletteNavigation = Record<
   keyof typeof PALETTE.light.navigation,
   string
 >;
+export type PaletteBrand = Record<keyof typeof PALETTE.light.brand, string>;
 export type PaletteSemantic = Record<
   keyof typeof PALETTE.light.semantic,
   string
@@ -43,12 +44,16 @@ declare module "@mui/material/styles" {
     scale: PaletteScale;
     surface: PaletteSurface;
     navigation: PaletteNavigation;
+    brand: PaletteBrand;
+    semantic: PaletteSemantic;
   }
 
   interface PaletteOptions {
     scale?: PaletteScale;
     surface?: PaletteSurface;
     navigation?: PaletteNavigation;
+    brand?: PaletteBrand;
+    semantic?: PaletteSemantic;
   }
 
   interface ColorSystemOptions {

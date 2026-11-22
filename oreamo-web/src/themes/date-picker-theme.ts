@@ -1,3 +1,4 @@
+import { darken } from "@mui/material";
 import type { ThemeOptions } from "@mui/material";
 import "@mui/x-date-pickers/themeAugmentation";
 
@@ -29,10 +30,10 @@ export const datePickerTheme: ThemeOptions = {
           },
           "&.Mui-focused .MuiPickersOutlinedInput-notchedOutline": {
             borderWidth: 1,
-            borderColor: theme.palette.primary.main,
+            borderColor: theme.palette.brand.primary,
           },
           "&.Mui-error .MuiPickersOutlinedInput-notchedOutline": {
-            borderColor: theme.palette.error.main,
+            borderColor: theme.palette.semantic.error,
           },
           "&.Mui-disabled": {
             backgroundColor: theme.palette.scale[100],
@@ -76,10 +77,10 @@ export const datePickerTheme: ThemeOptions = {
             backgroundColor: theme.palette.scale[100],
           },
           "&.Mui-selected": {
-            backgroundColor: theme.palette.primary.main,
-            color: theme.palette.primary.contrastText,
+            backgroundColor: theme.palette.brand.primary,
+            color: theme.palette.getContrastText(theme.palette.brand.primary),
             "&:hover, &:focus": {
-              backgroundColor: theme.palette.primary.dark,
+              backgroundColor: darken(theme.palette.brand.primary, 0.3),
             },
           },
           "&.MuiPickerDay-today:not(.Mui-selected)": {

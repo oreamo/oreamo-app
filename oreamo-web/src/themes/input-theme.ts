@@ -36,7 +36,7 @@ export const inputTheme: ThemeOptions = {
             color: theme.palette.scale[700],
           },
           "&.Mui-error": {
-            color: theme.palette.error.main,
+            color: theme.palette.semantic.error,
           },
           "&.Mui-disabled": {
             color: theme.palette.scale[300],
@@ -68,10 +68,10 @@ export const inputTheme: ThemeOptions = {
           },
           "&.Mui-focused .MuiOutlinedInput-notchedOutline": {
             borderWidth: 1,
-            borderColor: theme.palette.primary.main,
+            borderColor: theme.palette.brand.primary,
           },
           "&.Mui-error .MuiOutlinedInput-notchedOutline": {
-            borderColor: theme.palette.error.main,
+            borderColor: theme.palette.semantic.error,
           },
           "&.Mui-disabled": {
             backgroundColor: theme.palette.scale[100],
@@ -129,7 +129,7 @@ export const inputTheme: ThemeOptions = {
           color: theme.palette.scale[500],
           marginTop: 4,
           "&.Mui-error": {
-            color: theme.palette.error.main,
+            color: theme.palette.semantic.error,
           },
           "&.Mui-disabled": {
             color: theme.palette.scale[300],

@@ -20,7 +20,7 @@ export const alertTheme: ThemeOptions = {
       },
       styleOverrides: {
         root: ({ theme, ownerState }) => {
-          const color = theme.palette[ownerState.severity ?? "info"].main;
+          const color = theme.palette.semantic[ownerState.severity ?? "info"];
 
           return {
             padding: `${theme.spacing(1.5)} ${theme.spacing(2)}`,

@@ -162,13 +162,13 @@ const StyledFileInputWrapper = styled(Flex)(({ theme }) => ({
   },
 
   "& .MuiChip-clickable:hover": {
-    backgroundColor: theme.palette.action.selected,
+    backgroundColor: theme.palette.scale[200],
   },
 
   "& .MuiChip-clickable:hover:not(:has(.MuiChip-deleteIcon:hover, .MuiChip-icon:hover))":
     {
-      backgroundColor: theme.palette.primary.main,
-      color: theme.palette.primary.contrastText,
+      backgroundColor: theme.palette.brand.primary,
+      color: theme.palette.getContrastText(theme.palette.brand.primary),
     },
 
   "& .MuiChip-clickable:hover:not(:has(.MuiChip-deleteIcon:hover, .MuiChip-icon:hover)) :is(.MuiChip-deleteIcon, .MuiChip-icon)":

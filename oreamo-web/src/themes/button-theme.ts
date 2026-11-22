@@ -1,4 +1,4 @@
-import { alpha } from "@mui/material";
+import { alpha, darken } from "@mui/material";
 import type { ThemeOptions } from "@mui/material";
 
 import {
@@ -40,10 +40,14 @@ export const buttonTheme: ThemeOptions = {
           },
         }),
         contained: ({ theme }) => ({
-          backgroundColor: theme.palette.primary.main,
-          color: theme.palette.primary.contrastText,
-          "&:hover": { backgroundColor: theme.palette.primary.dark },
-          "&:active": { backgroundColor: theme.palette.primary.dark },
+          backgroundColor: theme.palette.brand.primary,
+          color: theme.palette.getContrastText(theme.palette.brand.primary),
+          "&:hover": {
+            backgroundColor: darken(theme.palette.brand.primary, 0.3),
+          },
+          "&:active": {
+            backgroundColor: darken(theme.palette.brand.primary, 0.3),
+          },
           "&.Mui-disabled": {
             backgroundColor: theme.palette.scale[200],
             color: theme.palette.scale[400],

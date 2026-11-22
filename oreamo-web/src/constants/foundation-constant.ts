@@ -26,8 +26,11 @@ export const PALETTE = {
       activeBackground: "#1f222e",
       activeText: "#ffffff",
     },
+    brand: {
+      primary: "#2846bd",
+      secondary: "#4d5989",
+    },
     semantic: {
-      brand: "#2846bd",
       info: "#2276a0",
       success: "#257e55",
       warning: "#9c6511",
@@ -61,8 +64,11 @@ export const PALETTE = {
       activeBackground: "#ffffff1a",
       activeText: "#f3f4f7",
     },
+    brand: {
+      primary: "#6780e4",
+      secondary: "#8e99c2",
+    },
     semantic: {
-      brand: "#6780e4",
       info: "#54a9d4",
       success: "#40bf84",
       warning: "#e29d36",

@@ -30,7 +30,13 @@ const TEXT_WEIGHTS: TextProps["weight"][] = [
 
 const BREAKPOINT_MAX_WIDTH = BREAKPOINTS.desktop + 320;
 
-const PALETTE_GROUPS = ["scale", "surface", "navigation", "semantic"] as const;
+const PALETTE_GROUPS = [
+  "scale",
+  "surface",
+  "navigation",
+  "brand",
+  "semantic",
+] as const;
 
 export function DevFoundationPage() {
   const [isDarkPalette, setIsDarkPalette] = useState(false);
@@ -299,6 +305,6 @@ const StyledShadowSample = styled(Flex, {
 
   borderRadius: theme.shape.borderRadiusScale.md,
 
-  backgroundColor: theme.palette.background.paper,
+  backgroundColor: theme.palette.surface.overlay,
   boxShadow,
 }));
