@@ -87,6 +87,7 @@ export function MultiSearchInput({
                   key={item.value}
                   label={item.label ?? item.value}
                   size="small"
+                  color="secondary"
                   disabled={disabled}
                   onDelete={
                     readonly || disabled
@@ -144,6 +145,8 @@ const StyledMultiSearchInputWrapper = styled(Flex)({
   },
 
   "& .MuiChip-root": {
+    height: 20,
+
     flexShrink: 0,
   },
 });

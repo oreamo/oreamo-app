@@ -143,6 +143,7 @@ export function MultiSelectInput({
                   className={className}
                   label={option.label}
                   size="small"
+                  color="secondary"
                   disabled={disabled}
                   onDelete={readonly || disabled ? undefined : onDelete}
                 />
@@ -192,12 +193,16 @@ export function MultiSelectInput({
 }
 
 const StyledMultiSelectInputContainer = styled(Flex)({
-  height: 24,
+  height: 20,
 
   overflowX: "auto",
   scrollbarWidth: "none",
 
   "&::-webkit-scrollbar": {
     display: "none",
+  },
+
+  "& .MuiChip-root": {
+    height: 20,
   },
 });
