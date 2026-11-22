@@ -14,19 +14,19 @@ trap 'rm -f "$log"' EXIT
 
 checked="false"
 failed="false"
-for service in oreamo-web oreamo-api oreamo-agent; do
+for service in web api agent; do
   if git diff --quiet "origin/$base" -- "$service"; then
     continue
   fi
 
   case "$service" in
-    oreamo-web)
+    web)
       commands=("make lint web" "make format web" "make build web")
       ;;
-    oreamo-api)
+    api)
       commands=("make format api" "make build api")
       ;;
-    oreamo-agent)
+    agent)
       commands=("make lint agent" "make format agent" "make build agent")
       ;;
   esac

@@ -4,12 +4,12 @@ on:
   pull_request:
     branches: [develop]
     paths:
-      - "oreamo-api/**"
+      - "api/**"
       - ".github/workflows/check-api.yml"
   push:
     branches: [develop]
     paths:
-      - "oreamo-api/**"
+      - "api/**"
       - ".github/workflows/check-api.yml"
 
 jobs:
@@ -26,7 +26,7 @@ jobs:
       - uses: gradle/actions/setup-gradle@v4
 
       - name: Compile
-        run: oreamo-api/gradlew -p oreamo-api compileJava
+        run: api/gradlew -p api compileJava
 
       - name: Format
         run: make format api

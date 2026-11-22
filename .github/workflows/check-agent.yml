@@ -4,12 +4,12 @@ on:
   pull_request:
     branches: [develop]
     paths:
-      - "oreamo-agent/**"
+      - "agent/**"
       - ".github/workflows/check-agent.yml"
   push:
     branches: [develop]
     paths:
-      - "oreamo-agent/**"
+      - "agent/**"
       - ".github/workflows/check-agent.yml"
 
 jobs:
@@ -23,7 +23,7 @@ jobs:
           python-version: "3.14"
 
       - name: Install dependencies
-        run: uv sync --frozen --directory oreamo-agent
+        run: uv sync --frozen --directory agent
 
       - name: Lint
         run: make lint agent
