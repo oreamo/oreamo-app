@@ -5,7 +5,6 @@ from sqlalchemy import URL
 
 
 class Settings(BaseSettings):
-    # Database
     db_host: str
     db_port: int = 5432
     db_name: str
@@ -13,15 +12,12 @@ class Settings(BaseSettings):
     db_password: str
     db_clean_on_error: bool = False
 
-    # Redis
     redis_host: str
     redis_port: int = 6379
     redis_database: int = 0
 
-    # Security
     oreamo_server_key: str
 
-    # ETC
     debug: bool = False
 
     model_config = SettingsConfigDict(env_file=f".env.{os.getenv('APP_ENV', 'local')}")

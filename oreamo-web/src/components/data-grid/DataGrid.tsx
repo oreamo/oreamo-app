@@ -288,17 +288,19 @@ const StyledDataGridGroup = styled(Flex, {
     borderRadius: theme.shape.borderRadiusScale.lg,
     overflow: "hidden",
 
-    "--ag-accent-color": theme.palette.scale[900],
-    "--ag-checkbox-checked-background-color": theme.palette.scale[900],
-    "--ag-checkbox-checked-border-color": theme.palette.scale[900],
-    "--ag-checkbox-checked-shape-color": theme.palette.scale[0],
+    "--ag-accent-color": theme.palette.brand.primary,
+    "--ag-checkbox-checked-background-color": theme.palette.brand.primary,
+    "--ag-checkbox-checked-border-color": theme.palette.brand.primary,
+    "--ag-checkbox-checked-shape-color": theme.palette.getContrastText(
+      theme.palette.brand.primary,
+    ),
     "--ag-checkbox-unchecked-background-color": theme.palette.scale[0],
     "--ag-checkbox-unchecked-border-color": theme.palette.scale[300],
     "--ag-selected-row-background-color": theme.palette.scale[200],
     "--ag-row-hover-color": theme.palette.scale[100],
     "--ag-range-selection-border-color": theme.palette.scale[600],
     "--ag-focus-shadow": "none",
-    "--ag-input-focus-border-color": theme.palette.scale[900],
+    "--ag-input-focus-border-color": theme.palette.brand.primary,
     "--ag-input-focus-box-shadow": "none",
   },
 
@@ -330,7 +332,7 @@ const StyledDataGridGroup = styled(Flex, {
     right: 0,
     transform: "translateX(calc(100% + 4px))",
 
-    color: theme.palette.error.main,
+    color: theme.palette.semantic.error,
     fontSize: theme.typography.overline.fontSize,
   },
 
@@ -341,7 +343,7 @@ const StyledDataGridGroup = styled(Flex, {
     left: 0,
     transform: "translateX(calc(-100% - 4px))",
 
-    color: theme.palette.info.main,
+    color: theme.palette.semantic.info,
     fontSize: theme.typography.overline.fontSize,
   },
 
@@ -388,7 +390,7 @@ const StyledDataGridGroup = styled(Flex, {
     position: "absolute",
     top: 0,
     left: 0,
-    borderTop: `6px solid ${theme.palette.info.main}`,
+    borderTop: `6px solid ${theme.palette.semantic.info}`,
     borderRight: "6px solid transparent",
   },
 

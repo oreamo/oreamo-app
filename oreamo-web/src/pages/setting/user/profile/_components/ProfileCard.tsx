@@ -33,7 +33,7 @@ export function ProfileCard({ userInfo }: ProfileCardProps) {
             {userInfo.username}
           </Text>
           <Flex>
-            <Chip label={roleName} size="small" />
+            <Chip label={roleName} size="small" color="secondary" />
           </Flex>
         </Flex>
       </StyledProfileCardWrapper>

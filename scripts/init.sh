@@ -1,7 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Workspace root is one level above this script (scripts).
 root="$(cd "$(dirname "$0")/.." && pwd)"
 
 require_command() {

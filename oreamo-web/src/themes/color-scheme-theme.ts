@@ -2,8 +2,10 @@ import type { PaletteOptions, ThemeOptions } from "@mui/material";
 
 import { DARK_SHADOW, PALETTE, SHADOW } from "@/constants/foundation-constant";
 import type {
+  PaletteBrand,
   PaletteNavigation,
   PaletteScale,
+  PaletteSemantic,
   PaletteSurface,
 } from "@/types/mui";
 
@@ -11,35 +13,30 @@ interface SchemePaletteOptions {
   scale: PaletteScale;
   surface: PaletteSurface;
   navigation: PaletteNavigation;
+  brand: PaletteBrand;
+  semantic: PaletteSemantic;
 }
 
 const createSchemePalette = ({
   scale,
   surface,
   navigation,
+  brand,
+  semantic,
 }: SchemePaletteOptions): PaletteOptions => {
   return {
+    contrastThreshold: 4.5,
     scale,
     surface,
     navigation,
-    primary: {
-      light: scale[700],
-      main: scale[900],
-      dark: scale[900],
-      contrastText: scale[0],
-    },
-    secondary: {
-      light: scale[200],
-      main: scale[400],
-      dark: scale[600],
-      contrastText: scale[0],
-    },
-    info: {
-      light: scale[400],
-      main: scale[600],
-      dark: scale[800],
-      contrastText: scale[0],
-    },
+    brand,
+    semantic,
+    primary: { main: brand.primary },
+    secondary: { main: brand.secondary },
+    info: { main: semantic.info },
+    success: { main: semantic.success },
+    warning: { main: semantic.warning },
+    error: { main: semantic.error },
     background: {
       default: surface.default,
       paper: surface.overlay,

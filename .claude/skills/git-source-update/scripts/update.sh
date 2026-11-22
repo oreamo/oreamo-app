@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: update.sh {base branch (default: develop)}
-# Pulls the remote base branch into the current branch, following the git pull configuration.
-
-# Move to the repository root.
-cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
+cd "$(git rev-parse --show-toplevel)"
 
 base="${1:-develop}"
 

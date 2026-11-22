@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: collect-diff.sh {base branch (default: develop)}
-# Collects the pull request target: the diff with the remote base branch, the labels and the existing pull request.
-
-# Move to the repository root.
-cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
+cd "$(git rev-parse --show-toplevel)"
 
 base="${1:-develop}"
 head="$(git branch --show-current)"
@@ -30,7 +26,6 @@ else
 fi
 echo
 
-# Find the GitHub user of the current git email as the assignee.
 echo "### Assignee"
 email="$(git config user.email || true)"
 assignee=""

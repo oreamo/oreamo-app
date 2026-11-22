@@ -25,7 +25,7 @@ export const switchTheme: ThemeOptions = {
               "&.Mui-checked": {
                 transform: `translateX(${translateX}px)`,
                 "& + .MuiSwitch-track": {
-                  backgroundColor: theme.palette.scale[900],
+                  backgroundColor: theme.palette.brand.primary,
                   opacity: 1,
                 },
               },

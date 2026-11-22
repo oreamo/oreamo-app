@@ -27,5 +27,5 @@ const StyledInputHelperTextIcon = styled("span", {
 })<{ error: boolean }>(({ theme, error }) => ({
   display: "flex",
 
-  color: error ? theme.palette.error.main : theme.palette.scale[500],
+  color: error ? theme.palette.semantic.error : theme.palette.scale[500],
 }));
