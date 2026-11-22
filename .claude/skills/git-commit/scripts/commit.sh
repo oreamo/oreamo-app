@@ -59,5 +59,4 @@ done
 
 GIT_INDEX_FILE="$tmp_index" git commit -F -
 
-# Sync the committed files of the index with the commit, as the commit hooks may have changed them in the temporary index.
 git reset -q HEAD -- "${files[@]}"
