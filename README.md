@@ -51,6 +51,8 @@ Run `make {command} {targets}` at the repository root. Without a target, it runs
 
 `make up`, `make down` and `make status` also take `service` (`web`, `api`, `agent`) and `infra` (`postgres`, `redis`, `localstack`).
 
+`make up` stops the services run directly first, and `make run` removes their containers first, so that each can use the ports.
+
 ```bash
 # Start only the infrastructure
 make up infra

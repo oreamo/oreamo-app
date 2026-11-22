@@ -10,7 +10,6 @@ from app.common.schema import PageResponse, Pagination
 async def paginate[S: BaseModel](
     *, query: Select, pagination: Pagination, schema: type[S], db: AsyncSession
 ) -> PageResponse[S]:
-    # Same as PageHelper: page info is only filled when both page number and size are positive
     if not pagination.is_pageable():
         result = await db.execute(query)
         items = [schema.model_validate(entity) for entity in result.scalars().all()]

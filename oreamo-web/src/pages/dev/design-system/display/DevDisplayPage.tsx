@@ -50,6 +50,7 @@ export function DevDisplayPage() {
           <Flex gap={1} align="center" wrap>
             <Chip label="Default" size="small" />
             <Chip label="Primary" size="small" color="primary" />
+            <Chip label="Secondary" size="small" color="secondary" />
             <Chip label="Clickable" size="small" onClick={handleChipClick} />
             <Chip label="Deletable" size="small" onDelete={handleChipDelete} />
             <Chip label="Disabled" size="small" disabled />
@@ -62,9 +63,6 @@ export function DevDisplayPage() {
               <Icon iconName="Notifications" />
             </Badge>
             <Badge content={120} max={99}>
-              <Icon iconName="Notifications" />
-            </Badge>
-            <Badge content={4} color="error">
               <Icon iconName="Notifications" />
             </Badge>
             <Badge content={4} color="default">

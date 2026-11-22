@@ -1,17 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: collect-target.sh
-# Collects the commit target: staged changes if any, otherwise unstaged changes (including untracked files).
-
-# Move to the repository root.
-cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
+cd "$(git rev-parse --show-toplevel)"
 
 echo "### Repository"
 pwd
 echo
 
-# Decide the target type.
 if ! git diff --cached --quiet; then
   target="staged"
 elif [ -n "$(git status --porcelain)" ]; then

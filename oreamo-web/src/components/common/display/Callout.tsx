@@ -7,15 +7,14 @@ import {
 } from "@mui/material";
 
 interface CalloutProps {
-  className?: string;
   type?: AlertColor;
   title?: ReactNode;
   children: ReactNode;
 }
 
-export function Callout({ className, type, title, children }: CalloutProps) {
+export function Callout({ type, title, children }: CalloutProps) {
   return (
-    <MuiAlert className={className} severity={type}>
+    <MuiAlert severity={type}>
       {title && <MuiAlertTitle>{title}</MuiAlertTitle>}
       {children}
     </MuiAlert>

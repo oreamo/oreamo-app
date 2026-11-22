@@ -1,11 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: collect-conflicts.sh
-# Collects the conflicted files of the ongoing merge, with the commits of each side.
-
-# Move to the repository root.
-cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
+cd "$(git rev-parse --show-toplevel)"
 
 echo "### Repository"
 pwd

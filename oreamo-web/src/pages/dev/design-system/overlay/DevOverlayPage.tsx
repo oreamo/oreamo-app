@@ -2,15 +2,19 @@ import { useState } from "react";
 
 import { Button } from "@/components/common/button/Button";
 import { Text } from "@/components/common/display/Text";
+import { Flex } from "@/components/common/layout/Flex";
 import { Modal } from "@/components/common/overlay/Modal";
-import { ToastBar } from "@/components/common/overlay/ToastBar";
 import { PageLayout } from "@/pages/_components/PageLayout";
 import { DevCardGrid } from "@/pages/dev/_components/DevCardGrid";
 import { DevComponentCard } from "@/pages/dev/_components/DevComponentCard";
+import { useSystemToast } from "@/stores/system-toast-store";
+
+const TOAST_TYPES = ["info", "success", "warning", "error"] as const;
 
 export function DevOverlayPage() {
+  const toast = useSystemToast();
+
   const [modalOpen, setModalOpen] = useState(false);
-  const [toastOpen, setToastOpen] = useState(false);
 
   const handleModalOpen = () => {
     setModalOpen(true);
@@ -20,12 +24,8 @@ export function DevOverlayPage() {
     setModalOpen(false);
   };
 
-  const handleToastOpen = () => {
-    setToastOpen(true);
-  };
-
-  const handleToastClose = () => {
-    setToastOpen(false);
+  const handleToastOpen = (type: (typeof TOAST_TYPES)[number]) => {
+    toast({ type, message: `This is the ${type} toast message.` });
   };
 
   return (
@@ -38,9 +38,17 @@ export function DevOverlayPage() {
         </DevComponentCard>
 
         <DevComponentCard title="Toast">
-          <Button variant="contained" onClick={handleToastOpen}>
-            Show Toast
-          </Button>
+          <Flex gap={2} wrap>
+            {TOAST_TYPES.map((type) => (
+              <Button
+                key={type}
+                variant="outlined"
+                onClick={() => handleToastOpen(type)}
+              >
+                {type}
+              </Button>
+            ))}
+          </Flex>
         </DevComponentCard>
       </DevCardGrid>
 
@@ -66,12 +74,6 @@ export function DevOverlayPage() {
           This is the modal content area.
         </Text>
       </Modal>
-
-      <ToastBar
-        open={toastOpen}
-        message="This is a toast message."
-        onClose={handleToastClose}
-      />
     </PageLayout>
   );
 }

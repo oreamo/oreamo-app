@@ -1,18 +1,19 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: create-branch.sh {branch name} {base branch (default: develop)}
-# Switches to the latest base branch and creates a new branch from it.
-
-# Move to the repository root.
-cd "$(git -C "$(dirname "$0")" rev-parse --show-toplevel)"
+cd "$(git rev-parse --show-toplevel)"
 
 branch="$1"
 base="${2:-develop}"
 
-git switch "$base"
-git pull
-git switch -c "$branch"
+if git worktree list --porcelain | grep -qx "branch refs/heads/$base"; then
+  git fetch origin "$base"
+  git switch --no-track -c "$branch" "origin/$base"
+else
+  git switch "$base"
+  git pull
+  git switch -c "$branch"
+fi
 
 echo
 echo "### Created Branch"

@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Usage: find-process.sh {service}
-# Prints the processes run directly on the port of the service, except docker.
-
 case "$1" in
   web) port=3000 ;;
   api) port=8080 ;;
