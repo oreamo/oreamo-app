@@ -1,6 +1,6 @@
 ---
 paths:
-  - "oreamo-agent/**/*.py"
+  - "agent/**/*.py"
 ---
 
 # Python Convention

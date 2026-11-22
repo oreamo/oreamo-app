@@ -20,7 +20,7 @@ done
 
 services=""
 for service in web api agent; do
-  if echo "$changed" | grep -q "^oreamo-$service/"; then
+  if echo "$changed" | grep -q "^$service/"; then
     services="$services $service"
   fi
 done

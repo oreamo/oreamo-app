@@ -4,11 +4,11 @@ Monorepo of the Oreamo services and their shared configuration.
 
 ## Services
 
-| Directory       | Description                                    |
-| --------------- | ---------------------------------------------- |
-| `oreamo-web/`   | Web client (React, TypeScript, Vite)           |
-| `oreamo-api/`   | API server (Spring Boot, MyBatis, PostgreSQL)  |
-| `oreamo-agent/` | Agent server (FastAPI, SQLAlchemy, PostgreSQL) |
+| Directory | Description                                    |
+| --------- | ---------------------------------------------- |
+| `web/`    | Web client (React, TypeScript, Vite)           |
+| `api/`    | API server (Spring Boot, MyBatis, PostgreSQL)  |
+| `agent/`  | Agent server (FastAPI, SQLAlchemy, PostgreSQL) |
 
 All services are managed in this repository as a monorepo.
 

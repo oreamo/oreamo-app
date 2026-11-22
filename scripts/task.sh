@@ -64,19 +64,19 @@ done_count() {
 
 task() {
   case "$command:$1" in
-    lint:web) pnpm --dir oreamo-web lint ;;
-    lint:agent) uv run --directory oreamo-agent ruff check . ;;
-    lint-fix:web) pnpm --dir oreamo-web lint:fix ;;
-    lint-fix:agent) uv run --directory oreamo-agent ruff check --fix . ;;
-    format:web) pnpm --dir oreamo-web format:check ;;
-    format:api) oreamo-api/gradlew -p oreamo-api spotlessCheck ;;
-    format:agent) uv run --directory oreamo-agent ruff format --check . ;;
-    format-fix:web) pnpm --dir oreamo-web format ;;
-    format-fix:api) oreamo-api/gradlew -p oreamo-api spotlessApply ;;
-    format-fix:agent) uv run --directory oreamo-agent ruff format . ;;
-    build:web) pnpm --dir oreamo-web build ;;
-    build:api) oreamo-api/gradlew -p oreamo-api build ;;
-    build:agent) uv run --directory oreamo-agent ty check ;;
+    lint:web) pnpm --dir web lint ;;
+    lint:agent) uv run --directory agent ruff check . ;;
+    lint-fix:web) pnpm --dir web lint:fix ;;
+    lint-fix:agent) uv run --directory agent ruff check --fix . ;;
+    format:web) pnpm --dir web format:check ;;
+    format:api) api/gradlew -p api spotlessCheck ;;
+    format:agent) uv run --directory agent ruff format --check . ;;
+    format-fix:web) pnpm --dir web format ;;
+    format-fix:api) api/gradlew -p api spotlessApply ;;
+    format-fix:agent) uv run --directory agent ruff format . ;;
+    build:web) pnpm --dir web build ;;
+    build:api) api/gradlew -p api build ;;
+    build:agent) uv run --directory agent ty check ;;
     run:*) bash scripts/run.sh "$1" ;;
     stop:*) bash scripts/stop.sh "$1" ;;
   esac

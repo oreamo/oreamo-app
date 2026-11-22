@@ -35,7 +35,7 @@ Start the dependent services with Docker, then run this service directly at the 
 
 ```bash
 make up infra
-make -C oreamo-agent migrate
+make -C agent migrate
 make run agent
 ```
 

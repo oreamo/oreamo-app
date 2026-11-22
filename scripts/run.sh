@@ -49,9 +49,9 @@ keep() {
   trap '' HUP
 
   case "$service" in
-    web) cd "$root/oreamo-web" && pnpm dev ;;
-    api) cd "$root/oreamo-api" && ./gradlew bootRun --args='--spring.profiles.active=local' ;;
-    agent) cd "$root/oreamo-agent" && make run ;;
+    web) cd "$root/web" && pnpm dev ;;
+    api) cd "$root/api" && ./gradlew bootRun --args='--spring.profiles.active=local' ;;
+    agent) cd "$root/agent" && make run ;;
   esac < /dev/null 2>&1 | keep 2> /dev/null
 ) &
 pid=$!
