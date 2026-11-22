@@ -1,4 +1,4 @@
-import { MouseEvent, ReactNode, useState } from "react";
+import { MouseEvent, ReactNode } from "react";
 
 import { Button as MuiButton, Tooltip, TooltipProps } from "@mui/material";
 
@@ -13,7 +13,6 @@ export interface ButtonProps {
   loading?: boolean;
   startIconName?: IconName;
   endIconName?: IconName;
-  enableLock?: boolean;
   tooltip?: {
     message: string;
     placement?: TooltipProps["placement"];
@@ -31,30 +30,15 @@ export function Button({
   loading,
   startIconName,
   endIconName,
-  enableLock,
   tooltip,
   children,
   onClick,
 }: ButtonProps) {
-  const [locked, setLocked] = useState(enableLock);
-
   const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
-    if (locked) {
-      setLocked(false);
-      setTimeout(() => {
-        setLocked(true);
-      }, 3000);
-      return;
-    }
-
     onClick?.(event);
   };
 
   const startIcon = (() => {
-    if (enableLock) {
-      return locked ? <Icon iconName="Lock" /> : <Icon iconName="LockOpen" />;
-    }
-
     if (startIconName) {
       return <Icon iconName={startIconName} />;
     }
