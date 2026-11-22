@@ -66,10 +66,6 @@ export interface CommonCodeSave {
   sortOrder: number;
 }
 
-export interface CodeSearch {
-  groupCodes?: string[];
-}
-
 export interface CommonCodeUpdate {
   groupCode: string;
   commonCode: string;
