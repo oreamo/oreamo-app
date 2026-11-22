@@ -21,6 +21,8 @@ public class SessionUser implements UserDetails {
 
     private String roleCode;
 
+    private boolean passwordChangeRequired;
+
     private boolean enabled;
 
     public static SessionUser ofUser(User user) {
@@ -28,6 +30,7 @@ public class SessionUser implements UserDetails {
                 .username(user.getUsername())
                 .password(user.getPassword())
                 .roleCode(user.getRoleCode())
+                .passwordChangeRequired(user.isPasswordChangeRequired())
                 .enabled(user.isEnabled())
                 .build();
     }

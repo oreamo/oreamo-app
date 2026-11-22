@@ -27,7 +27,7 @@ spring:
     url:
       login: /session/login
       refresh: /session/refresh
-      unauthenticated: /swagger-ui/**,/v3/api-docs/**,/error,/translations/infos
+      unauthenticated: /swagger-ui/**,/v3/api-docs/**,/error,/translations/infos,/session/password
 
 server:
   tomcat:

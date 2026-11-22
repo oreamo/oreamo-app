@@ -22,18 +22,12 @@ public class UserPasswordReset extends OperationAuthor {
     @NotBlank(message = TranslationKey.User.Label.USERNAME)
     private String username;
 
-    public static UserPasswordReset ofSessionUser(SessionUser sessionUser) {
-        UserPasswordReset userPasswordReset = new UserPasswordReset();
-        userPasswordReset.setUsername(sessionUser.getUsername());
-        userPasswordReset.setAuthor(sessionUser.getUsername());
-        return userPasswordReset;
-    }
-
-    public UserUpdate toUserUpdate(PasswordEncoder passwordEncoder, String initialPassword) {
-        UserUpdate userUpdate = new UserUpdate();
-        userUpdate.setUsername(username);
-        userUpdate.setPassword(passwordEncoder.encode(initialPassword));
-        userUpdate.setAuthor(getAuthor());
-        return userUpdate;
+    public UserPasswordUpdate toUserPasswordUpdate(PasswordEncoder passwordEncoder, String initialPassword) {
+        UserPasswordUpdate userPasswordUpdate = new UserPasswordUpdate();
+        userPasswordUpdate.setUsername(username);
+        userPasswordUpdate.setPassword(passwordEncoder.encode(initialPassword));
+        userPasswordUpdate.setPasswordChanged(false);
+        userPasswordUpdate.setAuthor(getAuthor());
+        return userPasswordUpdate;
     }
 }

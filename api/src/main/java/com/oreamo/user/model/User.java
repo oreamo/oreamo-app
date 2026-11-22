@@ -1,8 +1,11 @@
 package com.oreamo.user.model;
 
+import java.time.LocalDateTime;
+
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.oreamo.common.model.DataRecord;
 
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.util.StringUtils;
 
 import io.swagger.v3.oas.annotations.media.Schema;
@@ -29,6 +32,10 @@ public class User extends DataRecord {
     @Schema(hidden = true)
     private String password;
 
+    @JsonIgnore
+    @Schema(hidden = true)
+    private LocalDateTime passwordChangedAt;
+
     @Schema(description = "Role Code", example = "ROLE_ADMIN")
     private String roleCode;
 
@@ -37,5 +44,14 @@ public class User extends DataRecord {
 
     public boolean hasProfileImage() {
         return StringUtils.hasText(profileImageFileGroupId);
+    }
+
+    @JsonIgnore
+    public boolean isPasswordChangeRequired() {
+        return passwordChangedAt == null;
+    }
+
+    public boolean matchesPassword(PasswordEncoder passwordEncoder, String rawPassword) {
+        return passwordEncoder.matches(rawPassword, password);
     }
 }

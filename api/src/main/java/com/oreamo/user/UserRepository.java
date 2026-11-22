@@ -5,6 +5,7 @@ import java.util.Optional;
 import com.github.pagehelper.Page;
 import com.oreamo.user.model.User;
 import com.oreamo.user.model.UserDelete;
+import com.oreamo.user.model.UserPasswordUpdate;
 import com.oreamo.user.model.UserProfileImageUpdate;
 import com.oreamo.user.model.UserSave;
 import com.oreamo.user.model.UserSearch;
@@ -23,6 +24,8 @@ public interface UserRepository {
     int insertUser(UserSave userSave);
 
     int updateUser(UserUpdate userUpdate);
+
+    int updateUserPassword(UserPasswordUpdate userPasswordUpdate);
 
     int updateUserProfileImage(UserProfileImageUpdate userProfileImageUpdate);
 
