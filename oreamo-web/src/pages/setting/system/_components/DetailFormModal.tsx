@@ -140,7 +140,6 @@ export function DetailFormModal<TFieldValues extends FieldValues>({
               {
                 variant: "contained" as const,
                 label: translate(TRANSLATION_KEY.common.label.DELETE),
-                enableLock: true,
                 onClick: handleDelete,
               },
             ]
