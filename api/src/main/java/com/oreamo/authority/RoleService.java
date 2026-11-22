@@ -57,10 +57,6 @@ public class RoleService {
             throw new RestException(TranslationKey.Common.Message.CREATE_FAILURE);
         }
 
-        if (roleSave.hasRolePermissions()) {
-            roleRepository.insertRolePermissionsByRoleSave(roleSave);
-        }
-
         return roleRepository
                 .selectRole(roleSearch)
                 .orElseThrow(() -> new RestException(TranslationKey.Common.Message.CREATE_FAILURE));
@@ -75,29 +71,19 @@ public class RoleService {
         if (updatedCount == 0) {
             throw new RestException(TranslationKey.Common.Message.UPDATE_FAILURE);
         }
-
-        if (roleUpdate.isRolePermissionsReplaced()) {
-            roleRepository.deleteRolePermissionsByRoleUpdate(roleUpdate);
-
-            if (roleUpdate.hasRolePermissions()) {
-                roleRepository.insertRolePermissionsByRoleUpdate(roleUpdate);
-            }
-        }
     }
 
     @Transactional
     public void deleteRole(RoleDelete roleDelete) {
         RoleSearch roleSearch = RoleSearch.ofRoleCode(roleDelete.getRoleCode());
-        Role role = getRole(roleSearch);
+        getRole(roleSearch);
 
         Page<User> roleUsers = userService.getUsers(UsersSearch.ofRoleCode(roleDelete.getRoleCode()));
         if (!roleUsers.isEmpty()) {
             throw new RestException(TranslationKey.Authority.Message.ROLE_DELETE_FAILURE_BY_USER);
         }
 
-        if (role.hasRolePermissions()) {
-            roleRepository.deleteRolePermissionsByRoleDelete(roleDelete);
-        }
+        roleRepository.deleteRolePermissionsByRoleDelete(roleDelete);
 
         int deletedCount = roleRepository.deleteRole(roleDelete);
         if (deletedCount == 0) {
