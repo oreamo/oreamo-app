@@ -1,7 +1,8 @@
-import { styled } from "@mui/material";
+import { useState } from "react";
 
 import oreamoLogo from "@/assets/images/oreamo.png";
 import { Button } from "@/components/common/button/Button";
+import { Callout } from "@/components/common/display/Callout";
 import { Image } from "@/components/common/display/Image";
 import { Text } from "@/components/common/display/Text";
 import { Flex } from "@/components/common/layout/Flex";
@@ -14,10 +15,16 @@ import { LoginInfo } from "@/models/user-model";
 import { useSessionUserLogin } from "@/resources/user/useSessionUserLogin";
 import { useSystemToast } from "@/stores/system-toast-store";
 
-export function LoginForm() {
+interface LoginFormProps {
+  onPasswordChangeRequire: (username: string) => void;
+}
+
+export function LoginForm({ onPasswordChangeRequire }: LoginFormProps) {
   const toast = useSystemToast();
 
   const { translate } = useTranslate();
+
+  const [loginFailureMessage, setLoginFailureMessage] = useState<string>();
 
   const { mutate: login } = useSessionUserLogin();
 
@@ -27,8 +34,18 @@ export function LoginForm() {
     handleEnter: handleLoginEnter,
   } = useDataForm<LoginInfo>({
     onValid: (data) => {
+      setLoginFailureMessage(undefined);
+
       login(data, {
-        onSuccess: (_response, variables) => {
+        onSuccess: (response, variables) => {
+          if (!response.data.succeed) return;
+
+          if (response.data.data.passwordChangeRequired) {
+            loginForm.reset({ username: variables.username, password: "" });
+            onPasswordChangeRequire(variables.username);
+            return;
+          }
+
           toast({
             type: "info",
             message: translate(TRANSLATION_KEY.user.message.LOGIN_SUCCESS, {
@@ -37,19 +54,16 @@ export function LoginForm() {
           });
         },
         onError: () => {
-          toast({
-            type: "error",
-            message: translate(TRANSLATION_KEY.user.message.LOGIN_FAILURE, {
-              username: data.username,
-            }),
-          });
+          setLoginFailureMessage(
+            translate(TRANSLATION_KEY.user.message.LOGIN_FAILURE),
+          );
         },
       });
     },
   });
 
   return (
-    <StyledLoginFormContainer direction="column" gap={4}>
+    <Flex direction="column" gap={4}>
       <Flex justify="center">
         <Image src={oreamoLogo} alt="Oreamo" width={52} height={52} circle />
       </Flex>
@@ -61,76 +75,79 @@ export function LoginForm() {
           {translate(TRANSLATION_KEY.user.message.SIGN_IN_DESCRIPTION)}
         </Text>
       </Flex>
+      {loginFailureMessage && (
+        <Callout type="error">{loginFailureMessage}</Callout>
+      )}
       <DataForm form={loginForm} onEnter={handleLoginEnter}>
-        <TextInputField<LoginInfo, "username">
-          name="username"
-          label={translate(TRANSLATION_KEY.user.label.USERNAME)}
-          validation={{
-            minLength: (value) => {
-              return value && value.length < 5
-                ? translate(
-                    TRANSLATION_KEY.common.message.MIN_SIZE_VALIDATION_FAILURE,
-                    {
-                      target: TRANSLATION_KEY.user.label.USERNAME,
-                      minValue: "6",
-                    },
-                  )
-                : undefined;
-            },
-            maxLength: (value) => {
-              return value && value.length > 50
-                ? translate(
-                    TRANSLATION_KEY.common.message.MAX_SIZE_VALIDATION_FAILURE,
-                    {
-                      target: TRANSLATION_KEY.user.label.USERNAME,
-                      maxValue: "50",
-                    },
-                  )
-                : undefined;
-            },
-          }}
-        />
-        <TextInputField<LoginInfo, "password">
-          name="password"
-          label={translate(TRANSLATION_KEY.user.label.PASSWORD)}
-          validation={{
-            minLength: (value) => {
-              return value && value.length < 8
-                ? translate(
-                    TRANSLATION_KEY.common.message.MIN_SIZE_VALIDATION_FAILURE,
-                    {
-                      target: TRANSLATION_KEY.user.label.PASSWORD,
-                      minValue: "8",
-                    },
-                  )
-                : undefined;
-            },
-          }}
-          renderProps={{
-            type: "password",
-          }}
-        />
-        <Button
-          type="button"
-          variant="contained"
-          size="large"
-          fullWidth
-          onClick={handleLoginSubmit}
-        >
-          {translate(TRANSLATION_KEY.user.label.SIGN_IN)}
-        </Button>
+        <DataForm.Row>
+          <DataForm.Column span>
+            <TextInputField<LoginInfo, "username">
+              name="username"
+              label={translate(TRANSLATION_KEY.user.label.USERNAME)}
+              validation={{
+                minLength: (value) => {
+                  return value && value.length < 5
+                    ? translate(
+                        TRANSLATION_KEY.common.message
+                          .MIN_SIZE_VALIDATION_FAILURE,
+                        {
+                          target: TRANSLATION_KEY.user.label.USERNAME,
+                          minValue: "6",
+                        },
+                      )
+                    : undefined;
+                },
+                maxLength: (value) => {
+                  return value && value.length > 50
+                    ? translate(
+                        TRANSLATION_KEY.common.message
+                          .MAX_SIZE_VALIDATION_FAILURE,
+                        {
+                          target: TRANSLATION_KEY.user.label.USERNAME,
+                          maxValue: "50",
+                        },
+                      )
+                    : undefined;
+                },
+              }}
+            />
+          </DataForm.Column>
+          <DataForm.Column span>
+            <TextInputField<LoginInfo, "password">
+              name="password"
+              label={translate(TRANSLATION_KEY.user.label.PASSWORD)}
+              validation={{
+                minLength: (value) => {
+                  return value && value.length < 8
+                    ? translate(
+                        TRANSLATION_KEY.common.message
+                          .MIN_SIZE_VALIDATION_FAILURE,
+                        {
+                          target: TRANSLATION_KEY.user.label.PASSWORD,
+                          minValue: "8",
+                        },
+                      )
+                    : undefined;
+                },
+              }}
+              renderProps={{
+                type: "password",
+              }}
+            />
+          </DataForm.Column>
+          <DataForm.Column span>
+            <Button
+              type="button"
+              variant="contained"
+              size="large"
+              fullWidth
+              onClick={handleLoginSubmit}
+            >
+              {translate(TRANSLATION_KEY.user.label.SIGN_IN)}
+            </Button>
+          </DataForm.Column>
+        </DataForm.Row>
       </DataForm>
-    </StyledLoginFormContainer>
+    </Flex>
   );
 }
-
-const StyledLoginFormContainer = styled(Flex)(({ theme }) => ({
-  width: 400,
-
-  padding: theme.spacing(5),
-
-  borderRadius: theme.shape.borderRadiusScale.lg,
-  border: `1px solid ${theme.palette.scale[300]}`,
-
-  backgroundColor: theme.palette.surface.raised,
-}));

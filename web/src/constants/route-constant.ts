@@ -27,6 +27,16 @@ export const ROUTE = {
         URL: "/setting/user/profile",
       },
     },
+    PROJECT_SETTING: {
+      ID: "PROJECT_SETTING",
+      PATH: "project",
+      URL: "/setting/project",
+      PROJECT_MANAGEMENT: {
+        ID: "PROJECT_MANAGEMENT",
+        PATH: "project-management",
+        URL: "/setting/project/project-management",
+      },
+    },
     SYSTEM_SETTING: {
       ID: "SYSTEM_SETTING",
       PATH: "system",

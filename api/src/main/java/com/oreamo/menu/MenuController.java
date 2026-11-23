@@ -36,14 +36,6 @@ public class MenuController {
         return RestResponse.ofSuccess(PageResponse.ofPage(pagedMenus));
     }
 
-    @Operation(summary = "Get Menu Infos")
-    @GetMapping("/infos")
-    public RestResponse<List<MenuInfo>> getMenuInfos() {
-        Page<Menu> menus = menuService.getMenus(MenusSearch.ofEnabledLeaf());
-        List<MenuInfo> menuInfos = menus.stream().map(Menu::toMenuInfo).toList();
-        return RestResponse.ofSuccess(menuInfos);
-    }
-
     @Operation(summary = "Get Menu")
     @GetMapping("/{menuId}")
     @Authorize(menuId = MenuId.MENU_MANAGEMENT, permissionCode = PermissionCode.READ)

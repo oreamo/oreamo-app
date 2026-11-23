@@ -21,11 +21,17 @@ public class SessionUser implements UserDetails {
 
     private String roleCode;
 
+    private boolean passwordChangeRequired;
+
+    private boolean enabled;
+
     public static SessionUser ofUser(User user) {
         return SessionUser.builder()
                 .username(user.getUsername())
                 .password(user.getPassword())
                 .roleCode(user.getRoleCode())
+                .passwordChangeRequired(user.isPasswordChangeRequired())
+                .enabled(user.isEnabled())
                 .build();
     }
 
@@ -42,6 +48,11 @@ public class SessionUser implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return enabled;
     }
 
     public SessionUserInfo toPublicInfo(

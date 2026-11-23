@@ -14,7 +14,7 @@ Follow the rules when implementing a React component
 
 - File name should be in PascalCase, matching the component name.
 - Define the component with function keyword and export it as a named export.
-- Prefer to use compound component pattern instead of props-driven pattern.
+- Prefer composition over configuration. Use compound component pattern instead of describing the structure with config props.
 - Except compound component, only single component should be defined in a file.
   - Compound component should export only the main component, and the sub-components should be defined as properties of the main component.
 - Do not handle events directly in the JSX. Instead, define event handlers as functions inside the component and pass them to the JSX elements.

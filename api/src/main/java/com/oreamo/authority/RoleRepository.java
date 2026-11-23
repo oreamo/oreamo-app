@@ -21,13 +21,7 @@ public interface RoleRepository {
 
     int insertRole(RoleSave roleSave);
 
-    int insertRolePermissionsByRoleSave(RoleSave roleSave);
-
     int updateRole(RoleUpdate roleUpdate);
-
-    int deleteRolePermissionsByRoleUpdate(RoleUpdate roleUpdate);
-
-    int insertRolePermissionsByRoleUpdate(RoleUpdate roleUpdate);
 
     int deleteRole(RoleDelete roleDelete);
 

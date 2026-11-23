@@ -37,6 +37,8 @@ public class TranslationKey {
         public static class Message {
             public static final String GROUP_CODE_DELETE_FAILURE_BY_ENABLED_COMMON_CODE =
                     "code.message.GROUP_CODE_DELETE_FAILURE_BY_ENABLED_COMMON_CODE";
+            public static final String COMMON_CODE_ENABLE_FAILURE_BY_DISABLED_GROUP_CODE =
+                    "code.message.COMMON_CODE_ENABLE_FAILURE_BY_DISABLED_GROUP_CODE";
         }
     }
 
@@ -49,6 +51,8 @@ public class TranslationKey {
             public static final String NAME = "user.label.NAME";
             public static final String EMAIL = "user.label.EMAIL";
             public static final String PASSWORD = "user.label.PASSWORD";
+            public static final String CURRENT_PASSWORD = "user.label.CURRENT_PASSWORD";
+            public static final String NEW_PASSWORD = "user.label.NEW_PASSWORD";
             public static final String PROFILE_IMAGE = "user.label.PROFILE_IMAGE";
         }
 
@@ -58,6 +62,10 @@ public class TranslationKey {
             public static final String AUTHORIZATION_FAILURE = "user.message.AUTHORIZATION_FAILURE";
             public static final String PROFILE_IMAGE_TYPE_VALIDATION_FAILURE =
                     "user.message.PROFILE_IMAGE_TYPE_VALIDATION_FAILURE";
+            public static final String PASSWORD_MISMATCH_FAILURE = "user.message.PASSWORD_MISMATCH_FAILURE";
+            public static final String PASSWORD_REUSE_FAILURE = "user.message.PASSWORD_REUSE_FAILURE";
+            public static final String PASSWORD_RULE_VALIDATION_FAILURE =
+                    "user.message.PASSWORD_RULE_VALIDATION_FAILURE";
         }
     }
 
@@ -93,6 +101,8 @@ public class TranslationKey {
 
         public static class Message {
             public static final String MENU_DELETE_FAILURE_BY_SUB_MENU = "menu.message.MENU_DELETE_FAILURE_BY_SUB_MENU";
+            public static final String MENU_ENABLE_FAILURE_BY_DISABLED_PARENT_MENU =
+                    "menu.message.MENU_ENABLE_FAILURE_BY_DISABLED_PARENT_MENU";
         }
     }
 

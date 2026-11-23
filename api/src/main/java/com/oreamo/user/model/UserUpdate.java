@@ -5,7 +5,6 @@ import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.oreamo.common.constant.TranslationKey;
 import com.oreamo.common.model.OperationAuthor;
 
@@ -34,10 +33,6 @@ public class UserUpdate extends OperationAuthor {
     @Email(message = TranslationKey.User.Label.EMAIL)
     @Size(max = 100, message = TranslationKey.User.Label.EMAIL)
     private String email;
-
-    @JsonIgnore
-    @Schema(hidden = true)
-    private String password;
 
     @Schema(description = "Role Code", example = "ROLE_USER")
     @NotBlank(message = TranslationKey.Authority.Label.ROLE)

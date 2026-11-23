@@ -12,6 +12,7 @@ import tools.jackson.databind.ObjectMapper;
 import com.oreamo.common.cache.RedisRepository;
 import com.oreamo.common.constant.TranslationKey;
 import com.oreamo.common.dto.RestResponse;
+import com.oreamo.user.model.LoginResult;
 import com.oreamo.user.model.SessionUser;
 
 import org.springframework.beans.factory.annotation.Value;
@@ -53,8 +54,10 @@ public class AuthenticationHandler
     public void onAuthenticationSuccess(
             HttpServletRequest request, HttpServletResponse response, Authentication authentication) {
         SessionUser sessionUser = (SessionUser) authentication.getPrincipal();
-        handleAuthenticationSuccess(sessionUser, response);
-        writeJson(response, RestResponse.ofSuccess(null));
+        if (!sessionUser.isPasswordChangeRequired()) {
+            handleAuthenticationSuccess(sessionUser, response);
+        }
+        writeJson(response, RestResponse.ofSuccess(LoginResult.ofSessionUser(sessionUser)));
     }
 
     @SneakyThrows

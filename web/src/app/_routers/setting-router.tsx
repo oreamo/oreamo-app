@@ -1,6 +1,7 @@
 import { RouteObject } from "react-router";
 
 import { ROUTE } from "@/constants/route-constant";
+import { ProjectManagementPage } from "@/pages/setting/project/project-management/ProjectManagementPage";
 import { AuthorityManagementPage } from "@/pages/setting/system/authority-management/AuthorityManagementPage";
 import { CodeManagementPage } from "@/pages/setting/system/code-management/CodeManagementPage";
 import { MenuManagementPage } from "@/pages/setting/system/menu-management/MenuManagementPage";
@@ -21,6 +22,17 @@ export const SettingRouter: RouteObject[] = [
             id: ROUTE.SETTING.USER_SETTING.PROFILE.ID,
             path: ROUTE.SETTING.USER_SETTING.PROFILE.PATH,
             element: <ProfilePage />,
+          },
+        ],
+      },
+      {
+        id: ROUTE.SETTING.PROJECT_SETTING.ID,
+        path: ROUTE.SETTING.PROJECT_SETTING.PATH,
+        children: [
+          {
+            id: ROUTE.SETTING.PROJECT_SETTING.PROJECT_MANAGEMENT.ID,
+            path: ROUTE.SETTING.PROJECT_SETTING.PROJECT_MANAGEMENT.PATH,
+            element: <ProjectManagementPage />,
           },
         ],
       },

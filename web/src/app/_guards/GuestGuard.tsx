@@ -11,6 +11,7 @@ export function GuestGuard() {
   const {
     data: userInfo,
     isPending,
+    isFetched,
     isError,
   } = useSessionUserInfo({
     throwOnError: false,
@@ -20,7 +21,7 @@ export function GuestGuard() {
 
   useGuestCacheCleanupEffect({ isGuest });
 
-  if (isPending) return null;
+  if (isPending && !isFetched) return null;
 
   if (!isError && userInfo) {
     return <Navigate to={redirectUrl ?? ROUTE.MAIN.URL} replace />;

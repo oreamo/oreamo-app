@@ -58,3 +58,5 @@ for file in "${files[@]}"; do
 done
 
 GIT_INDEX_FILE="$tmp_index" git commit -F -
+
+git reset -q HEAD -- "${files[@]}"

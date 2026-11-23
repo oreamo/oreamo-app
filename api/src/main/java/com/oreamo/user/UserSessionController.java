@@ -3,13 +3,11 @@ package com.oreamo.user;
 import jakarta.validation.Valid;
 
 import com.oreamo.common.dto.RestResponse;
-import com.oreamo.user.model.SessionUser;
-import com.oreamo.user.model.UserPasswordReset;
 import com.oreamo.user.model.UserProfileImageDelete;
 import com.oreamo.user.model.UserProfileImageUpdate;
+import com.oreamo.user.model.UserSessionPasswordChange;
 import com.oreamo.user.model.UserSessionUpdate;
 
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
 
 import io.swagger.v3.oas.annotations.Operation;
@@ -25,13 +23,11 @@ public class UserSessionController {
 
     private final UserService userService;
 
-    @Operation(
-            summary = "Reset Session Password",
-            description = "Reset password of authenticated session user to the initial password")
-    @PostMapping("/password/reset")
-    public RestResponse<Boolean> resetPassword(@AuthenticationPrincipal SessionUser sessionUser) {
-        userService.resetUserPassword(UserPasswordReset.ofSessionUser(sessionUser));
-        return RestResponse.ofSuccess(true);
+    @Operation(summary = "Put Session Password", description = "Change password of authenticated session user")
+    @PutMapping("/password")
+    public RestResponse<Void> putPassword(@Valid @RequestBody UserSessionPasswordChange userSessionPasswordChange) {
+        userService.changeUserPassword(userSessionPasswordChange.toUserPasswordChange());
+        return RestResponse.ofSuccess(null);
     }
 
     @Operation(summary = "Put User Session", description = "Set name and email of authenticated session user")

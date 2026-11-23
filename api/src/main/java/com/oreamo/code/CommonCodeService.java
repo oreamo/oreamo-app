@@ -10,6 +10,8 @@ import com.oreamo.code.model.CommonCodeSave;
 import com.oreamo.code.model.CommonCodeSearch;
 import com.oreamo.code.model.CommonCodeUpdate;
 import com.oreamo.code.model.CommonCodesSearch;
+import com.oreamo.code.model.GroupCode;
+import com.oreamo.code.model.GroupCodeSearch;
 import com.oreamo.common.constant.TranslationKey;
 import com.oreamo.common.exception.RestException;
 
@@ -23,6 +25,8 @@ import lombok.RequiredArgsConstructor;
 class CommonCodeService {
 
     private final CommonCodeRepository commonCodeRepository;
+
+    private final GroupCodeRepository groupCodeRepository;
 
     @Transactional(readOnly = true)
     public Page<CommonCode> getCommonCodes(CommonCodesSearch commonCodesSearch) {
@@ -51,6 +55,10 @@ class CommonCodeService {
                     commonCodeSave.getCommonCode());
         }
 
+        if (commonCodeSave.isEnabled()) {
+            validateGroupCodeEnabled(commonCodeSave.getGroupCode());
+        }
+
         int createdCount = commonCodeRepository.insertCommonCode(commonCodeSave);
         if (createdCount == 0) {
             throw new RestException(TranslationKey.Common.Message.CREATE_FAILURE);
@@ -71,6 +79,10 @@ class CommonCodeService {
                 .selectCommonCode(commonCodeSearch)
                 .orElseThrow(() -> new RestException(
                         TranslationKey.Common.Message.NOT_FOUND_FAILURE, TranslationKey.Code.Label.COMMON_CODE));
+
+        if (commonCodeUpdate.isEnabled()) {
+            validateGroupCodeEnabled(commonCodeUpdate.getGroupCode());
+        }
 
         int updatedCount = commonCodeRepository.updateCommonCode(commonCodeUpdate);
         if (updatedCount == 0) {
@@ -109,6 +121,18 @@ class CommonCodeService {
 
         if (commonCodeOperation.hasSaveTargets()) {
             commonCodeOperation.getCommonCodeSaves().forEach(this::saveCommonCode);
+        }
+    }
+
+    private void validateGroupCodeEnabled(String groupCode) {
+        GroupCodeSearch groupCodeSearch = GroupCodeSearch.ofGroupCode(groupCode);
+        GroupCode foundGroupCode = groupCodeRepository
+                .selectGroupCode(groupCodeSearch)
+                .orElseThrow(() -> new RestException(
+                        TranslationKey.Common.Message.NOT_FOUND_FAILURE, TranslationKey.Code.Label.GROUP_CODE));
+
+        if (!foundGroupCode.isEnabled()) {
+            throw new RestException(TranslationKey.Code.Message.COMMON_CODE_ENABLE_FAILURE_BY_DISABLED_GROUP_CODE);
         }
     }
 }

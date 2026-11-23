@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 import org.springframework.web.filter.OncePerRequestFilter;
@@ -42,6 +44,8 @@ public class AuthenticationRefreshFilter extends OncePerRequestFilter {
     private final AuthenticationHandler authenticationHandler;
 
     private final RedisRepository redisRepository;
+
+    private final AuthenticationService authenticationService;
 
     @Override
     protected boolean shouldNotFilter(HttpServletRequest request) {
@@ -73,6 +77,13 @@ public class AuthenticationRefreshFilter extends OncePerRequestFilter {
                 return;
             }
 
+            UserDetails foundSessionUser = authenticationService.loadUserByUsername(sessionUser.getUsername());
+            if (!foundSessionUser.isEnabled()) {
+                log.warn("Disabled user tried to refresh session: {}", sessionUser.getUsername());
+                authenticationHandler.handleAuthenticationFailure(response);
+                return;
+            }
+
             authenticationHandler.handleAuthenticationSuccess(sessionUser, response);
 
             Authentication authentication =
@@ -80,6 +91,10 @@ public class AuthenticationRefreshFilter extends OncePerRequestFilter {
             SecurityContextHolder.getContext().setAuthentication(authentication);
         } catch (JwtException e) {
             log.warn("Invalid or expired refresh token: {}", e.getMessage());
+            authenticationHandler.handleAuthenticationFailure(response);
+            return;
+        } catch (UsernameNotFoundException e) {
+            log.warn("User of refresh token not found: {}", e.getMessage());
             authenticationHandler.handleAuthenticationFailure(response);
             return;
         }

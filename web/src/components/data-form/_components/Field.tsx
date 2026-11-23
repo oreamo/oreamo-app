@@ -8,6 +8,8 @@ import {
   FieldValues,
 } from "react-hook-form";
 
+import { InputHelperTextContext } from "@/components/common/input/input-helper-text-context";
+import { useFieldErrorAutoOpenEffect } from "@/components/data-form/_hooks/useFieldErrorAutoOpenEffect";
 import { TRANSLATION_KEY } from "@/constants/translation-constant";
 import { useTranslate } from "@/hooks/useTranslate";
 
@@ -51,24 +53,30 @@ export function Field<
 }) {
   const { translate } = useTranslate();
 
-  return (
-    <Controller<TFieldValues, TName>
-      name={name}
-      rules={{
-        required: required
-          ? translate(TRANSLATION_KEY.common.message.REQUIRED_FORM_VALIDATION)
-          : undefined,
-        validate: validation,
-        deps: dependencies,
-      }}
-      render={({ field, fieldState }) => {
-        const errorMessage = fieldState.error?.message;
+  const { autoOpen } = useFieldErrorAutoOpenEffect<TFieldValues, TName>({
+    name,
+  });
 
-        return render({
-          field,
-          error: errorMessage ? translate(errorMessage) : undefined,
-        });
-      }}
-    />
+  return (
+    <InputHelperTextContext value={{ autoOpen }}>
+      <Controller<TFieldValues, TName>
+        name={name}
+        rules={{
+          required: required
+            ? translate(TRANSLATION_KEY.common.message.REQUIRED_FORM_VALIDATION)
+            : undefined,
+          validate: validation,
+          deps: dependencies,
+        }}
+        render={({ field, fieldState }) => {
+          const errorMessage = fieldState.error?.message;
+
+          return render({
+            field,
+            error: errorMessage ? translate(errorMessage) : undefined,
+          });
+        }}
+      />
+    </InputHelperTextContext>
   );
 }

@@ -56,14 +56,14 @@ export function useAction<TParams = unknown, TData = unknown>({
 
   const mutation = useMutation<ActionResponse<TData>, ActionError, TParams>({
     mutationFn,
-    ...configs,
     throwOnError: true,
+    ...configs,
   });
 
   const mutate = (
     variables: TParams,
     options?: MutateOptions<ActionResponse<TData>, ActionError, TParams> & {
-      onFailure?: () => void;
+      onFailure?: (failureMessage: string) => void;
     },
   ) => {
     const { onSuccess, onError, onFailure, ...mutateOptions } = options ?? {};
@@ -102,11 +102,14 @@ export function useAction<TParams = unknown, TData = unknown>({
           response: response.data,
         });
 
+        if (onFailure) {
+          onFailure(failureMessage);
+          return;
+        }
+
         alert({
           content: failureMessage,
         });
-
-        onFailure?.();
       },
       onError: (error, mutateVariables, onMutateResult, context) => {
         onError?.(error, mutateVariables, onMutateResult, context);

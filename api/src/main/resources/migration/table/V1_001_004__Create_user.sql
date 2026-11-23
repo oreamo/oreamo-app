@@ -4,6 +4,7 @@ CREATE TABLE TB_USER
     NAME                        VARCHAR(100) NOT NULL,
     EMAIL                       VARCHAR(100) NOT NULL,
     PASSWORD                    VARCHAR(255) NOT NULL,
+    PASSWORD_CHANGED_AT         TIMESTAMP    NULL,
     ROLE_CODE                   VARCHAR(50)  NOT NULL,
     PROFILE_IMAGE_FILE_GROUP_ID VARCHAR(36)  NULL,
     DATA_STATUS                 VARCHAR(10)  NOT NULL DEFAULT 'ENABLED',

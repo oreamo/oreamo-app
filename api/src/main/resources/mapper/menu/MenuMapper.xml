@@ -39,12 +39,6 @@
             <if test="dataStatus != null and dataStatus != ''">
            AND M.DATA_STATUS = #{dataStatus}
             </if>
-            <if test="leaf != null and leaf">
-           AND NOT EXISTS (
-               SELECT 1 FROM TB_MENU C
-                WHERE C.PARENT_MENU_ID = M.MENU_ID
-           )
-            </if>
          ORDER BY M.SORT_ORDER
     </select>
 
@@ -143,6 +137,24 @@
              , UPDATED_BY  = #{author}
              , UPDATED_AT  = NOW()
          WHERE MENU_ID     = #{menuId}
+    </update>
+
+    <update id="updateSubMenusByMenuUpdate"
+            parameterType="com.oreamo.menu.model.MenuUpdate">
+        WITH RECURSIVE SUB_MENU AS (
+            SELECT M.MENU_ID
+              FROM TB_MENU M
+             WHERE M.PARENT_MENU_ID = #{menuId}
+             UNION
+            SELECT M.MENU_ID
+              FROM TB_MENU M
+             INNER JOIN SUB_MENU S ON M.PARENT_MENU_ID = S.MENU_ID
+        )
+        UPDATE TB_MENU
+           SET DATA_STATUS = #{dataStatus}
+             , UPDATED_BY  = #{author}
+             , UPDATED_AT  = NOW()
+         WHERE MENU_ID IN (SELECT MENU_ID FROM SUB_MENU)
     </update>
 
     <delete id="deleteMenu"

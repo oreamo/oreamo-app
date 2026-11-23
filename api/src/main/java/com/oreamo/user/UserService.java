@@ -10,7 +10,9 @@ import com.oreamo.file.model.FilesSearch;
 import com.oreamo.user.model.User;
 import com.oreamo.user.model.UserDelete;
 import com.oreamo.user.model.UserOperation;
+import com.oreamo.user.model.UserPasswordChange;
 import com.oreamo.user.model.UserPasswordReset;
+import com.oreamo.user.model.UserPasswordUpdate;
 import com.oreamo.user.model.UserProfileImage;
 import com.oreamo.user.model.UserProfileImageDelete;
 import com.oreamo.user.model.UserProfileImageUpdate;
@@ -100,8 +102,37 @@ public class UserService {
         UserSearch userSearch = UserSearch.ofUsername(userPasswordReset.getUsername());
         getUser(userSearch);
 
-        UserUpdate userUpdate = userPasswordReset.toUserUpdate(passwordEncoder, initialPassword);
-        int updatedUserCount = userRepository.updateUser(userUpdate);
+        UserPasswordUpdate userPasswordUpdate =
+                userPasswordReset.toUserPasswordUpdate(passwordEncoder, initialPassword);
+        int updatedUserCount = userRepository.updateUserPassword(userPasswordUpdate);
+        if (updatedUserCount == 0) {
+            throw new RestException(TranslationKey.Common.Message.UPDATE_FAILURE);
+        }
+    }
+
+    @Transactional
+    public void changeUserPassword(UserPasswordChange userPasswordChange) {
+        UserSearch userSearch = UserSearch.ofUsername(userPasswordChange.getUsername());
+        User foundUser = getUser(userSearch);
+
+        if (!foundUser.isEnabled()) {
+            throw new RestException(TranslationKey.User.Message.AUTHENTICATION_FAILURE);
+        }
+
+        if (!foundUser.matchesPassword(passwordEncoder, userPasswordChange.getCurrentPassword())) {
+            throw new RestException(TranslationKey.User.Message.PASSWORD_MISMATCH_FAILURE);
+        }
+
+        if (userPasswordChange.isNewPasswordReused()) {
+            throw new RestException(TranslationKey.User.Message.PASSWORD_REUSE_FAILURE);
+        }
+
+        if (!userPasswordChange.isNewPasswordRuleValid()) {
+            throw new RestException(TranslationKey.User.Message.PASSWORD_RULE_VALIDATION_FAILURE);
+        }
+
+        UserPasswordUpdate userPasswordUpdate = userPasswordChange.toUserPasswordUpdate(passwordEncoder);
+        int updatedUserCount = userRepository.updateUserPassword(userPasswordUpdate);
         if (updatedUserCount == 0) {
             throw new RestException(TranslationKey.Common.Message.UPDATE_FAILURE);
         }

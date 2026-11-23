@@ -35,6 +35,7 @@
              , U.NAME
              , U.EMAIL
              , U.PASSWORD
+             , U.PASSWORD_CHANGED_AT
              , U.ROLE_CODE
              , U.PROFILE_IMAGE_FILE_GROUP_ID
              , U.DATA_STATUS
@@ -85,13 +86,27 @@
         <if test="dataStatus != null and dataStatus != ''">
              , DATA_STATUS = #{dataStatus}
         </if>
-        <if test="password != null and password != ''">
-             , PASSWORD    = #{password}
-        </if>
         <if test="roleCode != null and roleCode != ''">
              , ROLE_CODE   = #{roleCode}
         </if>
          WHERE USERNAME    = #{username}
+    </update>
+
+    <update id="updateUserPassword"
+            parameterType="com.oreamo.user.model.UserPasswordUpdate">
+        UPDATE TB_USER
+           SET PASSWORD            = #{password}
+        <choose>
+            <when test="passwordChanged">
+             , PASSWORD_CHANGED_AT = NOW()
+            </when>
+            <otherwise>
+             , PASSWORD_CHANGED_AT = NULL
+            </otherwise>
+        </choose>
+             , UPDATED_BY          = #{author}
+             , UPDATED_AT          = NOW()
+         WHERE USERNAME            = #{username}
     </update>
 
     <update id="updateUserProfileImage"

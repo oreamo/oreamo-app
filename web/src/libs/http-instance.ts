@@ -28,6 +28,10 @@ httpInstance.interceptors.response.use(
       throw new UnexpectedError();
     }
 
+    if (error.config?.url === "/session/login") {
+      throw new AuthenticationError();
+    }
+
     if (error.config?.url === "/session/refresh") {
       refreshPromise = null;
       throw new AuthenticationError();

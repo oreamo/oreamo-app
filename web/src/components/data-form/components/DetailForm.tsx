@@ -20,7 +20,7 @@ export function DetailForm<TFieldValues extends FieldValues>({
 }: DetailFormProps<TFieldValues>) {
   return (
     <DataForm form={form} onEnter={onEnter}>
-      <StyledDetailFormContainer template="240px 1fr">
+      <StyledDetailFormContainer template="240px minmax(0, 1fr)">
         {children}
       </StyledDetailFormContainer>
     </DataForm>
@@ -74,6 +74,8 @@ const StyledRequiredMark = styled("span")(({ theme }) => ({
 }));
 
 const StyledValueContainer = styled(Flex)(({ theme }) => ({
+  minWidth: 0,
+
   padding: `${theme.spacing(1)} ${theme.spacing(2)}`,
 
   borderTop: `1px solid ${theme.palette.scale[200]}`,
