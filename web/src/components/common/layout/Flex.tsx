@@ -17,6 +17,8 @@ export interface FlexProps {
   onClick?: (event: MouseEvent<HTMLDivElement>) => void;
   onBlur?: (event: FocusEvent<HTMLDivElement>) => void;
   onMouseDown?: (event: MouseEvent<HTMLDivElement>) => void;
+  onMouseEnter?: (event: MouseEvent<HTMLDivElement>) => void;
+  onMouseLeave?: (event: MouseEvent<HTMLDivElement>) => void;
 }
 
 export function Flex({
@@ -34,6 +36,8 @@ export function Flex({
   onClick,
   onBlur,
   onMouseDown,
+  onMouseEnter,
+  onMouseLeave,
 }: FlexProps) {
   return (
     <StyledFlexContainer
@@ -50,6 +54,8 @@ export function Flex({
       onClick={onClick}
       onBlur={onBlur}
       onMouseDown={onMouseDown}
+      onMouseEnter={onMouseEnter}
+      onMouseLeave={onMouseLeave}
     >
       {children}
     </StyledFlexContainer>
