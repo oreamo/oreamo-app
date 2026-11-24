@@ -1,4 +1,4 @@
-import { ListItemButton, ListItemText, styled } from "@mui/material";
+import { alpha, ListItemButton, ListItemText, styled } from "@mui/material";
 
 import { Text } from "@/components/common/display/Text";
 import { Flex } from "@/components/common/layout/Flex";
@@ -65,6 +65,8 @@ const StyledSidebarFlyoutContainer = styled(Flex)(({ theme }) => ({
   marginLeft: theme.spacing(1),
   padding: theme.spacing(1),
 
+  gap: theme.spacing(1),
+
   border: `1px solid ${theme.palette.navigation.activeBackground}`,
   borderRadius: theme.shape.borderRadiusScale.md,
 
@@ -87,7 +89,7 @@ const StyledSidebarFlyoutMenuButton = styled(ListItemButton)(({ theme }) => ({
   color: theme.palette.navigation.text,
 
   "&:hover": {
-    backgroundColor: theme.palette.navigation.activeBackground,
+    backgroundColor: alpha(theme.palette.navigation.text, 0.1),
     color: theme.palette.navigation.activeText,
   },
 

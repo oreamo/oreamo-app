@@ -226,7 +226,7 @@ const StyledSidebarToggleWrapper = styled(Flex, {
     color: theme.palette.navigation.text,
 
     "&:hover": {
-      backgroundColor: theme.palette.navigation.activeBackground,
+      backgroundColor: alpha(theme.palette.navigation.text, 0.1),
       color: theme.palette.navigation.activeText,
     },
 
@@ -273,7 +273,9 @@ const StyledSidebarRailItem = styled(Flex, {
       : theme.palette.navigation.text,
 
     "&:hover": {
-      backgroundColor: theme.palette.navigation.activeBackground,
+      backgroundColor: selected
+        ? theme.palette.navigation.activeBackground
+        : alpha(theme.palette.navigation.text, 0.1),
       color: theme.palette.navigation.activeText,
     },
   },
@@ -313,7 +315,7 @@ const StyledMenuButton = styled(ListItemButton)(({ theme }) => ({
   color: theme.palette.navigation.text,
 
   "&:hover": {
-    backgroundColor: theme.palette.navigation.activeBackground,
+    backgroundColor: alpha(theme.palette.navigation.text, 0.1),
     color: theme.palette.navigation.activeText,
   },
 
