@@ -1,5 +1,6 @@
 import { styled } from "@mui/material";
 
+import { useIcon } from "@/components/common/display/hooks/useIcon";
 import { Flex } from "@/components/common/layout/Flex";
 import { DetailForm } from "@/components/data-form/components/DetailForm";
 import { NumberInputField } from "@/components/data-form/components/NumberInputField";
@@ -7,7 +8,6 @@ import { SelectInputField } from "@/components/data-form/components/SelectInputF
 import { TextInputField } from "@/components/data-form/components/TextInputField";
 import { TRANSLATION_KEY } from "@/constants/translation-constant";
 import { useCodeOptions } from "@/hooks/useCodeOptions";
-import { useIcon } from "@/hooks/useIcon";
 import { useTranslate } from "@/hooks/useTranslate";
 import { Menu } from "@/models/menu-model";
 import { DetailFormModal } from "@/pages/setting/system/_components/DetailFormModal";
