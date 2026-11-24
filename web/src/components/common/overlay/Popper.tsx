@@ -30,7 +30,11 @@ export function Popper({
   children,
   onClose,
 }: PopperProps) {
-  const handleClickAway = () => {
+  const handleClickAway = (event: MouseEvent | TouchEvent) => {
+    if (anchorEl?.contains(event.target as Node)) {
+      return;
+    }
+
     onClose?.();
   };
 
