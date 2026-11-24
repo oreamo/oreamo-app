@@ -70,12 +70,12 @@ export function SidebarRail({ menus, onMenuClick }: SidebarRailProps) {
   };
 
   return (
-    <StyledSidebarRailWrapper
+    <StyledSidebarRailContainer
       direction="column"
       onMouseLeave={handleFlyoutClose}
     >
       {menus?.map((menu) => (
-        <StyledSidebarRailItem
+        <StyledSidebarRailWrapper
           key={menu.menuId}
           selected={isMenuActive(menu)}
           onMouseEnter={(event) => handleRailItemEnter(event, menu)}
@@ -91,7 +91,7 @@ export function SidebarRail({ menus, onMenuClick }: SidebarRailProps) {
             }
             onClick={(event) => handleRailItemClick(event, menu)}
           />
-        </StyledSidebarRailItem>
+        </StyledSidebarRailWrapper>
       ))}
       <SidebarFlyout
         open={!!subMenuFlyout}
@@ -100,18 +100,18 @@ export function SidebarRail({ menus, onMenuClick }: SidebarRailProps) {
         onMenuClick={handleFlyoutMenuClick}
         onClose={handleFlyoutClose}
       />
-    </StyledSidebarRailWrapper>
+    </StyledSidebarRailContainer>
   );
 }
 
-const StyledSidebarRailWrapper = styled(Flex)(({ theme }) => ({
+const StyledSidebarRailContainer = styled(Flex)(({ theme }) => ({
   padding: theme.spacing(2, 0),
 
   alignItems: "center",
   gap: theme.spacing(0.25),
 }));
 
-const StyledSidebarRailItem = styled(Flex, {
+const StyledSidebarRailWrapper = styled(Flex, {
   shouldForwardProp: (prop) => prop !== "selected",
 })<{ selected: boolean }>(({ theme, selected }) => ({
   borderRadius: theme.shape.borderRadiusScale.md,

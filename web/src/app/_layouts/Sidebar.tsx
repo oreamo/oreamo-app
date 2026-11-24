@@ -32,7 +32,7 @@ export function Sidebar({ activeMenu }: SidebarProps) {
 
   return (
     <StyledSidebarContainer direction="column" open={open}>
-      <StyledSidebarToggleWrapper open={open}>
+      <StyledSidebarWrapper open={open}>
         {open && (
           <StyledSidebarTitle>
             <Text weight="bold" color="inherit">
@@ -45,7 +45,7 @@ export function Sidebar({ activeMenu }: SidebarProps) {
           size="small"
           onClick={handleToggle}
         />
-      </StyledSidebarToggleWrapper>
+      </StyledSidebarWrapper>
       <StyledSidebarDivider />
       {open ? (
         <SidebarList
@@ -74,7 +74,7 @@ const StyledSidebarContainer = styled(Flex, {
   backgroundColor: theme.palette.navigation.background,
 }));
 
-const StyledSidebarToggleWrapper = styled(Flex, {
+const StyledSidebarWrapper = styled(Flex, {
   shouldForwardProp: (prop) => prop !== "open",
 })<{ open: boolean }>(({ theme, open }) => ({
   padding: open ? theme.spacing(2, 2, 1.5, 2) : theme.spacing(2, 0, 1.5, 0),

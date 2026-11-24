@@ -16,16 +16,16 @@ export function SidebarList({ menus, onMenuClick }: SidebarListProps) {
   };
 
   return (
-    <StyledSidebarWrapper>
+    <StyledSidebarListContainer>
       {menus?.map((menu) =>
         hasSubMenus(menu) ? (
-          <StyledMenuGroupContainer key={menu.menuId} direction="column">
-            <StyledMenuLabelContainer>
+          <StyledSidebarListWrapper key={menu.menuId} direction="column">
+            <StyledSidebarListLabel>
               <Text size="sm" weight="bold" color="inherit">
                 {menu.menuName}
               </Text>
-            </StyledMenuLabelContainer>
-            <StyledSubMenuContainer direction="column">
+            </StyledSidebarListLabel>
+            <StyledSidebarListGroup direction="column">
               {menu.subMenus?.map((subMenu) => (
                 <SidebarListItem
                   key={subMenu.menuId}
@@ -33,8 +33,8 @@ export function SidebarList({ menus, onMenuClick }: SidebarListProps) {
                   onMenuClick={onMenuClick}
                 />
               ))}
-            </StyledSubMenuContainer>
-          </StyledMenuGroupContainer>
+            </StyledSidebarListGroup>
+          </StyledSidebarListWrapper>
         ) : (
           <SidebarListItem
             key={menu.menuId}
@@ -43,11 +43,11 @@ export function SidebarList({ menus, onMenuClick }: SidebarListProps) {
           />
         ),
       )}
-    </StyledSidebarWrapper>
+    </StyledSidebarListContainer>
   );
 }
 
-const StyledSidebarWrapper = styled(List)(({ theme }) => ({
+const StyledSidebarListContainer = styled(List)(({ theme }) => ({
   padding: theme.spacing(2),
 
   display: "flex",
@@ -55,19 +55,19 @@ const StyledSidebarWrapper = styled(List)(({ theme }) => ({
   gap: theme.spacing(0.25),
 }));
 
-const StyledMenuGroupContainer = styled(Flex)(({ theme }) => ({
+const StyledSidebarListWrapper = styled(Flex)(({ theme }) => ({
   "&:not(:first-of-type)": {
     marginTop: theme.spacing(1.5),
   },
 }));
 
-const StyledMenuLabelContainer = styled(Flex)(({ theme }) => ({
+const StyledSidebarListLabel = styled(Flex)(({ theme }) => ({
   padding: theme.spacing(0.75, 1.5),
 
   color: theme.palette.navigation.activeText,
 }));
 
-const StyledSubMenuContainer = styled(Flex)(({ theme }) => ({
+const StyledSidebarListGroup = styled(Flex)(({ theme }) => ({
   paddingLeft: theme.spacing(1.5),
 
   gap: theme.spacing(0.25),
