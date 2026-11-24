@@ -72,6 +72,7 @@ export const TRANSLATION_KEY = {
       MENU_ID: "menu.label.MENU_ID",
       MENU_NAME: "menu.label.MENU_NAME",
       MENU_TYPE: "menu.label.MENU_TYPE",
+      ICON_NAME: "menu.label.ICON_NAME",
       URL: "menu.label.URL",
       PARENT_MENU_ID: "menu.label.PARENT_MENU_ID",
       CLOSE_OTHERS: "menu.label.CLOSE_OTHERS",

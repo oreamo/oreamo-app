@@ -31,6 +31,9 @@ public class MenuTreeNode {
     @Schema(description = "Sort Order")
     private Integer sortOrder;
 
+    @Schema(description = "Icon Name")
+    private String iconName;
+
     @Schema(description = "Sub Menu List")
     private List<MenuTreeNode> subMenus;
 }

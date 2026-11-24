@@ -1,3 +1,4 @@
+import { IconName } from "@/components/common/display/Icon";
 import { DataRecord } from "@/models/common-model";
 
 export interface Menu extends DataRecord {
@@ -7,6 +8,7 @@ export interface Menu extends DataRecord {
   url: string;
   parentMenuId?: string;
   sortOrder: number;
+  iconName?: IconName;
 }
 
 export interface MenuTreeNode {
@@ -16,6 +18,7 @@ export interface MenuTreeNode {
   parentMenuId?: string;
   url?: string;
   sortOrder: number;
+  iconName?: IconName;
   subMenus?: MenuTreeNode[];
 }
 
@@ -31,6 +34,7 @@ export interface MenuSave {
   url: string;
   parentMenuId?: string;
   sortOrder: number;
+  iconName?: IconName;
   dataStatus: string;
 }
 

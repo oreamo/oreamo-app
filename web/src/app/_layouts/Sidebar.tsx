@@ -18,14 +18,6 @@ import { useMenuMatch } from "@/hooks/useMenuMatch";
 import { useNavigator } from "@/hooks/useNavigator";
 import { MenuTreeNode } from "@/models/menu-model";
 
-// TODO: Temporary icon mapping for testing. Replace with menu icon data.
-const MENU_ICON_NAMES: Record<string, IconName> = {
-  USER_SETTING: "PersonOutline",
-  PROJECT_SETTING: "FolderOutlined",
-  SYSTEM_SETTING: "SettingsOutlined",
-  DEV_DESIGN_SYSTEM: "PaletteOutlined",
-};
-
 const DEFAULT_MENU_ICON_NAME: IconName = "AppsOutlined";
 
 interface SidebarProps {
@@ -155,9 +147,7 @@ export function Sidebar({ activeMenu, open, onToggle }: SidebarProps) {
               onMouseLeave={handleFlyoutLeave}
             >
               <IconButton
-                iconName={
-                  MENU_ICON_NAMES[subMenu.menuId] ?? DEFAULT_MENU_ICON_NAME
-                }
+                iconName={subMenu.iconName ?? DEFAULT_MENU_ICON_NAME}
                 tooltip={
                   hasSubMenus(subMenu)
                     ? undefined
