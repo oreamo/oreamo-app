@@ -1,12 +1,17 @@
+import { styled } from "@mui/material";
+
+import { Flex } from "@/components/common/layout/Flex";
 import { DetailForm } from "@/components/data-form/components/DetailForm";
 import { NumberInputField } from "@/components/data-form/components/NumberInputField";
 import { SelectInputField } from "@/components/data-form/components/SelectInputField";
 import { TextInputField } from "@/components/data-form/components/TextInputField";
 import { TRANSLATION_KEY } from "@/constants/translation-constant";
 import { useCodeOptions } from "@/hooks/useCodeOptions";
+import { useIcon } from "@/hooks/useIcon";
 import { useTranslate } from "@/hooks/useTranslate";
 import { Menu } from "@/models/menu-model";
 import { DetailFormModal } from "@/pages/setting/system/_components/DetailFormModal";
+import { MenuIconGuideButton } from "@/pages/setting/system/menu-management/_components/MenuIconGuideButton";
 import { useMenu } from "@/resources/menu/useMenu";
 import { useMenuDelete } from "@/resources/menu/useMenuDelete";
 import { useMenuSave } from "@/resources/menu/useMenuSave";
@@ -30,6 +35,7 @@ export function MenuDialog({
     "MENU_TYPE",
   ]);
   const { translate } = useTranslate();
+  const { isIconName } = useIcon();
 
   const { data: menu, isEnabled: isEditMode } = useMenu({
     menuId: menuValue,
@@ -49,6 +55,7 @@ export function MenuDialog({
         {
           menuId: data.menuId,
           menuName: data.menuName,
+          iconName: data.iconName,
           dataStatus: data.dataStatus,
         },
         options,
@@ -147,6 +154,24 @@ export function MenuDialog({
           }}
         />
       </DetailForm.Item>
+      <DetailForm.Item title={translate(TRANSLATION_KEY.menu.label.ICON_NAME)}>
+        <StyledMenuDialogContainer gap={1} align="center" fullWidth>
+          <TextInputField<Menu, "iconName">
+            name="iconName"
+            label={translate(TRANSLATION_KEY.menu.label.ICON_NAME)}
+            readonly={readonly}
+            maxLength={50}
+            validation={{
+              iconName: (value) => {
+                return value && !isIconName(value)
+                  ? TRANSLATION_KEY.menu.message.ICON_NAME_VALIDATION_FAILURE
+                  : undefined;
+              },
+            }}
+          />
+          <MenuIconGuideButton />
+        </StyledMenuDialogContainer>
+      </DetailForm.Item>
       <DetailForm.Item
         title={translate(TRANSLATION_KEY.common.label.DATA_STATUS)}
         required
@@ -162,3 +187,9 @@ export function MenuDialog({
     </DetailFormModal>
   );
 }
+
+const StyledMenuDialogContainer = styled(Flex)({
+  "& > .MuiFormControl-root, & > .MuiTextField-root": {
+    flex: 1,
+  },
+});

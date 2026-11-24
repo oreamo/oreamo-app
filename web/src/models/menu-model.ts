@@ -41,6 +41,7 @@ export interface MenuSave {
 export interface MenuUpdate {
   menuId: string;
   menuName: string;
+  iconName?: IconName;
   dataStatus: string;
 }
 

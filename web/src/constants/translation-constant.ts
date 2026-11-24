@@ -77,6 +77,10 @@ export const TRANSLATION_KEY = {
       PARENT_MENU_ID: "menu.label.PARENT_MENU_ID",
       CLOSE_OTHERS: "menu.label.CLOSE_OTHERS",
     },
+    message: {
+      ICON_NAME_VALIDATION_FAILURE: "menu.message.ICON_NAME_VALIDATION_FAILURE",
+      ICON_NAME_GUIDE: "menu.message.ICON_NAME_GUIDE",
+    },
   },
   translation: {
     label: {

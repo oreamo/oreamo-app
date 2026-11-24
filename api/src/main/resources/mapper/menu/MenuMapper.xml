@@ -140,6 +140,7 @@
             parameterType="com.oreamo.menu.model.MenuUpdate">
         UPDATE TB_MENU
            SET MENU_NAME   = #{menuName}
+             , ICON_NAME   = #{iconName}
              , DATA_STATUS = #{dataStatus}
              , UPDATED_BY  = #{author}
              , UPDATED_AT  = NOW()

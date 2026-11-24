@@ -19,6 +19,7 @@ import { useTranslate } from "@/hooks/useTranslate";
 import { PageInfo } from "@/models/common-model";
 import { Menu } from "@/models/menu-model";
 import { MenuDialog } from "@/pages/setting/system/menu-management/_components/MenuDialog";
+import { MenuIconNameHeader } from "@/pages/setting/system/menu-management/_components/MenuIconNameHeader";
 import { useMenuOperation } from "@/resources/menu/useMenuOperation";
 
 interface MenuGridProps {
@@ -64,11 +65,13 @@ export function MenuGrid({
           url: row.url,
           parentMenuId: row.parentMenuId,
           sortOrder: row.sortOrder,
+          iconName: row.iconName,
           dataStatus: row.dataStatus,
         })),
         menuUpdates: editedRows.map((row) => ({
           menuId: row.menuId,
           menuName: row.menuName,
+          iconName: row.iconName,
           dataStatus: row.dataStatus,
         })),
         menuDeletes: deletedRows.map((row) => ({
@@ -173,6 +176,13 @@ export function MenuGrid({
                 type: "number",
               },
             },
+          },
+          {
+            field: "iconName",
+            headerName: translate(TRANSLATION_KEY.menu.label.ICON_NAME),
+            headerComponent: MenuIconNameHeader,
+            minWidth: GRID_WIDTH.lg,
+            editable: true,
           },
           {
             field: "dataStatus",
