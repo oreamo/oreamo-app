@@ -11,6 +11,7 @@ import {
 
 import { SidebarFlyout } from "@/app/_layouts/SidebarFlyout";
 import { IconButton } from "@/components/common/button/IconButton";
+import { useIcon } from "@/components/common/display/hooks/useIcon";
 import { IconName } from "@/components/common/display/Icon";
 import { Text } from "@/components/common/display/Text";
 import { Flex } from "@/components/common/layout/Flex";
@@ -29,6 +30,7 @@ interface SidebarProps {
 export function Sidebar({ activeMenu, open, onToggle }: SidebarProps) {
   const { navigate } = useNavigator();
   const { isMenuActive } = useMenuMatch();
+  const { isIconName } = useIcon();
 
   const closeTimerRef = useRef<number | null>(null);
 
@@ -147,7 +149,11 @@ export function Sidebar({ activeMenu, open, onToggle }: SidebarProps) {
               onMouseLeave={handleFlyoutLeave}
             >
               <IconButton
-                iconName={subMenu.iconName ?? DEFAULT_MENU_ICON_NAME}
+                iconName={
+                  isIconName(subMenu.iconName)
+                    ? subMenu.iconName
+                    : DEFAULT_MENU_ICON_NAME
+                }
                 tooltip={
                   hasSubMenus(subMenu)
                     ? undefined
