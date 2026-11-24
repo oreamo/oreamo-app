@@ -1,8 +1,9 @@
-import { alpha, Divider, styled } from "@mui/material";
+import { alpha, styled } from "@mui/material";
 
 import { SidebarList } from "@/app/_layouts/SidebarList";
 import { SidebarRail } from "@/app/_layouts/SidebarRail";
 import { IconButton } from "@/components/common/button/IconButton";
+import { Divider } from "@/components/common/display/Divider";
 import { Text } from "@/components/common/display/Text";
 import { Flex } from "@/components/common/layout/Flex";
 import { useNavigator } from "@/hooks/useNavigator";

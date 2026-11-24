@@ -1,10 +1,11 @@
 import { MouseEvent, useState } from "react";
 
-import { ButtonBase, Divider, styled, useColorScheme } from "@mui/material";
+import { ButtonBase, styled, useColorScheme } from "@mui/material";
 
 import { Switch } from "@/components/common/button/Switch";
 import { Toggle } from "@/components/common/button/Toggle";
 import { Avatar } from "@/components/common/display/Avatar";
+import { Divider } from "@/components/common/display/Divider";
 import { Icon } from "@/components/common/display/Icon";
 import { List } from "@/components/common/display/List";
 import { Text } from "@/components/common/display/Text";
