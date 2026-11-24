@@ -72,9 +72,14 @@ export const TRANSLATION_KEY = {
       MENU_ID: "menu.label.MENU_ID",
       MENU_NAME: "menu.label.MENU_NAME",
       MENU_TYPE: "menu.label.MENU_TYPE",
+      ICON_NAME: "menu.label.ICON_NAME",
       URL: "menu.label.URL",
       PARENT_MENU_ID: "menu.label.PARENT_MENU_ID",
       CLOSE_OTHERS: "menu.label.CLOSE_OTHERS",
+    },
+    message: {
+      ICON_NAME_VALIDATION_FAILURE: "menu.message.ICON_NAME_VALIDATION_FAILURE",
+      ICON_NAME_GUIDE: "menu.message.ICON_NAME_GUIDE",
     },
   },
   translation: {
@@ -118,6 +123,7 @@ export const TRANSLATION_KEY = {
       PROFILE: "user.label.PROFILE",
       THEME: "user.label.THEME",
       MENU_TAB: "user.label.MENU_TAB",
+      SIDEBAR: "user.label.SIDEBAR",
     },
     message: {
       WELCOME_BACK: "user.message.WELCOME_BACK",

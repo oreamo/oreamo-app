@@ -47,6 +47,10 @@ public class MenuSave extends OperationAuthor {
     @Min(value = 1, message = TranslationKey.Common.Label.SORT_ORDER)
     private Integer sortOrder;
 
+    @Schema(description = "Icon Name")
+    @Size(max = 50, message = TranslationKey.Menu.Label.ICON_NAME)
+    private String iconName;
+
     @Schema(description = "Data Status")
     @NotBlank(message = TranslationKey.Common.Label.DATA_STATUS)
     private String dataStatus;

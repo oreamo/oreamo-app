@@ -33,6 +33,9 @@ public class Menu extends DataRecord {
     @Schema(description = "Sort Order")
     private Integer sortOrder;
 
+    @Schema(description = "Icon Name")
+    private String iconName;
+
     public boolean hasParentMenu() {
         return StringUtils.hasText(parentMenuId);
     }

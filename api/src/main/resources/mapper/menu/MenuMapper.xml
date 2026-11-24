@@ -11,6 +11,7 @@
              , M.URL
              , M.PARENT_MENU_ID
              , M.SORT_ORDER
+             , M.ICON_NAME
              , M.DATA_STATUS
              , M.CREATED_BY
              , M.CREATED_AT
@@ -51,6 +52,7 @@
              , M.URL
              , M.PARENT_MENU_ID
              , M.SORT_ORDER
+             , M.ICON_NAME
              , M.DATA_STATUS
              , M.CREATED_BY
              , M.CREATED_AT
@@ -75,6 +77,7 @@
                  , M.URL
                  , M.PARENT_MENU_ID
                  , M.SORT_ORDER
+                 , M.ICON_NAME
               FROM TB_MENU M
              WHERE M.MENU_ID IN
             <foreach item="menuId" collection="menuIds" open="(" separator="," close=")">
@@ -90,6 +93,7 @@
                  , P.URL
                  , P.PARENT_MENU_ID
                  , P.SORT_ORDER
+                 , P.ICON_NAME
               FROM TB_MENU P
              INNER JOIN MENU_TREE_NODE C ON P.MENU_ID = C.PARENT_MENU_ID
              WHERE P.DATA_STATUS = 'ENABLED'
@@ -100,6 +104,7 @@
                       , URL
                       , PARENT_MENU_ID
                       , SORT_ORDER
+                      , ICON_NAME
           FROM MENU_TREE_NODE
          ORDER BY SORT_ORDER
     </select>
@@ -113,6 +118,7 @@
           , URL
           , PARENT_MENU_ID
           , SORT_ORDER
+          , ICON_NAME
           , DATA_STATUS
           , CREATED_BY
           , UPDATED_BY
@@ -123,6 +129,7 @@
           , #{url}
           , #{parentMenuId}
           , #{sortOrder}
+          , #{iconName}
           , #{dataStatus}
           , #{author}
           , #{author}
@@ -133,6 +140,7 @@
             parameterType="com.oreamo.menu.model.MenuUpdate">
         UPDATE TB_MENU
            SET MENU_NAME   = #{menuName}
+             , ICON_NAME   = #{iconName}
              , DATA_STATUS = #{dataStatus}
              , UPDATED_BY  = #{author}
              , UPDATED_AT  = NOW()

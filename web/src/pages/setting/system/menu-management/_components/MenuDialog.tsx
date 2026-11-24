@@ -1,3 +1,5 @@
+import { useIcon } from "@/components/common/display/hooks/useIcon";
+import { Flex } from "@/components/common/layout/Flex";
 import { DetailForm } from "@/components/data-form/components/DetailForm";
 import { NumberInputField } from "@/components/data-form/components/NumberInputField";
 import { SelectInputField } from "@/components/data-form/components/SelectInputField";
@@ -7,6 +9,7 @@ import { useCodeOptions } from "@/hooks/useCodeOptions";
 import { useTranslate } from "@/hooks/useTranslate";
 import { Menu } from "@/models/menu-model";
 import { DetailFormModal } from "@/pages/setting/system/_components/DetailFormModal";
+import { MenuIconGuideButton } from "@/pages/setting/system/menu-management/_components/MenuIconGuideButton";
 import { useMenu } from "@/resources/menu/useMenu";
 import { useMenuDelete } from "@/resources/menu/useMenuDelete";
 import { useMenuSave } from "@/resources/menu/useMenuSave";
@@ -30,6 +33,7 @@ export function MenuDialog({
     "MENU_TYPE",
   ]);
   const { translate } = useTranslate();
+  const { isIconName } = useIcon();
 
   const { data: menu, isEnabled: isEditMode } = useMenu({
     menuId: menuValue,
@@ -49,6 +53,7 @@ export function MenuDialog({
         {
           menuId: data.menuId,
           menuName: data.menuName,
+          iconName: data.iconName,
           dataStatus: data.dataStatus,
         },
         options,
@@ -146,6 +151,26 @@ export function MenuDialog({
             min: 1,
           }}
         />
+      </DetailForm.Item>
+      <DetailForm.Item title={translate(TRANSLATION_KEY.menu.label.ICON_NAME)}>
+        <Flex gap={1} align="center" fullWidth>
+          <Flex direction="column" grow>
+            <TextInputField<Menu, "iconName">
+              name="iconName"
+              label={translate(TRANSLATION_KEY.menu.label.ICON_NAME)}
+              readonly={readonly}
+              maxLength={50}
+              validation={{
+                iconName: (value) => {
+                  return value && !isIconName(value)
+                    ? TRANSLATION_KEY.menu.message.ICON_NAME_VALIDATION_FAILURE
+                    : undefined;
+                },
+              }}
+            />
+          </Flex>
+          <MenuIconGuideButton />
+        </Flex>
       </DetailForm.Item>
       <DetailForm.Item
         title={translate(TRANSLATION_KEY.common.label.DATA_STATUS)}

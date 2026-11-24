@@ -1,10 +1,14 @@
-import { List, ListItemButton, ListItemText, styled } from "@mui/material";
+import { alpha, styled } from "@mui/material";
 
+import { SidebarList } from "@/app/_layouts/SidebarList";
+import { SidebarRail } from "@/app/_layouts/SidebarRail";
+import { IconButton } from "@/components/common/button/IconButton";
+import { Divider } from "@/components/common/display/Divider";
 import { Text } from "@/components/common/display/Text";
 import { Flex } from "@/components/common/layout/Flex";
-import { useMenuMatch } from "@/hooks/useMenuMatch";
 import { useNavigator } from "@/hooks/useNavigator";
 import { MenuTreeNode } from "@/models/menu-model";
+import { useSidebarActions, useSidebarOpen } from "@/stores/sidebar-store";
 
 interface SidebarProps {
   activeMenu?: MenuTreeNode;
@@ -12,11 +16,9 @@ interface SidebarProps {
 
 export function Sidebar({ activeMenu }: SidebarProps) {
   const { navigate } = useNavigator();
-  const { isMenuActive } = useMenuMatch();
 
-  const hasSubMenus = (menu: MenuTreeNode) => {
-    return (menu.subMenus?.length ?? 0) > 0;
-  };
+  const open = useSidebarOpen();
+  const { toggle } = useSidebarActions();
 
   const handleMenuClick = (menu: MenuTreeNode) => {
     if (menu.url) {
@@ -24,100 +26,85 @@ export function Sidebar({ activeMenu }: SidebarProps) {
     }
   };
 
-  const renderMenuButton = (menu: MenuTreeNode) => {
-    return (
-      <StyledMenuButton
-        key={menu.menuId}
-        selected={isMenuActive(menu)}
-        onClick={() => handleMenuClick(menu)}
-      >
-        <ListItemText
-          primary={menu.menuName}
-          slotProps={{
-            primary: { fontSize: 14, fontWeight: 500, color: "inherit" },
-          }}
-        />
-      </StyledMenuButton>
-    );
+  const handleToggle = () => {
+    toggle();
   };
 
   return (
-    <StyledSidebarContainer direction="column">
-      <StyledSidebarWrapper>
-        {activeMenu?.subMenus?.map((subMenu) =>
-          hasSubMenus(subMenu) ? (
-            <StyledMenuGroupContainer key={subMenu.menuId} direction="column">
-              <StyledMenuLabelContainer>
-                <Text size="sm" weight="bold" color="inherit">
-                  {subMenu.menuName}
-                </Text>
-              </StyledMenuLabelContainer>
-              <StyledSubMenuContainer direction="column">
-                {subMenu.subMenus?.map(renderMenuButton)}
-              </StyledSubMenuContainer>
-            </StyledMenuGroupContainer>
-          ) : (
-            renderMenuButton(subMenu)
-          ),
+    <StyledSidebarContainer direction="column" open={open}>
+      <StyledSidebarWrapper open={open}>
+        {open && (
+          <StyledSidebarTitle>
+            <Text weight="bold" color="inherit">
+              {activeMenu?.menuName}
+            </Text>
+          </StyledSidebarTitle>
         )}
+        <IconButton
+          iconName="ViewSidebarOutlined"
+          size="small"
+          onClick={handleToggle}
+        />
       </StyledSidebarWrapper>
+      <StyledSidebarDivider />
+      {open ? (
+        <SidebarList
+          menus={activeMenu?.subMenus}
+          onMenuClick={handleMenuClick}
+        />
+      ) : (
+        <SidebarRail
+          menus={activeMenu?.subMenus}
+          onMenuClick={handleMenuClick}
+        />
+      )}
     </StyledSidebarContainer>
   );
 }
 
-const StyledSidebarContainer = styled(Flex)(({ theme }) => ({
-  width: 224,
-  minWidth: 224,
+const StyledSidebarContainer = styled(Flex, {
+  shouldForwardProp: (prop) => prop !== "open",
+})<{ open: boolean }>(({ theme, open }) => ({
+  width: open ? 224 : 48,
+  minWidth: open ? 224 : 48,
 
+  overflow: "hidden",
   borderRadius: theme.shape.borderRadiusScale.lg,
 
   backgroundColor: theme.palette.navigation.background,
 }));
 
-const StyledSidebarWrapper = styled(List)(({ theme }) => ({
-  padding: theme.spacing(2),
+const StyledSidebarWrapper = styled(Flex, {
+  shouldForwardProp: (prop) => prop !== "open",
+})<{ open: boolean }>(({ theme, open }) => ({
+  padding: open ? theme.spacing(2, 2, 1.5, 2) : theme.spacing(2, 0, 1.5, 0),
 
-  display: "flex",
-  flexDirection: "column",
-  gap: theme.spacing(0.25),
-}));
+  alignItems: "center",
+  justifyContent: open ? "space-between" : "center",
 
-const StyledMenuGroupContainer = styled(Flex)(({ theme }) => ({
-  "&:not(:first-of-type)": {
-    marginTop: theme.spacing(1.5),
+  "& .MuiIconButton-root": {
+    color: theme.palette.navigation.text,
+
+    "&:hover": {
+      backgroundColor: alpha(theme.palette.navigation.text, 0.1),
+      color: theme.palette.navigation.activeText,
+    },
+
+    "& .MuiSvgIcon-root": {
+      transform: "scaleX(-1)",
+    },
   },
 }));
 
-const StyledMenuLabelContainer = styled(Flex)(({ theme }) => ({
-  padding: theme.spacing(0.75, 1.5),
+const StyledSidebarTitle = styled(Flex)(({ theme }) => ({
+  paddingLeft: theme.spacing(1.5),
 
   color: theme.palette.navigation.activeText,
 }));
 
-const StyledSubMenuContainer = styled(Flex)(({ theme }) => ({
-  paddingLeft: theme.spacing(1.5),
+const StyledSidebarDivider = styled(Divider)(({ theme }) => ({
+  marginLeft: theme.spacing(2),
+  marginRight: theme.spacing(2),
 
-  gap: theme.spacing(0.25),
-}));
-
-const StyledMenuButton = styled(ListItemButton)(({ theme }) => ({
-  minHeight: 32,
-  padding: theme.spacing(0.75, 1.5),
-
-  borderRadius: theme.shape.borderRadiusScale.md,
-  color: theme.palette.navigation.text,
-
-  "&:hover": {
-    backgroundColor: theme.palette.navigation.activeBackground,
-    color: theme.palette.navigation.activeText,
-  },
-
-  "&.Mui-selected": {
-    backgroundColor: theme.palette.navigation.activeBackground,
-    color: theme.palette.navigation.activeText,
-
-    "&:hover": {
-      backgroundColor: theme.palette.navigation.activeBackground,
-    },
-  },
+  borderColor: alpha(theme.palette.navigation.text, 0.2),
 }));
