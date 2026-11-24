@@ -40,7 +40,7 @@ export function Sidebar({ activeMenu, open, onToggle }: SidebarProps) {
           onClick={onToggle}
         />
       </StyledSidebarToggleWrapper>
-      <StyledSidebarDivider open={open} />
+      <StyledSidebarDivider />
       {open ? (
         <SidebarList
           menus={activeMenu?.subMenus}
@@ -96,11 +96,9 @@ const StyledSidebarTitle = styled(Flex)(({ theme }) => ({
   color: theme.palette.navigation.activeText,
 }));
 
-const StyledSidebarDivider = styled(Divider, {
-  shouldForwardProp: (prop) => prop !== "open",
-})<{ open: boolean }>(({ theme, open }) => ({
-  marginLeft: theme.spacing(open ? 2 : 1),
-  marginRight: theme.spacing(open ? 2 : 1),
+const StyledSidebarDivider = styled(Divider)(({ theme }) => ({
+  marginLeft: theme.spacing(2),
+  marginRight: theme.spacing(2),
 
   borderColor: alpha(theme.palette.navigation.text, 0.2),
 }));

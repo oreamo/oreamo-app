@@ -108,7 +108,7 @@ const StyledSidebarRailWrapper = styled(Flex)(({ theme }) => ({
   padding: theme.spacing(2, 0),
 
   alignItems: "center",
-  gap: theme.spacing(0.5),
+  gap: theme.spacing(0.25),
 }));
 
 const StyledSidebarRailItem = styled(Flex, {
@@ -130,6 +130,10 @@ const StyledSidebarRailItem = styled(Flex, {
         ? theme.palette.navigation.activeBackground
         : alpha(theme.palette.navigation.text, 0.1),
       color: theme.palette.navigation.activeText,
+    },
+
+    "& .MuiSvgIcon-root": {
+      fontSize: 20,
     },
   },
 }));
