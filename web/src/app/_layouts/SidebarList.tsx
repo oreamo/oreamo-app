@@ -1,14 +1,8 @@
-import {
-  alpha,
-  List,
-  ListItemButton,
-  ListItemText,
-  styled,
-} from "@mui/material";
+import { List, styled } from "@mui/material";
 
+import { SidebarListItem } from "@/app/_layouts/SidebarListItem";
 import { Text } from "@/components/common/display/Text";
 import { Flex } from "@/components/common/layout/Flex";
-import { useMenuMatch } from "@/hooks/useMenuMatch";
 import { MenuTreeNode } from "@/models/menu-model";
 
 interface SidebarListProps {
@@ -17,27 +11,8 @@ interface SidebarListProps {
 }
 
 export function SidebarList({ menus, onMenuClick }: SidebarListProps) {
-  const { isMenuActive } = useMenuMatch();
-
   const hasSubMenus = (menu: MenuTreeNode) => {
     return (menu.subMenus?.length ?? 0) > 0;
-  };
-
-  const renderMenuButton = (menu: MenuTreeNode) => {
-    return (
-      <StyledMenuButton
-        key={menu.menuId}
-        selected={isMenuActive(menu)}
-        onClick={() => onMenuClick(menu)}
-      >
-        <ListItemText
-          primary={menu.menuName}
-          slotProps={{
-            primary: { fontSize: 14, fontWeight: 500, color: "inherit" },
-          }}
-        />
-      </StyledMenuButton>
-    );
   };
 
   return (
@@ -51,11 +26,21 @@ export function SidebarList({ menus, onMenuClick }: SidebarListProps) {
               </Text>
             </StyledMenuLabelContainer>
             <StyledSubMenuContainer direction="column">
-              {menu.subMenus?.map(renderMenuButton)}
+              {menu.subMenus?.map((subMenu) => (
+                <SidebarListItem
+                  key={subMenu.menuId}
+                  menu={subMenu}
+                  onMenuClick={onMenuClick}
+                />
+              ))}
             </StyledSubMenuContainer>
           </StyledMenuGroupContainer>
         ) : (
-          renderMenuButton(menu)
+          <SidebarListItem
+            key={menu.menuId}
+            menu={menu}
+            onMenuClick={onMenuClick}
+          />
         ),
       )}
     </StyledSidebarWrapper>
@@ -86,26 +71,4 @@ const StyledSubMenuContainer = styled(Flex)(({ theme }) => ({
   paddingLeft: theme.spacing(1.5),
 
   gap: theme.spacing(0.25),
-}));
-
-const StyledMenuButton = styled(ListItemButton)(({ theme }) => ({
-  minHeight: 32,
-  padding: theme.spacing(0.75, 1.5),
-
-  borderRadius: theme.shape.borderRadiusScale.md,
-  color: theme.palette.navigation.text,
-
-  "&:hover": {
-    backgroundColor: alpha(theme.palette.navigation.text, 0.1),
-    color: theme.palette.navigation.activeText,
-  },
-
-  "&.Mui-selected": {
-    backgroundColor: theme.palette.navigation.activeBackground,
-    color: theme.palette.navigation.activeText,
-
-    "&:hover": {
-      backgroundColor: theme.palette.navigation.activeBackground,
-    },
-  },
 }));
