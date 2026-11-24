@@ -39,7 +39,7 @@ export function Popper({
       open={open}
       anchorEl={anchorEl}
       placement={placement}
-      modifiers={[{ name: "offset", options: { offset: [0, 8] } }]}
+      modifiers={[{ name: "offset", options: { offset: [0, 16] } }]}
       className={className}
       onMouseEnter={onMouseEnter}
       onMouseLeave={onMouseLeave}

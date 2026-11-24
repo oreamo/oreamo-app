@@ -62,7 +62,6 @@ export function SidebarFlyout({
 
 const StyledSidebarFlyoutContainer = styled(Flex)(({ theme }) => ({
   minWidth: 160,
-  marginLeft: theme.spacing(1),
   padding: theme.spacing(1),
 
   gap: theme.spacing(1),
