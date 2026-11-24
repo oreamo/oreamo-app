@@ -1,4 +1,4 @@
-import { MouseEvent, useRef, useState } from "react";
+import { MouseEvent, useState } from "react";
 
 import {
   alpha,
@@ -32,8 +32,6 @@ export function Sidebar({ activeMenu, open, onToggle }: SidebarProps) {
   const { isMenuActive } = useMenuMatch();
   const { isIconName } = useIcon();
 
-  const closeTimerRef = useRef<number | null>(null);
-
   const [subMenuFlyout, setSubMenuFlyout] = useState<{
     anchorEl: HTMLElement;
     menu: MenuTreeNode;
@@ -49,15 +47,7 @@ export function Sidebar({ activeMenu, open, onToggle }: SidebarProps) {
     }
   };
 
-  const clearCloseTimer = () => {
-    if (closeTimerRef.current !== null) {
-      window.clearTimeout(closeTimerRef.current);
-      closeTimerRef.current = null;
-    }
-  };
-
   const openFlyout = (anchorEl: HTMLElement, menu: MenuTreeNode) => {
-    clearCloseTimer();
     setSubMenuFlyout((prev) =>
       prev?.menu.menuId === menu.menuId ? prev : { anchorEl, menu },
     );
@@ -68,7 +58,6 @@ export function Sidebar({ activeMenu, open, onToggle }: SidebarProps) {
     menu: MenuTreeNode,
   ) => {
     if (!hasSubMenus(menu)) {
-      clearCloseTimer();
       setSubMenuFlyout(null);
       return;
     }
@@ -88,15 +77,7 @@ export function Sidebar({ activeMenu, open, onToggle }: SidebarProps) {
     openFlyout(event.currentTarget, menu);
   };
 
-  const handleFlyoutLeave = () => {
-    clearCloseTimer();
-    closeTimerRef.current = window.setTimeout(() => {
-      setSubMenuFlyout(null);
-    }, 150);
-  };
-
   const handleFlyoutClose = () => {
-    clearCloseTimer();
     setSubMenuFlyout(null);
   };
 
@@ -140,13 +121,15 @@ export function Sidebar({ activeMenu, open, onToggle }: SidebarProps) {
       </StyledSidebarToggleWrapper>
       <StyledSidebarDivider open={open} />
       {!open && (
-        <StyledSidebarRailWrapper direction="column">
+        <StyledSidebarRailWrapper
+          direction="column"
+          onMouseLeave={handleFlyoutClose}
+        >
           {activeMenu?.subMenus?.map((subMenu) => (
             <StyledSidebarRailItem
               key={subMenu.menuId}
               selected={isMenuActive(subMenu)}
               onMouseEnter={(event) => handleRailItemEnter(event, subMenu)}
-              onMouseLeave={handleFlyoutLeave}
             >
               <IconButton
                 iconName={
@@ -163,17 +146,15 @@ export function Sidebar({ activeMenu, open, onToggle }: SidebarProps) {
               />
             </StyledSidebarRailItem>
           ))}
+          <SidebarFlyout
+            open={!!subMenuFlyout}
+            anchorEl={subMenuFlyout?.anchorEl}
+            menu={subMenuFlyout?.menu}
+            onMenuClick={handleFlyoutMenuClick}
+            onClose={handleFlyoutClose}
+          />
         </StyledSidebarRailWrapper>
       )}
-      <SidebarFlyout
-        open={!!subMenuFlyout}
-        anchorEl={subMenuFlyout?.anchorEl}
-        menu={subMenuFlyout?.menu}
-        onMenuClick={handleFlyoutMenuClick}
-        onClose={handleFlyoutClose}
-        onMouseEnter={clearCloseTimer}
-        onMouseLeave={handleFlyoutLeave}
-      />
       {open && (
         <StyledSidebarWrapper>
           {activeMenu?.subMenus?.map((subMenu) =>

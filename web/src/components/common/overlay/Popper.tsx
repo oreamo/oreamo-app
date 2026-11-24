@@ -1,4 +1,4 @@
-import { MouseEvent, ReactNode } from "react";
+import { ReactNode } from "react";
 
 import {
   ClickAwayListener,
@@ -7,7 +7,11 @@ import {
   styled,
 } from "@mui/material";
 
+import { Flex } from "@/components/common/layout/Flex";
+
 export type PopperPlacement = PopperPlacementType;
+
+type PopperSide = "top" | "right" | "bottom" | "left";
 
 interface PopperProps {
   open: boolean;
@@ -16,8 +20,6 @@ interface PopperProps {
   className?: string;
   children: ReactNode;
   onClose?: () => void;
-  onMouseEnter?: (event: MouseEvent<HTMLDivElement>) => void;
-  onMouseLeave?: (event: MouseEvent<HTMLDivElement>) => void;
 }
 
 export function Popper({
@@ -27,11 +29,13 @@ export function Popper({
   className,
   children,
   onClose,
-  onMouseEnter,
-  onMouseLeave,
 }: PopperProps) {
   const handleClickAway = () => {
     onClose?.();
+  };
+
+  const getSide = (currentPlacement: PopperPlacement) => {
+    return currentPlacement.split("-")[0] as PopperSide;
   };
 
   return (
@@ -39,18 +43,30 @@ export function Popper({
       open={open}
       anchorEl={anchorEl}
       placement={placement}
-      modifiers={[{ name: "offset", options: { offset: [0, 16] } }]}
       className={className}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
     >
-      <ClickAwayListener onClickAway={handleClickAway}>
-        <div>{children}</div>
-      </ClickAwayListener>
+      {({ placement: currentPlacement }) => (
+        <ClickAwayListener onClickAway={handleClickAway}>
+          <StyledPopperContainer side={getSide(currentPlacement)}>
+            {children}
+          </StyledPopperContainer>
+        </ClickAwayListener>
+      )}
     </StyledMuiPopper>
   );
 }
 
 const StyledMuiPopper = styled(MuiPopper)(({ theme }) => ({
   zIndex: theme.zIndex.modal,
+}));
+
+const StyledPopperContainer = styled(Flex, {
+  shouldForwardProp: (prop) => prop !== "side",
+})<{ side: PopperSide }>(({ theme, side }) => ({
+  ...{
+    top: { paddingBottom: theme.spacing(4) },
+    right: { paddingLeft: theme.spacing(4) },
+    bottom: { paddingTop: theme.spacing(4) },
+    left: { paddingRight: theme.spacing(4) },
+  }[side],
 }));

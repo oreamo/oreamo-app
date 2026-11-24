@@ -12,8 +12,6 @@ interface SidebarFlyoutProps {
   menu?: MenuTreeNode;
   onMenuClick: (menu: MenuTreeNode) => void;
   onClose: () => void;
-  onMouseEnter: () => void;
-  onMouseLeave: () => void;
 }
 
 export function SidebarFlyout({
@@ -22,19 +20,11 @@ export function SidebarFlyout({
   menu,
   onMenuClick,
   onClose,
-  onMouseEnter,
-  onMouseLeave,
 }: SidebarFlyoutProps) {
   const { isMenuActive } = useMenuMatch();
 
   return (
-    <Popper
-      open={open}
-      anchorEl={anchorEl}
-      onClose={onClose}
-      onMouseEnter={onMouseEnter}
-      onMouseLeave={onMouseLeave}
-    >
+    <Popper open={open} anchorEl={anchorEl} onClose={onClose}>
       <StyledSidebarFlyoutContainer direction="column">
         <StyledSidebarFlyoutTitle>
           <Text size="xs" weight="bold" color="secondary">
