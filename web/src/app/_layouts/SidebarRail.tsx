@@ -5,12 +5,9 @@ import { alpha, styled } from "@mui/material";
 import { SidebarFlyout } from "@/app/_layouts/SidebarFlyout";
 import { IconButton } from "@/components/common/button/IconButton";
 import { useIcon } from "@/components/common/display/hooks/useIcon";
-import { IconName } from "@/components/common/display/Icon";
 import { Flex } from "@/components/common/layout/Flex";
 import { useMenuMatch } from "@/hooks/useMenuMatch";
 import { MenuTreeNode } from "@/models/menu-model";
-
-const DEFAULT_MENU_ICON_NAME: IconName = "AppsOutlined";
 
 interface SidebarRailProps {
   menus?: MenuTreeNode[];
@@ -82,7 +79,7 @@ export function SidebarRail({ menus, onMenuClick }: SidebarRailProps) {
         >
           <IconButton
             iconName={
-              isIconName(menu.iconName) ? menu.iconName : DEFAULT_MENU_ICON_NAME
+              isIconName(menu.iconName) ? menu.iconName : "AppsOutlined"
             }
             tooltip={
               hasSubMenus(menu)
