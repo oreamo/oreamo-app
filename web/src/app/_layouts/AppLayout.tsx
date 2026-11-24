@@ -26,7 +26,6 @@ export function AppLayout() {
 
   const [selectedMenuId, setSelectedMenuId] = useState<string | null>(null);
   const [isMenuListOpen, setIsMenuListOpen] = useState(false);
-  const [isSidebarOpen, setIsSidebarOpen] = useState(true);
 
   useMenuTabOpenEffect({ enabled: isDesktop && isMenuTabEnabled });
 
@@ -52,10 +51,6 @@ export function AppLayout() {
     setIsMenuListOpen(false);
   };
 
-  const handleSidebarToggle = () => {
-    setIsSidebarOpen((prev) => !prev);
-  };
-
   const hasSubMenus = (activeMenu?.subMenus?.length ?? 0) > 0;
   const showSidebar = hasSubMenus && isDesktop;
   const showMenuList = isMenuListOpen && !isDesktop;
@@ -74,13 +69,7 @@ export function AppLayout() {
         onMenuButtonClick={handleMenuListToggle}
       />
       <StyledAppLayoutWrapper gap={3} grow>
-        {showSidebar && (
-          <Sidebar
-            activeMenu={activeMenu}
-            open={isSidebarOpen}
-            onToggle={handleSidebarToggle}
-          />
-        )}
+        {showSidebar && <Sidebar activeMenu={activeMenu} />}
         <Flex direction="column" grow>
           {showMenuTabBar && <MenuTabBar onTabChange={handleMenuTabChange} />}
           <StyledAppLayoutGroup

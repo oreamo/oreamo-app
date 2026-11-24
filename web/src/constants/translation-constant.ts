@@ -123,6 +123,7 @@ export const TRANSLATION_KEY = {
       PROFILE: "user.label.PROFILE",
       THEME: "user.label.THEME",
       MENU_TAB: "user.label.MENU_TAB",
+      SIDEBAR: "user.label.SIDEBAR",
     },
     message: {
       WELCOME_BACK: "user.message.WELCOME_BACK",

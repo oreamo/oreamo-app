@@ -19,6 +19,7 @@ import { useTranslate } from "@/hooks/useTranslate";
 import { useSessionUserInfo } from "@/resources/user/useSessionUserInfo";
 import { useSessionUserLogout } from "@/resources/user/useSessionUserLogout";
 import { useMenuTabActions, useMenuTabEnabled } from "@/stores/menu-tab-store";
+import { useSidebarActions, useSidebarOpen } from "@/stores/sidebar-store";
 import { useSystemToast } from "@/stores/system-toast-store";
 
 type ColorMode = "light" | "dark" | "system";
@@ -30,6 +31,8 @@ export function UserProfile() {
   const { mode, setMode } = useColorScheme();
   const isMenuTabEnabled = useMenuTabEnabled();
   const { setEnabled: setMenuTabEnabled } = useMenuTabActions();
+  const isSidebarOpen = useSidebarOpen();
+  const { setOpen: setSidebarOpen } = useSidebarActions();
 
   const [anchorEl, setAnchorEl] = useState<HTMLElement | null>(null);
 
@@ -60,6 +63,10 @@ export function UserProfile() {
 
   const handleMenuTabEnabledChange = (checked: boolean) => {
     setMenuTabEnabled(checked);
+  };
+
+  const handleSidebarOpenChange = (checked: boolean) => {
+    setSidebarOpen(checked);
   };
 
   const handleLogoutClick = () => {
@@ -157,6 +164,21 @@ export function UserProfile() {
                 checked={isMenuTabEnabled}
                 size="small"
                 onChange={handleMenuTabEnabledChange}
+              />
+            </StyledPreferenceContainer>
+          )}
+          {isDesktop && (
+            <StyledPreferenceContainer justify="between" align="center" gap={2}>
+              <Flex gap={2} align="center">
+                <Icon iconName="MenuOpenOutlined" size="sm" />
+                <Text size="sm" color="inherit">
+                  {translate(TRANSLATION_KEY.user.label.SIDEBAR)}
+                </Text>
+              </Flex>
+              <Switch
+                checked={isSidebarOpen}
+                size="small"
+                onChange={handleSidebarOpenChange}
               />
             </StyledPreferenceContainer>
           )}

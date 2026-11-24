@@ -8,20 +8,26 @@ import { Text } from "@/components/common/display/Text";
 import { Flex } from "@/components/common/layout/Flex";
 import { useNavigator } from "@/hooks/useNavigator";
 import { MenuTreeNode } from "@/models/menu-model";
+import { useSidebarActions, useSidebarOpen } from "@/stores/sidebar-store";
 
 interface SidebarProps {
   activeMenu?: MenuTreeNode;
-  open: boolean;
-  onToggle: () => void;
 }
 
-export function Sidebar({ activeMenu, open, onToggle }: SidebarProps) {
+export function Sidebar({ activeMenu }: SidebarProps) {
   const { navigate } = useNavigator();
+
+  const open = useSidebarOpen();
+  const { toggle } = useSidebarActions();
 
   const handleMenuClick = (menu: MenuTreeNode) => {
     if (menu.url) {
       navigate(menu.url);
     }
+  };
+
+  const handleToggle = () => {
+    toggle();
   };
 
   return (
@@ -37,7 +43,7 @@ export function Sidebar({ activeMenu, open, onToggle }: SidebarProps) {
         <IconButton
           iconName="ViewSidebarOutlined"
           size="small"
-          onClick={onToggle}
+          onClick={handleToggle}
         />
       </StyledSidebarToggleWrapper>
       <StyledSidebarDivider />
