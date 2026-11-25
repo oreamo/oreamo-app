@@ -63,6 +63,12 @@ const StyledSidebarListContainer = styled(List)(({ theme }) => ({
   display: "flex",
   flexDirection: "column",
   gap: theme.spacing(0.25),
+  overflowY: "auto",
+  scrollbarWidth: "none",
+
+  "&::-webkit-scrollbar": {
+    display: "none",
+  },
 }));
 
 const StyledSidebarListWrapper = styled(Flex)(({ theme }) => ({
