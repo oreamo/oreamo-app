@@ -106,6 +106,12 @@ const StyledSidebarRailContainer = styled(Flex)(({ theme }) => ({
 
   alignItems: "center",
   gap: theme.spacing(0.25),
+  overflowY: "auto",
+  scrollbarWidth: "none",
+
+  "&::-webkit-scrollbar": {
+    display: "none",
+  },
 }));
 
 const StyledSidebarRailWrapper = styled(Flex, {
