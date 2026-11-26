@@ -56,6 +56,9 @@ const StyledEditorFallback = styled(Flex, {
 }));
 
 const StyledEditor = styled(MDEditor)({
+  "&.w-md-editor": {
+    "--md-editor-font-family": '"Pretendard Variable", Pretendard, sans-serif',
+  },
   "& .w-md-editor-text-pre *": {
     fontFamily: "inherit !important",
   },
