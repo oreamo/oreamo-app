@@ -1,9 +1,11 @@
 import { Box, styled, useTheme } from "@mui/material";
 import "@uiw/react-markdown-preview/markdown.css";
-import Markdown from "react-markdown";
+import Markdown, { defaultUrlTransform } from "react-markdown";
 import type { Options } from "react-markdown";
 import rehypePrism from "rehype-prism-plus/common";
 import remarkGfm from "remark-gfm";
+
+import { API_URL } from "@/libs/http-instance";
 
 export interface DataViewerProps extends Omit<Options, "children"> {
   className?: string;
@@ -19,6 +21,12 @@ export function DataViewer({
 }: DataViewerProps) {
   const theme = useTheme();
 
+  const transformUrl = (url: string) => {
+    const safeUrl = defaultUrlTransform(url);
+    if (!safeUrl.startsWith("/files/")) return safeUrl;
+    return `${API_URL}${safeUrl}`;
+  };
+
   return (
     <StyledViewer
       className={`wmde-markdown ${className ?? ""}`}
@@ -30,6 +38,7 @@ export function DataViewer({
           [rehypePrism, { ignoreMissing: true }],
           ...(rehypePlugins ?? []),
         ]}
+        urlTransform={transformUrl}
         {...props}
       >
         {value}
