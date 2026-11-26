@@ -63,6 +63,8 @@ export function DataEditor({
 
     uploadFiles(formData, {
       onSuccess: async (response) => {
+        if (!response.data.succeed) return;
+
         const { insertTextAtPosition } = await import("@uiw/react-md-editor");
         const imageMarkdown = response.data.data.files
           .map(toImageMarkdown)
