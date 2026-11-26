@@ -65,7 +65,20 @@ Markdown 문서는 여러 줄로 이어지는 긴 문단에서 줄 간격이 자
 ## Code
 
 \`\`\`ts
-const message = "Hello, Markdown";
+interface Message {
+  id: number;
+  text: string;
+}
+
+// Print the message
+export function printMessage({ id, text }: Message) {
+  const prefix = \`#\${id}\`;
+  console.log(prefix, text, true, null);
+}
+\`\`\`
+
+\`\`\`
+Plain code block without language
 \`\`\`
 
 ## Blockquote

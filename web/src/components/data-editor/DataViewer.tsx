@@ -2,6 +2,7 @@ import { Box, styled, useTheme } from "@mui/material";
 import "@uiw/react-markdown-preview/markdown.css";
 import Markdown from "react-markdown";
 import type { Options } from "react-markdown";
+import rehypePrism from "rehype-prism-plus/common";
 import remarkGfm from "remark-gfm";
 
 export interface DataViewerProps extends Omit<Options, "children"> {
@@ -13,6 +14,7 @@ export function DataViewer({
   className,
   value,
   remarkPlugins,
+  rehypePlugins,
   ...props
 }: DataViewerProps) {
   const theme = useTheme();
@@ -24,6 +26,10 @@ export function DataViewer({
     >
       <Markdown
         remarkPlugins={[remarkGfm, ...(remarkPlugins ?? [])]}
+        rehypePlugins={[
+          [rehypePrism, { ignoreMissing: true }],
+          ...(rehypePlugins ?? []),
+        ]}
         {...props}
       >
         {value}
