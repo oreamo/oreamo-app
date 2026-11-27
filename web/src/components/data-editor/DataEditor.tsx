@@ -5,6 +5,7 @@ import {
   lazy,
   Ref,
   Suspense,
+  useRef,
 } from "react";
 
 import {
@@ -37,9 +38,24 @@ export function DataEditor({
   onDrop,
   ...props
 }: DataEditorProps) {
+  const containerRef = useRef<HTMLDivElement>(null);
+
   const theme = useTheme();
 
-  const { mutate: uploadFiles, isPending: isUploading } = useFileUpload();
+  const { mutate: uploadFiles, isPending: isUploading } = useFileUpload({
+    onSuccess: async (response) => {
+      if (!response.data.succeed) return;
+
+      const textarea = containerRef.current?.querySelector("textarea");
+      if (!textarea) return;
+
+      const { insertTextAtPosition } = await import("@uiw/react-md-editor");
+      const imageMarkdown = response.data.data.files
+        .map(toImageMarkdown)
+        .join("\n");
+      insertTextAtPosition(textarea, imageMarkdown);
+    },
+  });
 
   const renderPreview = (source: string) => {
     return <DataViewer value={source} />;
@@ -51,9 +67,9 @@ export function DataEditor({
     });
   };
 
-  const getUploadTextarea = (container: HTMLElement) => {
-    if (readOnly) return null;
-    return container.querySelector("textarea");
+  const canUpload = (container: HTMLElement) => {
+    if (readOnly) return false;
+    return !!container.querySelector("textarea");
   };
 
   const toImageMarkdown = (file: FileInfo) => {
@@ -61,34 +77,23 @@ export function DataEditor({
     return `![${altText}](/files/${file.fileGroupId}/${file.fileId}/view)`;
   };
 
-  const uploadImages = (textarea: HTMLTextAreaElement, imageFiles: File[]) => {
+  const uploadImages = (imageFiles: File[]) => {
     const formData = new FormData();
     imageFiles.forEach((imageFile) => {
       formData.append("uploadFiles", imageFile);
     });
 
-    uploadFiles(formData, {
-      onSuccess: async (response) => {
-        if (!response.data.succeed) return;
-
-        const { insertTextAtPosition } = await import("@uiw/react-md-editor");
-        const imageMarkdown = response.data.data.files
-          .map(toImageMarkdown)
-          .join("\n");
-        insertTextAtPosition(textarea, imageMarkdown);
-      },
-    });
+    uploadFiles(formData);
   };
 
   const handlePaste = (event: ClipboardEvent<HTMLDivElement>) => {
     onPaste?.(event);
 
     const imageFiles = getImageFiles(event.clipboardData);
-    const textarea = getUploadTextarea(event.currentTarget);
-    if (!imageFiles.length || !textarea) return;
+    if (!imageFiles.length || !canUpload(event.currentTarget)) return;
 
     event.preventDefault();
-    uploadImages(textarea, imageFiles);
+    uploadImages(imageFiles);
   };
 
   const handleDragOver = (event: DragEvent<HTMLDivElement>) => {
@@ -105,10 +110,9 @@ export function DataEditor({
     event.preventDefault();
 
     const imageFiles = getImageFiles(event.dataTransfer);
-    const textarea = getUploadTextarea(event.currentTarget);
-    if (!imageFiles.length || !textarea) return;
+    if (!imageFiles.length || !canUpload(event.currentTarget)) return;
 
-    uploadImages(textarea, imageFiles);
+    uploadImages(imageFiles);
   };
 
   return (
@@ -119,7 +123,7 @@ export function DataEditor({
         </StyledEditorFallback>
       }
     >
-      <StyledEditorContainer>
+      <StyledEditorContainer ref={containerRef}>
         <StyledEditor
           ref={ref}
           data-color-mode={theme.palette.mode}
