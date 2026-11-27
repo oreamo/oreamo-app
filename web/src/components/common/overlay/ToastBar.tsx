@@ -13,6 +13,7 @@ import {
 
 import { IconButton } from "@/components/common/button/IconButton";
 import { Flex } from "@/components/common/layout/Flex";
+import { useWindowFocusEffect } from "@/components/common/overlay/_hooks/useWindowFocusEffect";
 
 const TOAST_DURATION = 3000;
 
@@ -31,6 +32,8 @@ export function ToastBar({
   message,
   onClose,
 }: ToastBarProps) {
+  const { windowFocused } = useWindowFocusEffect({ enabled: open });
+
   const handleSnackbarClose = (_: unknown, reason: SnackbarCloseReason) => {
     if (reason === "clickaway") return;
 
@@ -42,18 +45,19 @@ export function ToastBar({
   };
 
   return (
-    <Snackbar
-      open={open}
-      autoHideDuration={TOAST_DURATION}
-      onClose={handleSnackbarClose}
-    >
+    <Snackbar open={open} onClose={handleSnackbarClose}>
       <StyledToastContent
         type={type}
         message={
           <>
             {icon && <StyledToastIcon type={type}>{icon}</StyledToastIcon>}
             {message}
-            <StyledToastProgress type={type} duration={TOAST_DURATION} />
+            <StyledToastProgress
+              type={type}
+              duration={TOAST_DURATION}
+              paused={!windowFocused}
+              onAnimationEnd={handleClose}
+            />
           </>
         }
         action={
@@ -91,21 +95,25 @@ const StyledToastIcon = styled(Flex, {
 }));
 
 const StyledToastProgress = styled(Box, {
-  shouldForwardProp: (prop) => prop !== "type" && prop !== "duration",
-})<{ type: AlertColor; duration: number }>(({ theme, type, duration }) => ({
-  height: 2,
+  shouldForwardProp: (prop) =>
+    prop !== "type" && prop !== "duration" && prop !== "paused",
+})<{ type: AlertColor; duration: number; paused: boolean }>(
+  ({ theme, type, duration, paused }) => ({
+    height: 2,
 
-  position: "absolute",
-  right: 0,
-  bottom: 0,
-  left: 0,
+    position: "absolute",
+    right: 0,
+    bottom: 0,
+    left: 0,
 
-  backgroundColor: theme.palette.semantic[type],
+    backgroundColor: theme.palette.semantic[type],
 
-  transformOrigin: "left",
-  animation: `${shrinkProgress} ${duration}ms linear forwards`,
+    transformOrigin: "left",
+    animation: `${shrinkProgress} ${duration}ms linear forwards`,
+    animationPlayState: paused ? "paused" : "running",
 
-  ".MuiSnackbarContent-root:hover &": {
-    animationPlayState: "paused",
-  },
-}));
+    ".MuiSnackbarContent-root:hover &": {
+      animationPlayState: "paused",
+    },
+  }),
+);
