@@ -8,7 +8,8 @@ import { DataViewer } from "@/components/data-editor/DataViewer";
 import { PageLayout } from "@/pages/_components/PageLayout";
 import { DevComponentCard } from "@/pages/dev/_components/DevComponentCard";
 
-const SAMPLE_MARKDOWN = `# Markdown
+export function DevEditorPage() {
+  const [markdown, setMarkdown] = useState(`# Markdown
 
 ## Heading
 
@@ -90,10 +91,7 @@ Plain code block without language
 ## Horizontal Rule
 
 ---
-`;
-
-export function DevEditorPage() {
-  const [markdown, setMarkdown] = useState(SAMPLE_MARKDOWN);
+`);
 
   const handleMarkdownChange = (value?: string) => {
     setMarkdown(value ?? "");
