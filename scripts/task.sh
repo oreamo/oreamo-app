@@ -117,7 +117,7 @@ case "$command" in
             esac
           done
 
-          docker compose up -d --build "${containers[@]}"
+          BUILDX_NO_DEFAULT_ATTESTATIONS=1 docker compose up -d --build "${containers[@]}"
         else
           docker compose down "${containers[@]}" && { docker network rm oreamo-network > /dev/null 2>&1 || true; }
         fi > "$outputs/compose" 2>&1
@@ -135,8 +135,10 @@ case "$command" in
 
             current="$(state "${names[$i]}")"
             if [ "$command" = "up" ]; then
-              if [ "${current%% *}" = "true" ] && { [ "$current" != "${before[$i]}" ] || [ "$code" = "0" ]; }; then
+              if [ "${current%% *}" = "true" ] && [ "$current" != "${before[$i]}" ]; then
                 finish "$i" 0
+              elif [ "${current%% *}" = "true" ] && [ "$code" = "0" ]; then
+                finish "$i" "$skipped"
               elif [ -n "$code" ]; then
                 finish "$i" 1
               fi
