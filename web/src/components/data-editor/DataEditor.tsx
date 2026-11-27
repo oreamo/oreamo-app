@@ -7,7 +7,13 @@ import {
   Suspense,
 } from "react";
 
-import { CircularProgress, styled, useTheme } from "@mui/material";
+import {
+  Box,
+  CircularProgress,
+  LinearProgress,
+  styled,
+  useTheme,
+} from "@mui/material";
 import type { MDEditorProps, RefMDEditor } from "@uiw/react-md-editor";
 
 import { Flex } from "@/components/common/layout/Flex";
@@ -33,7 +39,7 @@ export function DataEditor({
 }: DataEditorProps) {
   const theme = useTheme();
 
-  const { mutate: uploadFiles } = useFileUpload();
+  const { mutate: uploadFiles, isPending: isUploading } = useFileUpload();
 
   const renderPreview = (source: string) => {
     return <DataViewer value={source} />;
@@ -113,17 +119,20 @@ export function DataEditor({
         </StyledEditorFallback>
       }
     >
-      <StyledEditor
-        ref={ref}
-        data-color-mode={theme.palette.mode}
-        components={{ preview: renderPreview, ...components }}
-        height={height}
-        readOnly={readOnly}
-        onPaste={handlePaste}
-        onDragOver={handleDragOver}
-        onDrop={handleDrop}
-        {...props}
-      />
+      <StyledEditorContainer>
+        <StyledEditor
+          ref={ref}
+          data-color-mode={theme.palette.mode}
+          components={{ preview: renderPreview, ...components }}
+          height={height}
+          readOnly={readOnly}
+          onPaste={handlePaste}
+          onDragOver={handleDragOver}
+          onDrop={handleDrop}
+          {...props}
+        />
+        {isUploading && <StyledUploadProgress />}
+      </StyledEditorContainer>
     </Suspense>
   );
 }
@@ -138,6 +147,10 @@ const StyledEditorFallback = styled(Flex, {
   borderRadius: theme.shape.borderRadiusScale.sm,
 }));
 
+const StyledEditorContainer = styled(Box)({
+  position: "relative",
+});
+
 const StyledEditor = styled(MDEditor)({
   "&.w-md-editor": {
     "--md-editor-font-family": '"Pretendard Variable", Pretendard, sans-serif',
@@ -145,4 +158,11 @@ const StyledEditor = styled(MDEditor)({
   "& .w-md-editor-text-pre *": {
     fontFamily: "inherit !important",
   },
+});
+
+const StyledUploadProgress = styled(LinearProgress)({
+  position: "absolute",
+  right: 0,
+  bottom: 0,
+  left: 0,
 });
