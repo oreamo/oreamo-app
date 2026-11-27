@@ -7,6 +7,7 @@ import { DevFoundationPage } from "@/pages/dev/design-system/foundation/DevFound
 import { DevInputPage } from "@/pages/dev/design-system/input/DevInputPage";
 import { DevLayoutPage } from "@/pages/dev/design-system/layout/DevLayoutPage";
 import { DevOverlayPage } from "@/pages/dev/design-system/overlay/DevOverlayPage";
+import { DevEditorPage } from "@/pages/dev/solution/editor/DevEditorPage";
 
 export const DevRouter: RouteObject[] = [
   {
@@ -46,6 +47,17 @@ export const DevRouter: RouteObject[] = [
             id: ROUTE.DEV.DEV_DESIGN_SYSTEM.DEV_OVERLAY.ID,
             path: ROUTE.DEV.DEV_DESIGN_SYSTEM.DEV_OVERLAY.PATH,
             element: <DevOverlayPage />,
+          },
+        ],
+      },
+      {
+        id: ROUTE.DEV.DEV_SOLUTION.ID,
+        path: ROUTE.DEV.DEV_SOLUTION.PATH,
+        children: [
+          {
+            id: ROUTE.DEV.DEV_SOLUTION.DEV_EDITOR.ID,
+            path: ROUTE.DEV.DEV_SOLUTION.DEV_EDITOR.PATH,
+            element: <DevEditorPage />,
           },
         ],
       },

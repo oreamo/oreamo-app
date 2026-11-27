@@ -107,5 +107,15 @@ export const ROUTE = {
         URL: "/dev/design-system/overlay",
       },
     },
+    DEV_SOLUTION: {
+      ID: "DEV_SOLUTION",
+      PATH: "solution",
+      URL: "/dev/solution",
+      DEV_EDITOR: {
+        ID: "DEV_EDITOR",
+        PATH: "editor",
+        URL: "/dev/solution/editor",
+      },
+    },
   },
 };
