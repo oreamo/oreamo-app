@@ -70,7 +70,6 @@ interface Message {
   text: string;
 }
 
-// Print the message
 export function printMessage({ id, text }: Message) {
   const prefix = \`#\${id}\`;
   console.log(prefix, text, true, null);
