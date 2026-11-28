@@ -7,13 +7,10 @@ cd "$root"
 command="$1"
 shift
 
-targets=()
-containers=()
+targets=("$@")
 names=()
-for item in "$@"; do
-  targets+=("${item%%:*}")
-  containers+=("${item#*:}")
-  names+=("oreamo-${item#*:}")
+for target in "${targets[@]}"; do
+  names+=("oreamo-$target")
 done
 
 case "$command" in
@@ -117,9 +114,9 @@ case "$command" in
             esac
           done
 
-          docker compose up -d --build "${containers[@]}"
+          BUILDX_NO_DEFAULT_ATTESTATIONS=1 docker compose up -d --build "${targets[@]}"
         else
-          docker compose down "${containers[@]}" && { docker network rm oreamo-network > /dev/null 2>&1 || true; }
+          docker compose down "${targets[@]}" && { docker network rm oreamo-network > /dev/null 2>&1 || true; }
         fi > "$outputs/compose" 2>&1
         echo "$?" > "$results/.compose"
       ) < /dev/null > /dev/null 2>&1 &
@@ -135,8 +132,10 @@ case "$command" in
 
             current="$(state "${names[$i]}")"
             if [ "$command" = "up" ]; then
-              if [ "${current%% *}" = "true" ] && { [ "$current" != "${before[$i]}" ] || [ "$code" = "0" ]; }; then
+              if [ "${current%% *}" = "true" ] && [ "$current" != "${before[$i]}" ]; then
                 finish "$i" 0
+              elif [ "${current%% *}" = "true" ] && [ "$code" = "0" ]; then
+                finish "$i" "$skipped"
               elif [ -n "$code" ]; then
                 finish "$i" 1
               fi

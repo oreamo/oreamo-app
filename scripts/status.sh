@@ -7,8 +7,8 @@ cd "$root"
 running="$(docker compose ps --services --status running 2> /dev/null || true)"
 
 width=6
-for item in "$@"; do
-  name="oreamo-${item#*:}"
+for target in "$@"; do
+  name="oreamo-$target"
   if [ "${#name}" -gt "$width" ]; then
     width="${#name}"
   fi
@@ -23,12 +23,9 @@ if [ -t 1 ]; then
 fi
 
 printf "%-${width}s  %-16s\n" "NAME" "STATUS"
-for item in "$@"; do
-  target="${item%%:*}"
-  container="${item#*:}"
-
+for target in "$@"; do
   status="stopped" color="90"
-  if echo "$running" | grep -qx "$container"; then
+  if echo "$running" | grep -qx "$target"; then
     status="running (docker)" color="32"
   fi
   case "$target" in
@@ -40,8 +37,8 @@ for item in "$@"; do
   esac
 
   if [ -t 1 ]; then
-    printf "%-${width}s  \033[${color}m%-16s\033[0m\n" "oreamo-$container" "$status"
+    printf "%-${width}s  \033[${color}m%-16s\033[0m\n" "oreamo-$target" "$status"
   else
-    printf "%-${width}s  %-16s\n" "oreamo-$container" "$status"
+    printf "%-${width}s  %-16s\n" "oreamo-$target" "$status"
   fi
 done
